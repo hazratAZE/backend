@@ -6,7 +6,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
-    hello: "world",
+    hello: "king is back",
   });
 });
 
