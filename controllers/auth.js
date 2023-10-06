@@ -19,6 +19,7 @@ const loginUser = (req, res) => {
       res.json({
         success: false,
         msg: "User saved failed",
+        err: err,
       });
     });
 };
