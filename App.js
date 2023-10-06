@@ -1,23 +1,19 @@
 const express = require("express");
+const dotenv = require("dotenv").config();
+const auth = require("./routes/auth");
+const mongoose = require("mongoose");
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/api/v1/init", (req, res) => {
-  try {
-    res.status(200).json({
-      error: false,
-      message: "App initialization is successful!",
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: true,
-      message: "App initialization is unsuccessful!",
-    });
-  }
-});
+app.use("/api/v1/auth/", auth);
 
-app.listen(3001, () => {
-  console.log("App listening on port 3001");
-});
+mongoose
+  .connect(process.env.DB_URL)
+  .then(
+    app.listen(process.env.PORT, () => {
+      console.log(`App listening on port ${process.env.PORT}`);
+    })
+  )
+  .catch((err) => console.error(err));
