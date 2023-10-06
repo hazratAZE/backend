@@ -1,4 +1,5 @@
 const express = require("express");
+const loginUser = require("../controllers/auth");
 
 const routes = express.Router();
 
@@ -15,5 +16,6 @@ routes.get("/", (req, res) => {
     });
   }
 });
+routes.post("/register", loginUser);
 
 module.exports = routes;
