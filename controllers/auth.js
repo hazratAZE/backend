@@ -1,27 +1,109 @@
+const { response } = require("express");
 const User = require("../schemas/user");
+const bcrypt = require("bcrypt");
 
-const loginUser = (req, res) => {
-  const { name, surname } = req.body;
-
-  const newUser = new User({
-    name: name,
-    surname: surname,
-  });
-  newUser
-    .save()
-    .then(() => {
-      res.json({
-        success: true,
-        msg: "User saved successfully",
+const registerUser = async (request, response) => {
+  const { name, surname, fatherName, email, phone, password } = request.body;
+  try {
+    if (name.length < 2) {
+      response.status(419).json({
+        error: true,
+        message: "Name must be at least 2 characters",
       });
-    })
-    .catch((err) => {
-      res.json({
-        success: false,
-        msg: "User saved failed",
-        err: err,
+    } else if (surname.length < 2) {
+      response.status(419).json({
+        error: true,
+        message: "Surname must be at least 2 characters",
       });
+    } else if (fatherName.length < 2) {
+      response.status(419).json({
+        error: true,
+        message: "Fathername must be at least 2 characters",
+      });
+    } else if (email.length < 3) {
+      response.status(419).json({
+        error: true,
+        message: "Email must be at least 3 characters",
+      });
+    } else if (phone.length == 0) {
+      response.status(419).json({
+        error: true,
+        message: "Phone is required",
+      });
+    } else if (password.length < 6) {
+      response.status(419).json({
+        error: true,
+        message: "Password must be at least 6 characters",
+      });
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+      const newUser = new User({
+        name: name,
+        surname: surname,
+        fatherName: fatherName,
+        email: email,
+        phone: phone,
+        password: hashPassword,
+      });
+      newUser
+        .save()
+        .then(() => {
+          response.status(201).json({
+            error: false,
+            message: "User saved successfully",
+            user: newUser,
+          });
+        })
+        .catch((error) => {
+          response.status(500).json({
+            error: false,
+            message: error.message,
+          });
+        });
+    }
+  } catch (error) {
+    response.status(500).json({
+      error: true,
+      message: error.message,
     });
+  }
 };
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
-module.exports = loginUser;
+  try {
+    if (email.length < 3) {
+      res
+        .status(419)
+        .json({ error: true, message: "Email must be at least 3 characters" });
+    } else if (password.length < 6) {
+      res
+        .status(419)
+        .json({
+          error: true,
+          message: "Password must be at least 6 characters",
+        });
+    } else {
+      const user = await User.findOne({ email: email });
+      if (user) {
+        const matchPassword = await bcrypt.compare(password, user.password);
+        if (matchPassword) {
+          res
+            .status(200)
+            .json({ error: false, message: "User found", user: user });
+        } else {
+          res
+            .status(419)
+            .json({ error: true, message: "Password is not valid" });
+        }
+      } else {
+        res.status(419).json({ error: true, message: "User not found" });
+      }
+    }
+  } catch (error) {}
+};
+module.exports = {
+  registerUser,
+  loginUser,
+};
