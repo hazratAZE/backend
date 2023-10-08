@@ -1,6 +1,7 @@
 const { response } = require("express");
 const User = require("../schemas/user");
 const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
 
 const registerUser = async (request, response) => {
   const { name, surname, fatherName, email, phone, password, confirmPassword } =
@@ -100,9 +101,19 @@ const loginUser = async (req, res) => {
       if (user) {
         const matchPassword = await bcrypt.compare(password, user.password);
         if (matchPassword) {
-          res
-            .status(200)
-            .json({ error: false, message: "User found", user: user });
+          const token = await jwt.sign(
+            { email: email, password: password },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: "7d",
+            }
+          );
+          res.status(200).json({
+            error: false,
+            message: "User found",
+            user: user,
+            token: token,
+          });
         } else {
           res
             .status(419)
