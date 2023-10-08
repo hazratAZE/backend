@@ -6,6 +6,13 @@ const registerUser = async (request, response) => {
   const { name, surname, fatherName, email, phone, password, confirmPassword } =
     request.body;
   try {
+    const user = await User.findOne({ email });
+    if (user) {
+      response.status(419).json({
+        error: true,
+        message: "This email address is already registered",
+      });
+    }
     if (name.length < 2) {
       response.status(419).json({
         error: true,
