@@ -3,7 +3,8 @@ const User = require("../schemas/user");
 const bcrypt = require("bcrypt");
 
 const registerUser = async (request, response) => {
-  const { name, surname, fatherName, email, phone, password } = request.body;
+  const { name, surname, fatherName, email, phone, password, confirmPassword } =
+    request.body;
   try {
     if (name.length < 2) {
       response.status(419).json({
@@ -34,6 +35,11 @@ const registerUser = async (request, response) => {
       response.status(419).json({
         error: true,
         message: "Password must be at least 6 characters",
+      });
+    } else if (password !== confirmPassword) {
+      response.status(419).json({
+        error: true,
+        message: "Password not same as confrim password",
       });
     } else {
       const salt = await bcrypt.genSalt(10);
@@ -78,12 +84,10 @@ const loginUser = async (req, res) => {
         .status(419)
         .json({ error: true, message: "Email must be at least 3 characters" });
     } else if (password.length < 6) {
-      res
-        .status(419)
-        .json({
-          error: true,
-          message: "Password must be at least 6 characters",
-        });
+      res.status(419).json({
+        error: true,
+        message: "Password must be at least 6 characters",
+      });
     } else {
       const user = await User.findOne({ email: email });
       if (user) {
