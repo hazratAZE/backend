@@ -1,6 +1,5 @@
 const express = require("express");
-const { loginUser, registerUser } = require("../controllers/auth");
-const { verifyJwt } = require("../middleware/jwt");
+const { loginUser, registerUser, verifyEmail } = require("../controllers/auth");
 
 const routes = express.Router();
 
@@ -19,5 +18,6 @@ routes.get("/", (req, res) => {
 });
 routes.post("/login", loginUser);
 routes.post("/register", registerUser);
+routes.post("/verifyOtp", verifyEmail);
 
 module.exports = routes;

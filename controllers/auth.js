@@ -2,7 +2,18 @@ const { response } = require("express");
 const User = require("../schemas/user");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const UserOTPVerification = require("../schemas/UserOTPVerification");
+const nodemailer = require("nodemailer");
+const user = require("../schemas/user");
+var validator = require("email-validator");
 
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.AUTH_EMAIL,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 const registerUser = async (request, response) => {
   const { name, surname, fatherName, email, phone, password, confirmPassword } =
     request.body;
@@ -14,27 +25,17 @@ const registerUser = async (request, response) => {
         message: "This email address is already registered",
       });
     }
-    if (name.length < 2) {
+    if (!name || !surname || !fatherName) {
       response.status(419).json({
         error: true,
-        message: "Name must be at least 2 characters",
+        message: "Validation failed",
       });
-    } else if (surname.length < 2) {
+    } else if (!validator.validate(email)) {
       response.status(419).json({
         error: true,
-        message: "Surname must be at least 2 characters",
+        message: "Please enter a valid email address",
       });
-    } else if (fatherName.length < 2) {
-      response.status(419).json({
-        error: true,
-        message: "Fathername must be at least 2 characters",
-      });
-    } else if (email.length < 3) {
-      response.status(419).json({
-        error: true,
-        message: "Email must be at least 3 characters",
-      });
-    } else if (phone.length == 0) {
+    } else if (!phone) {
       response.status(419).json({
         error: true,
         message: "Phone is required",
@@ -63,11 +64,7 @@ const registerUser = async (request, response) => {
       newUser
         .save()
         .then(() => {
-          response.status(201).json({
-            error: false,
-            message: "User saved successfully",
-            user: newUser,
-          });
+          sendOtpVerificationEmail(newUser, response);
         })
         .catch((error) => {
           response.status(500).json({
@@ -78,6 +75,106 @@ const registerUser = async (request, response) => {
     }
   } catch (error) {
     response.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const verifyEmail = async (req, res) => {
+  const { userId, otp } = req.body;
+  try {
+    if (!userId || !otp) {
+      res.status(419).json({
+        error: true,
+        message: "Empty details not allowed",
+      });
+    } else {
+      const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
+      if (UserOtpRecords.length <= 0) {
+        res.status(404).json({
+          error: true,
+          message: "Accunt record not found",
+        });
+      } else {
+        const { expiresAt } = UserOtpRecords[0];
+        const password = UserOtpRecords[0].otp;
+        if (expiresAt < Date.now()) {
+          UserOTPVerification.deleteMany({ userId: userId });
+          res.status(419).json({
+            error: true,
+            message: "Code is expired",
+          });
+        } else {
+          if (password !== otp) {
+            res.status(419).json({
+              error: true,
+              message: "Code invalid",
+            });
+          } else {
+            await user.updateOne({ _id: userId }, { verified: true });
+            UserOTPVerification.deleteMany({ userId: userId });
+            res.status(201).json({
+              error: false,
+              message: "Email verified successfully",
+            });
+          }
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const sendOtpVerificationEmail = async ({ _id, email }, res) => {
+  try {
+    const otp = `${Math.floor(1000 + Math.random() * 900)}`;
+    const mailOptions = {
+      from: process.env.AUTH_EMAIL,
+      to: email,
+      subject: "Verification email",
+      html: `<p>${otp}</p>`,
+    };
+    const newOtp = new UserOTPVerification({
+      userId: _id,
+      otp: otp,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 120000,
+    });
+    await newOtp.save();
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({
+      error: false,
+      status: "PENDING",
+      message: "Otp sent successfully",
+      data: {
+        userId: _id,
+        email: email,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+};
+const resendOtpCode = async (req, res) => {
+  try {
+    const { userId, email } = req.body;
+    if (!userId || !email) {
+      res.status(404).json({
+        error: true,
+        message: "Credentials are required",
+      });
+    } else {
+      await UserOTPVerification.deleteMany({ userId: userId });
+      sendOtpVerificationEmail({ _id: userId, email }, res);
+    }
+  } catch (error) {
+    res.status(500).json({
       error: true,
       message: error.message,
     });
@@ -128,4 +225,6 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  verifyEmail,
+  resendOtpCode,
 };
