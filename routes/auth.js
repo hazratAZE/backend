@@ -1,5 +1,10 @@
 const express = require("express");
-const { loginUser, registerUser, verifyEmail } = require("../controllers/auth");
+const {
+  loginUser,
+  registerUser,
+  verifyEmail,
+  resendOtpCode,
+} = require("../controllers/auth");
 
 const routes = express.Router();
 
@@ -19,5 +24,6 @@ routes.get("/", (req, res) => {
 routes.post("/login", loginUser);
 routes.post("/register", registerUser);
 routes.post("/verifyOtp", verifyEmail);
+routes.post("/resendOtp", resendOtpCode);
 
 module.exports = routes;
