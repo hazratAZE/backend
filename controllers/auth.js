@@ -211,26 +211,27 @@ const loginUser = async (req, res) => {
       if (user) {
         if (!user.verified) {
           resendOtpCode(user, res);
-        }
-        const matchPassword = await bcrypt.compare(password, user.password);
-        if (matchPassword) {
-          const token = await jwt.sign(
-            { email: email, password: password },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: "7d",
-            }
-          );
-          res.status(200).json({
-            error: false,
-            message: "User found",
-            user: user,
-            token: token,
-          });
         } else {
-          res
-            .status(419)
-            .json({ error: true, message: "Password is not valid" });
+          const matchPassword = await bcrypt.compare(password, user.password);
+          if (matchPassword) {
+            const token = await jwt.sign(
+              { email: email, password: password },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: "7d",
+              }
+            );
+            res.status(200).json({
+              error: false,
+              message: "User found",
+              user: user,
+              token: token,
+            });
+          } else {
+            res
+              .status(419)
+              .json({ error: true, message: "Password is not valid" });
+          }
         }
       } else {
         res.status(419).json({ error: true, message: "User not found" });
