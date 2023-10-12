@@ -234,7 +234,7 @@ const loginUser = async (req, res) => {
           } else {
             res.status(419).json({
               error: {
-                type: "email",
+                type: "password",
                 message: "Password is not valid",
               },
             });
