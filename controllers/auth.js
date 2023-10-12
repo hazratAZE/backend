@@ -184,8 +184,8 @@ const resendOtpCode = async (user, res) => {
         message: "Credentials are required",
       });
     } else {
-      await UserOTPVerification.deleteMany({ _id: _id });
-      sendOtpVerificationEmail(user, res);
+      await UserOTPVerification.deleteMany({ userId: _id });
+      sendOtpVerificationEmail({ _id: _id, email }, res);
     }
   } catch (error) {
     res.status(500).json({
