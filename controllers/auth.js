@@ -232,13 +232,21 @@ const loginUser = async (req, res) => {
               token: token,
             });
           } else {
-            res
-              .status(419)
-              .json({ error: true, message: "Password is not valid" });
+            res.status(419).json({
+              error: {
+                type: "email",
+                message: "Password is not valid",
+              },
+            });
           }
         }
       } else {
-        res.status(419).json({ error: true, message: "User not found" });
+        res.status(419).json({
+          error: {
+            type: "email",
+            message: "User not found",
+          },
+        });
       }
     }
   } catch (error) {}
