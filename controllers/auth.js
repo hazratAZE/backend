@@ -28,45 +28,45 @@ const registerUser = async (request, response) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      res.status(419).json({
+      response.status(419).json({
         error: {
           type: "email",
           message: "This email address is already registered",
         },
       });
     } else if (!name) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "name", message: "Name is required" },
       });
     } else if (!surname) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "name", message: "Surname is required" },
       });
     } else if (!fatherName) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "name", message: "Father name is required" },
       });
     } else if (!agreement) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "agreement", message: "Agreement is required" },
       });
     } else if (!validator.validate(email)) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "email", message: "Please enter a valid email address" },
       });
     } else if (!phone) {
-      res.status(419).json({
+      response.status(419).json({
         error: { type: "email", message: "Phone section is required" },
       });
     } else if (password.length < 6) {
-      res.status(419).json({
+      response.status(419).json({
         error: {
           type: "password",
           message: "Password must be at least 6 characters",
         },
       });
     } else if (password !== confirmPassword) {
-      res.status(419).json({
+      response.status(419).json({
         error: {
           type: "confirmPassword",
           message: "Confirm password not same",
