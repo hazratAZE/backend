@@ -38,6 +38,11 @@ const registerUser = async (request, response) => {
         error: true,
         message: "Validation failed",
       });
+    } else if (!agreement) {
+      response.status(419).json({
+        error: true,
+        message: "Agreement section is required",
+      });
     } else if (!validator.validate(email)) {
       response.status(419).json({
         error: true,
