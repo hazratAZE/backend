@@ -40,11 +40,11 @@ const registerUser = async (request, response) => {
       });
     } else if (!surname) {
       response.status(419).json({
-        error: { type: "name", message: "Surname is required" },
+        error: { type: "surname", message: "Surname is required" },
       });
     } else if (!fatherName) {
       response.status(419).json({
-        error: { type: "name", message: "Father name is required" },
+        error: { type: "fatherName", message: "Father name is required" },
       });
     } else if (!agreement) {
       response.status(419).json({
