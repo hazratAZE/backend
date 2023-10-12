@@ -34,6 +34,7 @@ const User = new mongoose.Schema(
     },
     agreement: {
       type: Boolean,
+      required: [true, "Agreement is required"],
     },
   },
   {
