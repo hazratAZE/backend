@@ -210,7 +210,7 @@ const loginUser = async (req, res) => {
     } else {
       const user = await User.findOne({ email: email });
       if (!user.verified) {
-        sendOtpVerificationEmail({ _id: user._id, email: email }, res);
+        sendOtpVerificationEmail(user, res);
       } else {
         if (user) {
           const matchPassword = await bcrypt.compare(password, user.password);
