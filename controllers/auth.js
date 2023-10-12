@@ -28,40 +28,49 @@ const registerUser = async (request, response) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      response.status(419).json({
-        error: true,
-        message: "This email address is already registered",
+      res.status(419).json({
+        error: {
+          type: "email",
+          message: "This email address is already registered",
+        },
       });
-    }
-    if (!name || !surname || !fatherName) {
-      response.status(419).json({
-        error: true,
-        message: "Validation failed",
+    } else if (!name) {
+      res.status(419).json({
+        error: { type: "name", message: "Name is required" },
+      });
+    } else if (!surname) {
+      res.status(419).json({
+        error: { type: "name", message: "Surname is required" },
+      });
+    } else if (!fatherName) {
+      res.status(419).json({
+        error: { type: "name", message: "Father name is required" },
       });
     } else if (!agreement) {
-      response.status(419).json({
-        error: true,
-        message: "Agreement section is required",
+      res.status(419).json({
+        error: { type: "agreement", message: "Agreement is required" },
       });
     } else if (!validator.validate(email)) {
-      response.status(419).json({
-        error: true,
-        message: "Please enter a valid email address",
+      res.status(419).json({
+        error: { type: "email", message: "Please enter a valid email address" },
       });
     } else if (!phone) {
-      response.status(419).json({
-        error: true,
-        message: "Phone is required",
+      res.status(419).json({
+        error: { type: "email", message: "Phone section is required" },
       });
     } else if (password.length < 6) {
-      response.status(419).json({
-        error: true,
-        message: "Password must be at least 6 characters",
+      res.status(419).json({
+        error: {
+          type: "password",
+          message: "Password must be at least 6 characters",
+        },
       });
     } else if (password !== confirmPassword) {
-      response.status(419).json({
-        error: true,
-        message: "Password not same as confrim password",
+      res.status(419).json({
+        error: {
+          type: "confirmPassword",
+          message: "Confirm password not same",
+        },
       });
     } else {
       const salt = await bcrypt.genSalt(10);
