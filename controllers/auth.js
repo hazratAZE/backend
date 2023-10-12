@@ -177,6 +177,7 @@ const sendOtpVerificationEmail = async ({ _id, email }, res) => {
 };
 const resendOtpCode = async (user, res) => {
   const { _id, email } = user;
+
   try {
     if (!_id || !email) {
       res.status(404).json({
