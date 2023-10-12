@@ -198,10 +198,10 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    if (email.length < 3) {
+    if (!validator.validate(email)) {
       res
         .status(419)
-        .json({ error: true, message: "Email must be at least 3 characters" });
+        .json({ error: true, message: "Please enter a valid email address" });
     } else if (password.length < 6) {
       res.status(419).json({
         error: true,
