@@ -175,7 +175,8 @@ const sendOtpVerificationEmail = async ({ _id, email }, res) => {
     });
   }
 };
-const resendOtpCode = async ({ _id, email }, res) => {
+const resendOtpCode = async (user, res) => {
+  const { _id, email } = user;
   try {
     if (!_id || !email) {
       res.status(404).json({
@@ -184,7 +185,7 @@ const resendOtpCode = async ({ _id, email }, res) => {
       });
     } else {
       await UserOTPVerification.deleteMany({ _id: _id });
-      sendOtpVerificationEmail({ _id: _id, email }, res);
+      sendOtpVerificationEmail(user, res);
     }
   } catch (error) {
     res.status(500).json({
