@@ -82,7 +82,7 @@ const registerUser = async (request, response) => {
         })
         .catch((error) => {
           response.status(500).json({
-            error: false,
+            error: true,
             message: error.message,
           });
         });
