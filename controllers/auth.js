@@ -56,7 +56,7 @@ const registerUser = async (request, response) => {
       });
     } else if (!phone) {
       response.status(419).json({
-        error: { type: "email", message: "Phone section is required" },
+        error: { type: "phone", message: "Phone section is required" },
       });
     } else if (password.length < 6) {
       response.status(419).json({
