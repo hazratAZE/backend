@@ -15,8 +15,16 @@ let transporter = nodemailer.createTransport({
   },
 });
 const registerUser = async (request, response) => {
-  const { name, surname, fatherName, email, phone, password, confirmPassword } =
-    request.body;
+  const {
+    name,
+    surname,
+    fatherName,
+    email,
+    phone,
+    password,
+    confirmPassword,
+    agreement,
+  } = request.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -58,6 +66,7 @@ const registerUser = async (request, response) => {
         surname: surname,
         fatherName: fatherName,
         email: email,
+        agreement: agreement,
         phone: phone,
         password: hashPassword,
       });

@@ -32,6 +32,9 @@ const User = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    agreement: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,
