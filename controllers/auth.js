@@ -175,17 +175,16 @@ const sendOtpVerificationEmail = async ({ _id, email }, res) => {
     });
   }
 };
-const resendOtpCode = async (req, res) => {
+const resendOtpCode = async ({ _id, email }, res) => {
   try {
-    const { userId, email } = req.body;
-    if (!userId || !email) {
+    if (!_id || !email) {
       res.status(404).json({
         error: true,
         message: "Credentials are required",
       });
     } else {
-      await UserOTPVerification.deleteMany({ userId: userId });
-      sendOtpVerificationEmail({ _id: userId, email }, res);
+      await UserOTPVerification.deleteMany({ _id: _id });
+      sendOtpVerificationEmail({ _id: _id, email }, res);
     }
   } catch (error) {
     res.status(500).json({
