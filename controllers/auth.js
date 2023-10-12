@@ -201,12 +201,12 @@ const loginUser = async (req, res) => {
   try {
     if (!validator.validate(email)) {
       res.status(419).json({
-        error: { type: email, message: "Please enter a valid email address" },
+        error: { type: "email", message: "Please enter a valid email address" },
       });
     } else if (password.length < 6) {
       res.status(419).json({
         error: {
-          type: password,
+          type: "password",
           message: "Password must be at least 6 characters",
         },
       });
