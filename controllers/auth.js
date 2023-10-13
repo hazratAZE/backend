@@ -260,9 +260,53 @@ const loginUser = async (req, res) => {
     }
   } catch (error) {}
 };
+const initUser = async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) {
+      res.status(419).json({
+        error: {
+          type: "token",
+          message: "Token not found",
+        },
+      });
+    } else {
+      const userInfo = jwt.decode(token, process.env.JWT_SECRET);
+      if (!userInfo) {
+        res.status(419).json({
+          error: {
+            type: "token",
+            message: "Token not found",
+          },
+        });
+      } else {
+        const myUser = await user.findOne({ email: userInfo.email });
+        if (!myUser) {
+          res.status(419).json({
+            error: {
+              type: "token",
+              message: "User not found",
+            },
+          });
+        } else {
+          res.status(200).json({
+            error: false,
+            user: myUser,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
   verifyEmail,
   resendOtpCode,
+  initUser,
 };

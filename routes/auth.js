@@ -4,6 +4,7 @@ const {
   registerUser,
   verifyEmail,
   resendOtpCode,
+  initUser,
 } = require("../controllers/auth");
 
 const routes = express.Router();
@@ -25,5 +26,6 @@ routes.post("/login", loginUser);
 routes.post("/register", registerUser);
 routes.post("/verifyOtp", verifyEmail);
 routes.post("/resendOtp", resendOtpCode);
+routes.post("/initUser", initUser);
 
 module.exports = routes;
