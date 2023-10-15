@@ -5,7 +5,9 @@ const {
   verifyEmail,
   resendOtpCode,
   initUser,
+  logOut,
 } = require("../controllers/auth");
+const { verifyJwt } = require("../middleware/jwt");
 
 const routes = express.Router();
 
@@ -27,5 +29,6 @@ routes.post("/register", registerUser);
 routes.post("/verifyOtp", verifyEmail);
 routes.post("/resendOtp", resendOtpCode);
 routes.post("/initUser", initUser);
+routes.post("/logOut", verifyJwt, logOut);
 
 module.exports = routes;

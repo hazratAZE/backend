@@ -303,10 +303,39 @@ const initUser = async (req, res) => {
     });
   }
 };
+const logOut = async (req, res) => {
+  try {
+    const { email } = req.user;
+    if (!email) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    }
+    const newUser = await User.findOne({ email: email });
+    if (!newUser) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else {
+      res.status(200).json({
+        error: false,
+        message: "User logged out successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
   verifyEmail,
   resendOtpCode,
   initUser,
+  logOut,
 };
