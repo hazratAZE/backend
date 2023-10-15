@@ -2,8 +2,8 @@ var jwt = require("jsonwebtoken");
 
 const verifyJwt = (req, res, next) => {
   try {
-    const jwt = req.headers.authorization;
-    if (!jwt) {
+    const jwtToken = req.headers.authorization;
+    if (!jwtToken) {
       res.status(422).json({
         error: true,
         message: "Invalid authorization",
