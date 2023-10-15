@@ -161,7 +161,7 @@ const sendOtpVerificationEmail = async ({ _id, email }, res) => {
       from: process.env.AUTH_EMAIL,
       to: email,
       subject: "Verification email",
-      html: `<p>${otp}</p>`,
+      html: `<p>your verification code is ${otp}</p>`,
     };
     const newOtp = new UserOTPVerification({
       userId: _id,
