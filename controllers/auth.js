@@ -84,7 +84,7 @@ const registerUser = async (request, response) => {
         fatherName: fatherName,
         email: email,
         agreement: agreement,
-        phone: phone,
+        jobCatagory: jobCatagory,
         password: hashPassword,
       });
       newUser
