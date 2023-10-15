@@ -19,10 +19,9 @@ const User = new mongoose.Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    phone: {
+    jobCatagory: {
       type: String,
-      required: [true, "Phone is required"],
-      unique: true,
+      required: [true, "Job catagory is required"],
     },
     password: {
       type: String,
@@ -35,6 +34,11 @@ const User = new mongoose.Schema(
     agreement: {
       type: Boolean,
       required: [true, "Agreement is required"],
+    },
+    image: {
+      type: String,
+      default:
+        "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
     },
   },
   {

@@ -20,7 +20,7 @@ const registerUser = async (request, response) => {
     surname,
     fatherName,
     email,
-    phone,
+    jobCatagory,
     password,
     confirmPassword,
     agreement,
@@ -54,9 +54,12 @@ const registerUser = async (request, response) => {
       response.status(419).json({
         error: { type: "email", message: "Please enter a valid email address" },
       });
-    } else if (!phone) {
+    } else if (!jobCatagory) {
       response.status(419).json({
-        error: { type: "phone", message: "Phone section is required" },
+        error: {
+          type: "jobCatagory",
+          message: "Job catagory section is required",
+        },
       });
     } else if (password.length < 6) {
       response.status(419).json({
