@@ -331,6 +331,34 @@ const logOut = async (req, res) => {
     });
   }
 };
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.user;
+    if (!email) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    }
+    const newUser = await User.findOneAndDelete({ email: email });
+    if (!newUser) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else {
+      res.status(200).json({
+        error: false,
+        message: "User deleted successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -338,4 +366,5 @@ module.exports = {
   resendOtpCode,
   initUser,
   logOut,
+  deleteUser,
 };

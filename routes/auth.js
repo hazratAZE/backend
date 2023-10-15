@@ -6,6 +6,7 @@ const {
   resendOtpCode,
   initUser,
   logOut,
+  deleteUser,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -30,5 +31,6 @@ routes.post("/verifyOtp", verifyEmail);
 routes.post("/resendOtp", resendOtpCode);
 routes.post("/initUser", initUser);
 routes.post("/logOut", verifyJwt, logOut);
+routes.post("/delete", verifyJwt, deleteUser);
 
 module.exports = routes;
