@@ -455,7 +455,7 @@ const addNewPassword = async (req, res) => {
     } else if (password !== confirmPassword) {
       res.status(419).json({
         error: {
-          type: "password",
+          type: "confirm_password",
           message: "Confirm password not same as password",
         },
       });
