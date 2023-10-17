@@ -362,6 +362,115 @@ const deleteUser = async (req, res) => {
     });
   }
 };
+const forgotPassword = async (req, res) => {
+  try {
+    console.log("hello");
+    const { email } = req.body;
+    if (!email) {
+      res.status(419).json({
+        error: {
+          type: "email",
+          message: "Please enter valid email address",
+        },
+      });
+    } else {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        res.status(419).json({
+          error: {
+            type: "email",
+            message: "User not found",
+          },
+        });
+      } else {
+        resendOtpCode({ email: user.email, _id: user._id }, res);
+      }
+    }
+  } catch (error) {
+    res.json({
+      error: {
+        type: "server",
+        message: error.message,
+      },
+    });
+  }
+};
+const confirmForgotPasswordEmail = async (req, res) => {
+  const { userId, otp } = req.body;
+  console.log(userId);
+  try {
+    if (!userId || !otp) {
+      res.status(419).json({
+        error: true,
+        message: "Empty details not allowed",
+      });
+    } else {
+      const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
+      if (UserOtpRecords.length <= 0) {
+        res.status(404).json({
+          error: true,
+          message: "Accunt record not found",
+        });
+      } else {
+        const { expiresAt } = UserOtpRecords[0];
+        const password = UserOtpRecords[0].otp;
+        if (expiresAt < Date.now()) {
+          UserOTPVerification.deleteMany({ userId: userId });
+          res.status(419).json({
+            error: true,
+            message: "Code is expired",
+          });
+        } else {
+          if (password !== otp) {
+            res.status(419).json({
+              error: true,
+              message: "Code invalid",
+            });
+          } else {
+            res.status(200).json({
+              error: false,
+              message: "Email verified successfully",
+            });
+          }
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const addNewPassword = async (req, res) => {
+  try {
+    const { password, confirmPassword, email } = req.body;
+    if (password.length < 6) {
+      res.status(419).json({
+        error: {
+          type: "password",
+          message: "Password must be at least 6 characters",
+        },
+      });
+    } else if (password !== confirmPassword) {
+      res.status(419).json({
+        error: {
+          type: "password",
+          message: "Confirm password not same as password",
+        },
+      });
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+      await user.updateOne({ email: email }, { password: hashPassword });
+      UserOTPVerification.deleteMany({ userId: user._id });
+      res.status(201).json({
+        error: false,
+        message: "Email verified successfully",
+      });
+    }
+  } catch (error) {}
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -370,4 +479,7 @@ module.exports = {
   initUser,
   logOut,
   deleteUser,
+  forgotPassword,
+  confirmForgotPasswordEmail,
+  addNewPassword,
 };
