@@ -10,6 +10,7 @@ const {
   forgotPassword,
   confirmForgotPasswordEmail,
   addNewPassword,
+  updateUser,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -38,5 +39,6 @@ routes.post("/delete", verifyJwt, deleteUser);
 routes.post("/forgotPassword", forgotPassword);
 routes.post("/confirmForgotPasswordEmail", confirmForgotPasswordEmail);
 routes.post("/addNewPassword", addNewPassword);
+routes.post("/update", verifyJwt, updateUser);
 
 module.exports = routes;

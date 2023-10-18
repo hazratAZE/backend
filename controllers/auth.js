@@ -471,6 +471,57 @@ const addNewPassword = async (req, res) => {
     }
   } catch (error) {}
 };
+
+const updateUser = async (req, res) => {
+  try {
+    const { name, surname, fatherName, status, city, jobCatagory } = req.body;
+    const { email } = req.user;
+
+    if (!email) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else if (!name) {
+      res.status(419).json({
+        error: { type: "name", message: "Name is required" },
+      });
+    } else if (!surname) {
+      res.status(419).json({
+        error: { type: "surname", message: "Surname is required" },
+      });
+    } else if (!fatherName) {
+      res.status(419).json({
+        error: { type: "fatherName", message: "Father name is required" },
+      });
+    } else if (!jobCatagory) {
+      res.status(419).json({
+        error: {
+          type: "jobCatagory",
+          message: "Job catagory section is required",
+        },
+      });
+    } else {
+      await User.updateOne(
+        { email: email },
+        {
+          name: name,
+          surname: surname,
+          fatherName: fatherName,
+          status: status,
+          city: city,
+          jobCatagory: jobCatagory,
+        }
+      );
+      const myUser = await User.findOne({ email: email });
+      res.status(200).json({
+        error: false,
+        message: "User has been updated",
+        user: myUser,
+      });
+    }
+  } catch (error) {}
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -482,4 +533,5 @@ module.exports = {
   forgotPassword,
   confirmForgotPasswordEmail,
   addNewPassword,
+  updateUser,
 };
