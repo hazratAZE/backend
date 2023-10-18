@@ -113,4 +113,29 @@ routes.get("/cities", (req, res) => {
     });
   }
 });
+routes.get("/salaries", (req, res) => {
+  try {
+    res.status(200).json({
+      error: false,
+      data: [
+        "0-50",
+        "50-100",
+        "100-200",
+        "200-500",
+        "500-700",
+        "700-1000",
+        "1000-1500",
+        "1500-2000",
+        "2000-3000",
+        "3000-5000",
+        "5000+", // For "more than 5000"
+      ],
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
 module.exports = routes;
