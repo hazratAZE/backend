@@ -20,7 +20,7 @@ const User = new mongoose.Schema(
       unique: true,
     },
     jobCatagory: {
-      type: String,
+      type: Object,
       required: [true, "Job catagory is required"],
     },
     password: {
@@ -62,7 +62,7 @@ const User = new mongoose.Schema(
       default: [],
     },
     city: {
-      type: String,
+      type: Object,
       default: "",
     },
     cv: {
