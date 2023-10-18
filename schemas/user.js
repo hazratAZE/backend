@@ -63,7 +63,10 @@ const User = new mongoose.Schema(
     },
     city: {
       type: Object,
-      default: "",
+      default: {
+        id: "0",
+        name: "",
+      },
     },
     cv: {
       type: String,
