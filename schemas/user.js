@@ -45,8 +45,8 @@ const User = new mongoose.Schema(
       default: [],
     },
     status: {
-      type: String,
-      default: "active",
+      type: Object,
+      default: { id: "1", status: "active" },
     },
 
     savedJobs: {
