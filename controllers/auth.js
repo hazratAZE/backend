@@ -261,7 +261,12 @@ const loginUser = async (req, res) => {
         });
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
 };
 const initUser = async (req, res) => {
   try {
@@ -520,7 +525,12 @@ const updateUser = async (req, res) => {
         user: myUser,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
 };
 module.exports = {
   registerUser,
