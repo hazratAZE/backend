@@ -40,6 +40,47 @@ const User = new mongoose.Schema(
       default:
         "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg",
     },
+    addedJobs: {
+      type: [String],
+      default: [],
+    },
+    status: {
+      type: String,
+      default: "active",
+    },
+
+    savedJobs: {
+      type: [String],
+      default: [],
+    },
+    reportedJobs: {
+      type: [String],
+      default: [],
+    },
+    appliedJobs: {
+      type: [String],
+      default: [],
+    },
+    city: {
+      type: String,
+      default: "",
+    },
+    cv: {
+      type: String,
+      default: "",
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    messages: {
+      type: [String],
+      default: [],
+    },
+    notifications: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
