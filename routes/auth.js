@@ -11,6 +11,7 @@ const {
   confirmForgotPasswordEmail,
   addNewPassword,
   updateUser,
+  updatePassword,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -40,5 +41,6 @@ routes.post("/forgotPassword", forgotPassword);
 routes.post("/confirmForgotPasswordEmail", confirmForgotPasswordEmail);
 routes.post("/addNewPassword", addNewPassword);
 routes.post("/update", verifyJwt, updateUser);
+routes.post("/updatePassword", verifyJwt, updatePassword);
 
 module.exports = routes;

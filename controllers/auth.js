@@ -532,6 +532,83 @@ const updateUser = async (req, res) => {
     });
   }
 };
+const updatePassword = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+    if (!email) {
+      res.status(419).json({
+        error: {
+          type: "email",
+          message: "Authentication failed",
+        },
+      });
+    } else if (oldPassword.length < 6) {
+      res.status(419).json({
+        error: {
+          type: "password",
+          message: "Password must be at least 6 characters",
+        },
+      });
+    } else if (newPassword.length < 6) {
+      res.status(419).json({
+        error: {
+          type: "newPassword",
+          message: "Password must be at least 6 characters",
+        },
+      });
+    } else if (confirmNewPassword.length < 6) {
+      res.status(419).json({
+        error: {
+          type: "confirmNewPassword",
+          message: "Password must be at least 6 characters",
+        },
+      });
+    } else if (newPassword !== confirmNewPassword) {
+      res.status(419).json({
+        error: {
+          type: "confirmNewPassword",
+          message: "Passwords do not match",
+        },
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+      if (!myUser) {
+        res.status(419).json({
+          error: true,
+          message: "User not found",
+        });
+      } else {
+        const matchPassword = await bcrypt.compare(
+          oldPassword,
+          myUser.password
+        );
+        console.log(myUser.password);
+        if (!matchPassword) {
+          res.status(419).json({
+            error: {
+              type: "password",
+              message: "Password not correct",
+            },
+          });
+        } else {
+          const salt = await bcrypt.genSalt(10);
+          const hashPassword = await bcrypt.hash(newPassword, salt);
+          await user.updateOne({ email: email }, { password: hashPassword });
+          res.status(201).json({
+            error: false,
+            message: "Password changed successfully",
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -544,4 +621,5 @@ module.exports = {
   confirmForgotPasswordEmail,
   addNewPassword,
   updateUser,
+  updatePassword,
 };
