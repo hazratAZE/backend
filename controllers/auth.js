@@ -402,7 +402,6 @@ const forgotPassword = async (req, res) => {
 };
 const confirmForgotPasswordEmail = async (req, res) => {
   const { userId, otp } = req.body;
-  console.log(userId);
   try {
     if (!userId || !otp) {
       res.status(419).json({
@@ -609,6 +608,98 @@ const updatePassword = async (req, res) => {
     });
   }
 };
+const changeEmail = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { newEmail } = req.body;
+
+    if (!email) {
+      res.status(419).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else if (!validator.validate(newEmail)) {
+      res.status(419).json({
+        error: {
+          type: "email",
+          message: "Please enter a valid email address",
+        },
+      });
+    } else {
+      const myUser = await user.findOne({ email: newEmail });
+      const newUser = await user.findOne({ email: email });
+      if (myUser) {
+        res.status(419).json({
+          error: {
+            type: "email",
+            message: "This email address already exists",
+          },
+        });
+      } else {
+        console.log({ _id: newUser._id, email: newEmail });
+        resendOtpCode({ _id: newUser._id, email: newEmail }, res);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      erro: true,
+      message: error.message,
+    });
+  }
+};
+const verifyChangeEmail = async (req, res) => {
+  const { userId, otp, newEmail } = req.body;
+  const { email } = req.user;
+  try {
+    if (!userId || !otp) {
+      res.status(419).json({
+        error: true,
+        message: "Empty details not allowed",
+      });
+    } else {
+      const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
+      if (UserOtpRecords.length <= 0) {
+        res.status(404).json({
+          error: true,
+          message: "Accunt record not found",
+        });
+      } else {
+        const { expiresAt } = UserOtpRecords[0];
+        const password = UserOtpRecords[0].otp;
+        if (expiresAt < Date.now()) {
+          UserOTPVerification.deleteMany({ userId: userId });
+          res.status(419).json({
+            error: true,
+            message: "Code is expired",
+          });
+        } else {
+          if (password !== otp) {
+            res.status(419).json({
+              error: true,
+              message: "Code invalid",
+            });
+          } else {
+            await user.updateOne(
+              { email: email },
+              {
+                email: newEmail,
+              }
+            );
+            res.status(200).json({
+              error: false,
+              message: "Email change successfully",
+            });
+          }
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -622,4 +713,6 @@ module.exports = {
   addNewPassword,
   updateUser,
   updatePassword,
+  changeEmail,
+  verifyChangeEmail,
 };
