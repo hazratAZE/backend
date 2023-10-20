@@ -108,8 +108,43 @@ const createJob = async (req, res) => {
     });
   }
 };
+const getAllMyJobs = async (req, res) => {
+  try {
+    const { email } = req.user;
+    if (!email) {
+      return res.status(404).json({
+        error: true,
+        message: "Kimlik doğrulama başarısız",
+      });
+    }
+
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "Kullanıcı bulunamadı",
+      });
+    }
+
+    const jobIds = myUser.addedJobs; // Sadece iş kimliklerini alıyoruz
+
+    // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
+    const jobList = await job.find({ _id: { $in: jobIds } });
+
+    res.status(200).json({
+      error: false,
+      data: jobList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getAllJobs,
   createJob,
+  getAllMyJobs,
 };
