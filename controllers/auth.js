@@ -649,7 +649,7 @@ const changeEmail = async (req, res) => {
 };
 const verifyChangeEmail = async (req, res) => {
   const { userId, otp, newEmail } = req.body;
-  const { email } = req.user;
+  const { email, password } = req.user;
   try {
     if (!userId || !otp) {
       res.status(419).json({
@@ -685,9 +685,17 @@ const verifyChangeEmail = async (req, res) => {
                 email: newEmail,
               }
             );
+            const token = await jwt.sign(
+              { email: newEmail, password: password },
+              process.env.JWT_SECRET,
+              {
+                expiresIn: "7d",
+              }
+            );
             res.status(200).json({
               error: false,
               message: "Email change successfully",
+              token: token,
             });
           }
         }
