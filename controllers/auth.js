@@ -1,4 +1,3 @@
-const { response } = require("express");
 const User = require("../schemas/user");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");

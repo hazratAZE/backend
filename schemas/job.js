@@ -11,23 +11,19 @@ const Job = new mongoose.Schema(
       required: true,
     },
     lauch: {
-      type: Boolean,
-      required: true,
-    },
-    jobTimes: {
-      type: String,
+      type: Object,
       required: true,
     },
     term: {
-      type: String,
+      type: Object,
       required: true,
     },
     salary: {
-      type: String,
+      type: Object,
       required: true,
     },
     type: {
-      type: String,
+      type: Object,
       default: "daily",
     },
     requirements: {
@@ -35,7 +31,7 @@ const Job = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: String,
+      type: Object,
       default: "active",
     },
     location: {
@@ -43,7 +39,12 @@ const Job = new mongoose.Schema(
       required: true,
     },
     city: {
-      type: String,
+      type: Object,
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     saveUsers: {
