@@ -33,24 +33,78 @@ const createJob = async (req, res) => {
     } = req.body;
 
     // Check if any required fields are empty
-    if (
-      !title ||
-      !description ||
-      !lauch ||
-      !term ||
-      !salary ||
-      !type ||
-      !requirements ||
-      !status ||
-      !location ||
-      !city
-    ) {
-      return res.status(400).json({
-        error: true,
-        message: "All fields are required",
+
+    if (title.length < 2) {
+      return res.status(419).json({
+        error: {
+          type: "title",
+          message: "Title must be at least 2 characters",
+        },
+      });
+    } else if (description.length < 60) {
+      return res.status(419).json({
+        error: {
+          type: "description",
+          message: "Title must be at least 60 characters",
+        },
+      });
+    } else if (!lauch) {
+      return res.status(419).json({
+        error: {
+          type: "lauch",
+          message: "Launch section is required",
+        },
+      });
+    } else if (!term) {
+      return res.status(419).json({
+        error: {
+          type: "term",
+          message: "Term section is required",
+        },
+      });
+    } else if (!salary) {
+      return res.status(419).json({
+        error: {
+          type: "salary",
+          message: "Salary section is required",
+        },
+      });
+    } else if (!type) {
+      return res.status(419).json({
+        error: {
+          type: "type",
+          message: "Type section is required",
+        },
+      });
+    } else if (requirements.length < 40) {
+      return res.status(419).json({
+        error: {
+          type: "requirements",
+          message: "Requirements must be at least 40 characters",
+        },
+      });
+    } else if (!status) {
+      return res.status(419).json({
+        error: {
+          type: "status",
+          message: "Status section is required",
+        },
+      });
+    } else if (location.length < 40) {
+      return res.status(419).json({
+        error: {
+          type: "location",
+          message: "Loaction must be at least 40 characters",
+        },
+      });
+    } else if (!city) {
+      return res.status(419).json({
+        error: {
+          type: "city",
+          message: "City section is required",
+        },
       });
     }
-
     // Check if the 'createdBy' user exists with the email from req.user
     const existingUser = await user.findOne({ email });
     if (!existingUser) {
