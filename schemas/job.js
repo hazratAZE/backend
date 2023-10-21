@@ -29,6 +29,10 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
+    agreement: {
+      type: Boolean,
+      required: true,
+    },
     type: {
       type: Object,
       default: "daily",

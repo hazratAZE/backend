@@ -28,6 +28,7 @@ const createJob = async (req, res) => {
       location,
       city,
       createdBy,
+      agreement,
     } = req.body;
 
     // Check if any required fields are empty
@@ -44,6 +45,13 @@ const createJob = async (req, res) => {
         error: {
           type: "description",
           message: "Description must be at least 60 characters",
+        },
+      });
+    } else if (!agreement) {
+      return res.status(419).json({
+        error: {
+          type: "agreement",
+          message: "Agreement is required",
         },
       });
     } else if (!lauch) {
@@ -108,6 +116,7 @@ const createJob = async (req, res) => {
       type,
       location,
       city,
+      agreement,
       company: existingUser.name + " " + existingUser.surname,
       image: existingUser.image,
       createdBy: existingUser, // Assign the user's ID as the 'createdBy' value
