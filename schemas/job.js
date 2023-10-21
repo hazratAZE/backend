@@ -25,6 +25,10 @@ const Job = new mongoose.Schema(
         name: "active",
       },
     },
+    image: {
+      type: String,
+      required: true,
+    },
     type: {
       type: Object,
       default: "daily",
