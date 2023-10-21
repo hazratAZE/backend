@@ -25,7 +25,6 @@ const createJob = async (req, res) => {
       term,
       salary,
       type,
-      requirements,
       status,
       location,
       city,
@@ -76,13 +75,6 @@ const createJob = async (req, res) => {
           message: "Type section is required",
         },
       });
-    } else if (requirements.length < 40) {
-      return res.status(419).json({
-        error: {
-          type: "requirements",
-          message: "Requirements must be at least 40 characters",
-        },
-      });
     } else if (!status) {
       return res.status(419).json({
         error: {
@@ -122,7 +114,6 @@ const createJob = async (req, res) => {
       term,
       salary,
       type,
-      requirements,
       status,
       location,
       city,

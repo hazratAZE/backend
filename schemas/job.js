@@ -26,10 +26,6 @@ const Job = new mongoose.Schema(
       type: Object,
       default: "daily",
     },
-    requirements: {
-      type: String,
-      required: true,
-    },
     status: {
       type: Object,
       default: "active",
