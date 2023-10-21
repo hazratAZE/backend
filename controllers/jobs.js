@@ -25,7 +25,6 @@ const createJob = async (req, res) => {
       term,
       salary,
       type,
-      status,
       location,
       city,
       createdBy,
@@ -75,13 +74,6 @@ const createJob = async (req, res) => {
           message: "Type section is required",
         },
       });
-    } else if (!status) {
-      return res.status(419).json({
-        error: {
-          type: "status",
-          message: "Status section is required",
-        },
-      });
     } else if (location.length < 40) {
       return res.status(419).json({
         error: {
@@ -114,7 +106,6 @@ const createJob = async (req, res) => {
       term,
       salary,
       type,
-      status,
       location,
       city,
       createdBy: existingUser, // Assign the user's ID as the 'createdBy' value

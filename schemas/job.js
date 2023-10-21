@@ -20,7 +20,10 @@ const Job = new mongoose.Schema(
     },
     salary: {
       type: Object,
-      required: true,
+      default: {
+        id: 1,
+        name: "active",
+      },
     },
     type: {
       type: Object,
