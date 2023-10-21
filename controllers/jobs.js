@@ -43,7 +43,7 @@ const createJob = async (req, res) => {
       return res.status(419).json({
         error: {
           type: "description",
-          message: "Title must be at least 60 characters",
+          message: "Description must be at least 60 characters",
         },
       });
     } else if (!lauch) {
