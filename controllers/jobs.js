@@ -74,11 +74,11 @@ const createJob = async (req, res) => {
           message: "Type section is required",
         },
       });
-    } else if (location.length < 40) {
+    } else if (location.length < 2) {
       return res.status(419).json({
         error: {
           type: "location",
-          message: "Loaction must be at least 40 characters",
+          message: "Loaction must be at least 2 characters",
         },
       });
     } else if (!city) {
