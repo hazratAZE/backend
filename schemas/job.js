@@ -50,6 +50,10 @@ const Job = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    company: {
+      type: String,
+      required: true,
+    },
     saveUsers: {
       type: [
         {
