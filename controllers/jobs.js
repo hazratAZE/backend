@@ -1,5 +1,6 @@
 const job = require("../schemas/job");
 const user = require("../schemas/user");
+const schedule = require("node-schedule");
 
 const getAllJobs = async (req, res) => {
   try {
@@ -133,6 +134,12 @@ const createJob = async (req, res) => {
 
     // Save the new job to the database
     const savedJob = await newJob.save();
+    // Schedule a job status update for 3 days in the future
+    const threeDaysFromNow = new Date();
+    threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+
+    // Schedule the job status update
+    scheduleJobStatusUpdate(savedJob._id, threeDaysFromNow);
 
     // Add the job object to the 'addedJobs' array of the user
     existingUser.addedJobs.push(savedJob);
@@ -228,7 +235,22 @@ const getOneJob = async (req, res) => {
     });
   }
 };
+function scheduleJobStatusUpdate(jobId, date) {
+  schedule.scheduleJob(date, async () => {
+    try {
+      // Find the job by ID
+      const jobToUpdate = await job.findOne({ _id: jobId });
 
+      if (jobToUpdate) {
+        // Update the job status to "closed"
+        jobToUpdate.status = "closed";
+        await jobToUpdate.save();
+      }
+    } catch (error) {
+      console.error("Error updating job status:", error);
+    }
+  });
+}
 module.exports = {
   getAllJobs,
   createJob,
