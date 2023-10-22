@@ -205,6 +205,37 @@ const getAllMyJobs = async (req, res) => {
     });
   }
 };
+const getOneMyJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.query;
+    if (!email) {
+      req.status(404).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+      if (!myUser) {
+        req.status(404).json({
+          error: true,
+          message: "Authentication failed",
+        });
+      } else {
+        const myJob = await job.findOne({ _id: id });
+        res.status(200).json({
+          error: false,
+          data: myJob,
+        });
+      }
+    }
+  } catch (error) {
+    req.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getOneJob = async (req, res) => {
   try {
     const { id } = req.query;
@@ -225,6 +256,45 @@ const getOneJob = async (req, res) => {
         res.status(200).json({
           error: false,
           data: newJob,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const updateJobStatus = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.query;
+    const { status } = req.body;
+    if (!status) {
+      req.status(404).json({
+        error: true,
+        message: "Please select status",
+      });
+    } else if (!email) {
+      req.status(404).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+      if (!myUser) {
+        req.status(404).json({
+          error: true,
+          message: "Authentication failed",
+        });
+      } else {
+        await job.updateOne({ _id: id }, { status: status });
+        const myJob = await job.findOne({ _id: id });
+        res.status(200).json({
+          error: false,
+          data: myJob,
+          message: "Status updated successfully",
         });
       }
     }
@@ -256,4 +326,6 @@ module.exports = {
   createJob,
   getAllMyJobs,
   getOneJob,
+  getOneMyJob,
+  updateJobStatus,
 };
