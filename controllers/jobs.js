@@ -239,7 +239,6 @@ const getOneMyJob = async (req, res) => {
 const getOneJob = async (req, res) => {
   try {
     const { id } = req.query;
-    console.log(id);
     if (!id) {
       res.status(404).json({
         error: true,
