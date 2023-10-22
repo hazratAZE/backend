@@ -189,9 +189,40 @@ const getAllMyJobs = async (req, res) => {
     });
   }
 };
+const getOneJob = async (req, res) => {
+  try {
+    const { id } = req.query;
+    console.log(id);
+    if (!id) {
+      res.status(404).json({
+        error: true,
+        message: "Job not found",
+      });
+    } else {
+      const newJob = await job.findOne({ _id: id });
+      if (!newJob) {
+        res.status(404).json({
+          error: true,
+          message: "Job not found",
+        });
+      } else {
+        res.status(200).json({
+          error: false,
+          data: newJob,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getAllJobs,
   createJob,
   getAllMyJobs,
+  getOneJob,
 };
