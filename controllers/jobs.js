@@ -3,7 +3,15 @@ const user = require("../schemas/user");
 
 const getAllJobs = async (req, res) => {
   try {
-    const allJobs = await job.find();
+    // Define a filter object based on query parameters
+    const filter = {};
+
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    // Fetch jobs with the applied filter
+    const allJobs = await job.find(filter);
+
     res.status(200).json({
       error: false,
       data: allJobs,
@@ -15,6 +23,7 @@ const getAllJobs = async (req, res) => {
     });
   }
 };
+
 const createJob = async (req, res) => {
   try {
     const { email } = req.user;
