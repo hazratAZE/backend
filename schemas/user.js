@@ -20,7 +20,7 @@ const User = new mongoose.Schema(
       unique: true,
     },
     jobCatagory: {
-      type: Object,
+      type: String,
       required: [true, "Job catagory is required"],
     },
     password: {
@@ -51,28 +51,40 @@ const User = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: Object,
-      default: { id: "1", status: "active" },
+      type: String,
+      default: "online",
     },
 
     savedJobs: {
-      type: [String],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job",
+        },
+      ],
       default: [],
     },
     reportedJobs: {
-      type: [String],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job",
+        },
+      ],
       default: [],
     },
     appliedJobs: {
-      type: [String],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job",
+        },
+      ],
       default: [],
     },
     city: {
-      type: Object,
-      default: {
-        id: "0",
-        name: "",
-      },
+      type: String,
+      required: true,
     },
     cv: {
       type: String,
