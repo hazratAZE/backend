@@ -6,8 +6,11 @@ const catagories = require("./routes/catagories");
 const job = require("./routes/job");
 const pages = require("./routes/pages");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
 const app = express();
 app.use(express.json());
+app.use(fileUpload());
+
 app.use("/api/v1/auth/", auth);
 app.use("/api/v1/init/", init);
 app.use("/api/v1/catagories/", catagories);
