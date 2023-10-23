@@ -762,7 +762,7 @@ const uploadImage = async (req, res) => {
     } else {
       // Convert the base64 image data to a Buffer
       const base64ImageData = req.files.data.data;
-
+      console.log(req.files.data.data);
       // Set the S3 bucket and object key
       const params = {
         Bucket: "worklytest",
