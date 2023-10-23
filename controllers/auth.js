@@ -707,6 +707,32 @@ const verifyChangeEmail = async (req, res) => {
     });
   }
 };
+const sendAgainOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      res.status(404).json({
+        error: true,
+        message: "Email address is required",
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+      if (!myUser) {
+        res.status(404).json({
+          error: true,
+          message: "User not found",
+        });
+      } else {
+        resendOtpCode({ _id: myUser._id, email: email }, res);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
@@ -722,4 +748,5 @@ module.exports = {
   updatePassword,
   changeEmail,
   verifyChangeEmail,
+  sendAgainOtp,
 };
