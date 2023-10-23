@@ -20,6 +20,7 @@ const registerUser = async (request, response) => {
     fatherName,
     email,
     jobCatagory,
+    city,
     password,
     confirmPassword,
     agreement,
@@ -36,6 +37,10 @@ const registerUser = async (request, response) => {
     } else if (!name) {
       response.status(419).json({
         error: { type: "name", message: "Name is required" },
+      });
+    } else if (!city) {
+      response.status(419).json({
+        error: { type: "city", message: "City is required" },
       });
     } else if (!surname) {
       response.status(419).json({
@@ -83,6 +88,7 @@ const registerUser = async (request, response) => {
         fatherName: fatherName,
         email: email,
         agreement: agreement,
+        city: city,
         jobCatagory: jobCatagory,
         password: hashPassword,
       });
