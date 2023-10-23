@@ -39,6 +39,7 @@ const createJob = async (req, res) => {
       city,
       createdBy,
       agreement,
+      category,
     } = req.body;
 
     // Check if any required fields are empty
@@ -85,10 +86,10 @@ const createJob = async (req, res) => {
           message: "Salary section is required",
         },
       });
-    } else if (!type) {
+    } else if (!category) {
       return res.status(419).json({
         error: {
-          type: "type",
+          type: "category",
           message: "Type section is required",
         },
       });
@@ -128,6 +129,7 @@ const createJob = async (req, res) => {
       city,
       agreement,
       company: existingUser.name + " " + existingUser.surname,
+      category,
       image: existingUser.image,
       createdBy: existingUser, // Assign the user's ID as the 'createdBy' value
     });
