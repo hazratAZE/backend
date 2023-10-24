@@ -7,8 +7,17 @@ const getAllJobs = async (req, res) => {
     // Define a filter object based on query parameters
     const filter = {};
 
-    if (req.query.status) {
-      filter.status = req.query.status;
+    if (req.query.type) {
+      filter.type = req.query.type;
+    }
+    if (req.query.city) {
+      filter.city = req.query.city;
+    }
+    if (req.query.salary) {
+      filter.salary = req.query.salary;
+    }
+    if (req.query.category) {
+      filter.category = req.query.category;
     }
     // Fetch jobs with the applied filter
     const allJobs = await job.find(filter);
