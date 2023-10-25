@@ -15,6 +15,20 @@ let transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await user.find().sort({ rating: -1 });
+    res.status(200).json({
+      error: false,
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const registerUser = async (request, response) => {
   const {
     name,
@@ -816,4 +830,5 @@ module.exports = {
   verifyChangeEmail,
   sendAgainOtp,
   uploadImage,
+  getAllUsers,
 };
