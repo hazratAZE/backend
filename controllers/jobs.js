@@ -1,12 +1,10 @@
 const job = require("../schemas/job");
 const user = require("../schemas/user");
 const schedule = require("node-schedule");
-
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
     const filter = {};
-
     if (req.query.type) {
       filter.type = req.query.type;
     }
@@ -21,7 +19,6 @@ const getAllJobs = async (req, res) => {
     }
     // Fetch jobs with the applied filter
     const allJobs = await job.find(filter).sort({ createdAt: -1 });
-
     res.status(200).json({
       error: false,
       data: allJobs,
@@ -33,7 +30,6 @@ const getAllJobs = async (req, res) => {
     });
   }
 };
-
 const createJob = async (req, res) => {
   try {
     const { email } = req.user;
@@ -249,7 +245,7 @@ const getOneMyJob = async (req, res) => {
 };
 const getOneJob = async (req, res) => {
   try {
-    const { id } = req.query;
+    const { id, email } = req.query;
     if (!id) {
       res.status(404).json({
         error: true,
@@ -257,6 +253,14 @@ const getOneJob = async (req, res) => {
       });
     } else {
       const newJob = await job.findOne({ _id: id });
+      var myJob = false;
+      if (email) {
+        const myUser = await user.findOne({ email: email });
+        // if (myUser.addedJobs.contains(newJob._id)) {
+        //   myJob = true;
+        // }
+        myJob = myUser.addedJobs.includes(newJob._id);
+      }
       if (!newJob) {
         res.status(404).json({
           error: true,
@@ -266,6 +270,7 @@ const getOneJob = async (req, res) => {
         res.status(200).json({
           error: false,
           data: newJob,
+          myJob: myJob,
         });
       }
     }
