@@ -389,14 +389,18 @@ const likeJob = async (req, res) => {
       if (dislike) {
         myUser.likedJobs = myUser.likedJobs.filter((job) => job !== myJob);
         await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: "Job dislaked successfully",
+        });
       } else {
         myUser.likedJobs.push(myJob);
         await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: "Job liked successfully",
+        });
       }
-      res.status(200).json({
-        error: false,
-        message: "Job liked successfully",
-      });
     } else {
       res.status(404).json({
         error: true,
