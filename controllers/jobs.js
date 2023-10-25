@@ -382,11 +382,17 @@ const likeJob = async (req, res) => {
   try {
     const { email } = req.user;
     const { id } = req.body;
+    const { dislike } = req.query;
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
     if (myUser && myJob) {
-      myUser.likedJobs.push(myJob);
-      await myUser.save();
+      if (dislike) {
+        myUser.likedJobs = myUser.likedJobs.filter((job) => job !== myJob);
+        await myUser.save();
+      } else {
+        myUser.likedJobs.push(myJob);
+        await myUser.save();
+      }
       res.status(200).json({
         error: false,
         message: "Job liked successfully",
