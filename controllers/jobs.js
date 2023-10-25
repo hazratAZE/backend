@@ -5,6 +5,8 @@ const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
     const filter = {};
+    const allJobs = await job.find(filter).sort({ createdAt: -1 });
+    var jobs = [];
     if (req.query.type) {
       filter.type = req.query.type;
     }
@@ -17,11 +19,29 @@ const getAllJobs = async (req, res) => {
     if (req.query.category) {
       filter.category = req.query.category;
     }
+    if (req.query.id && req.query.email) {
+      const myUser = await user.findOne({ email: req.query.email });
+      jobs = allJobs.map((oneJob) => ({
+        ...oneJob._doc,
+        savedJob: myUser.savedJobs.includes(oneJob._id),
+        likedJob: myUser.likedJobs.includes(oneJob._id),
+        reportedJob: myUser.reportedJobs.includes(oneJob._id),
+        myJob: myUser.addedJobs.includes(oneJob._id),
+      }));
+    } else {
+      jobs = allJobs.map((oneJob) => ({
+        ...oneJob._doc,
+        savedJob: false,
+        likedJob: false,
+        reportedJob: false,
+        myJob: false,
+      }));
+    }
     // Fetch jobs with the applied filter
-    const allJobs = await job.find(filter).sort({ createdAt: -1 });
+
     res.status(200).json({
       error: false,
-      data: allJobs,
+      data: jobs,
     });
   } catch (error) {
     res.status(500).json({
@@ -253,13 +273,19 @@ const getOneJob = async (req, res) => {
       });
     } else {
       const newJob = await job.findOne({ _id: id });
-      var myJob = false;
+      var addedJob = false;
+      var savedJob = false;
+      var likedJob = false;
+      var reportedJob = false;
       if (email) {
         const myUser = await user.findOne({ email: email });
         // if (myUser.addedJobs.contains(newJob._id)) {
         //   myJob = true;
         // }
-        myJob = myUser.addedJobs.includes(newJob._id);
+        addedJob = myUser.addedJobs.includes(newJob._id);
+        savedJob = myUser.savedJobs.includes(newJob._id);
+        likedJob = myUser.likedJobs.includes(newJob._id);
+        reportedJob = myUser.reportedJobs.includes(newJob._id);
       }
       if (!newJob) {
         res.status(404).json({
@@ -267,10 +293,16 @@ const getOneJob = async (req, res) => {
           message: "Job not found",
         });
       } else {
+        const jobWithMyStatus = {
+          ...newJob._doc, // Convert newJob to a plain JavaScript object
+          addedJob: addedJob,
+          savedJob: savedJob,
+          likeJob: likedJob,
+          reportedJob: reportedJob,
+        };
         res.status(200).json({
           error: false,
-          data: newJob,
-          myJob: myJob,
+          data: jobWithMyStatus,
         });
       }
     }
@@ -320,6 +352,85 @@ const updateJobStatus = async (req, res) => {
     });
   }
 };
+const saveJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
+    if (myUser && myJob) {
+      myUser.savedJobs.push(myJob);
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Job saved successfully",
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const likeJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
+    if (myUser && myJob) {
+      myUser.likedJobs.push(myJob);
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Job liked successfully",
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const reportJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
+    if (myUser && myJob) {
+      myUser.reportedJobs.push(myJob);
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Job liked successfully",
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
 function scheduleJobStatusUpdate(jobId, date) {
   schedule.scheduleJob(date, async () => {
     try {
@@ -343,4 +454,7 @@ module.exports = {
   getOneJob,
   getOneMyJob,
   updateJobStatus,
+  saveJob,
+  likeJob,
+  reportJob,
 };

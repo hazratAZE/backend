@@ -54,7 +54,15 @@ const User = new mongoose.Schema(
       type: String,
       default: "online",
     },
-
+    likedJobs: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job",
+        },
+      ],
+      default: [],
+    },
     savedJobs: {
       type: [
         {
