@@ -19,7 +19,7 @@ const getAllJobs = async (req, res) => {
     if (req.query.category) {
       filter.category = req.query.category;
     }
-    if (req.query.id && req.query.email) {
+    if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
       jobs = allJobs.map((oneJob) => ({
         ...oneJob._doc,
