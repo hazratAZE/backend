@@ -5,7 +5,7 @@ const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
     const filter = {};
-    const allJobs = await job.find(filter).sort({ createdAt: -1 });
+
     var jobs = [];
     if (req.query.type) {
       filter.type = req.query.type;
@@ -19,6 +19,7 @@ const getAllJobs = async (req, res) => {
     if (req.query.category) {
       filter.category = req.query.category;
     }
+    const allJobs = await job.find(filter).sort({ createdAt: -1 });
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
       jobs = allJobs.map((oneJob) => ({
