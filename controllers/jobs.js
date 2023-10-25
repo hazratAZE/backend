@@ -356,15 +356,27 @@ const saveJob = async (req, res) => {
   try {
     const { email } = req.user;
     const { id } = req.body;
+    const { dislike } = req.body;
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
     if (myUser && myJob) {
-      myUser.savedJobs.push(myJob);
-      await myUser.save();
-      res.status(200).json({
-        error: false,
-        message: "Job saved successfully",
-      });
+      if (dislike) {
+        myUser.savedJobs = myUser.savedJobs.filter(
+          (likedJob) => likedJob._id.toString() !== myJob._id.toString()
+        );
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: "Job unsave successfully",
+        });
+      } else {
+        myUser.savedJobs.push(myJob);
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: "Job saved successfully",
+        });
+      }
     } else {
       res.status(404).json({
         error: true,
