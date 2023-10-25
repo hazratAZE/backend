@@ -20,7 +20,7 @@ const getAllJobs = async (req, res) => {
       filter.category = req.query.category;
     }
     // Fetch jobs with the applied filter
-    const allJobs = await job.find(filter);
+    const allJobs = await job.find(filter).sort({ createdAt: -1 });
 
     res.status(200).json({
       error: false,
