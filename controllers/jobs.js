@@ -220,7 +220,7 @@ const getAllMyJobs = async (req, res) => {
     const jobIds = myUser.addedJobs; // Sadece iş kimliklerini alıyoruz
 
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const jobList = await job.find({ _id: { $in: jobIds } });
+    const allJobs = await job.find({ _id: { $in: jobIds } });
     jobList = allJobs.map((oneJob) => ({
       ...oneJob._doc,
       savedJob: myUser.savedJobs.includes(oneJob._id),
