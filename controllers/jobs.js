@@ -660,14 +660,20 @@ const applyJob = async (req, res) => {
         myUser.appliedJobs = myUser.appliedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
+        myJob.applicants = myJob.applicants.filter(
+          (one) => one._id.toString() !== myUser._id.toString()
+        );
         await myUser.save();
+        await myJob.save();
         res.status(200).json({
           error: false,
           message: "Un apply successfully",
         });
       } else {
         myUser.appliedJobs.push(myJob);
+        myJob.applicants.push(myUser);
         await myUser.save();
+        await myJob.save();
         res.status(200).json({
           error: false,
           message: "Apply successfully",
