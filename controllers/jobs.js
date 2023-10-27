@@ -28,6 +28,7 @@ const getAllJobs = async (req, res) => {
         likedJob: myUser.likedJobs.includes(oneJob._id),
         reportedJob: myUser.reportedJobs.includes(oneJob._id),
         myJob: myUser.addedJobs.includes(oneJob._id),
+        appliedJobs: myUser.appliedJobs.includes(oneJob._id),
       }));
     } else {
       jobs = allJobs.map((oneJob) => ({
@@ -36,6 +37,7 @@ const getAllJobs = async (req, res) => {
         likedJob: false,
         reportedJob: false,
         myJob: false,
+        appliedJob: false,
       }));
     }
     // Fetch jobs with the applied filter
@@ -268,6 +270,7 @@ const getMySavedJobs = async (req, res) => {
       likedJob: myUser.likedJobs.includes(oneJob._id),
       reportedJob: myUser.reportedJobs.includes(oneJob._id),
       myJob: myUser.addedJobs.includes(oneJob._id),
+      appliedJob: myUser.appliedJobs.includes(oneJob._id),
     }));
     res.status(200).json({
       error: false,
@@ -308,6 +311,7 @@ const getMyLikedJobs = async (req, res) => {
       likedJob: myUser.likedJobs.includes(oneJob._id),
       reportedJob: myUser.reportedJobs.includes(oneJob._id),
       myJob: myUser.addedJobs.includes(oneJob._id),
+      appliedJob: myUser.appliedJobs.includes(oneJob._id),
     }));
     res.status(200).json({
       error: false,
@@ -348,6 +352,7 @@ const getMyReportedJobs = async (req, res) => {
       likedJob: myUser.likedJobs.includes(oneJob._id),
       reportedJob: myUser.reportedJobs.includes(oneJob._id),
       myJob: myUser.addedJobs.includes(oneJob._id),
+      appliedJob: myUser.appliedJobs.includes(oneJob._id),
     }));
     res.status(200).json({
       error: false,
@@ -405,6 +410,7 @@ const getOneJob = async (req, res) => {
       var savedJob = false;
       var likedJob = false;
       var reportedJob = false;
+      var appliedJob = false;
       if (email) {
         const myUser = await user.findOne({ email: email });
         // if (myUser.addedJobs.contains(newJob._id)) {
@@ -414,6 +420,7 @@ const getOneJob = async (req, res) => {
         savedJob = myUser.savedJobs.includes(newJob._id);
         likedJob = myUser.likedJobs.includes(newJob._id);
         reportedJob = myUser.reportedJobs.includes(newJob._id);
+        appliedJob = myUser.appliedJobs.includes(newJob._id);
       }
       if (!newJob) {
         res.status(404).json({
@@ -427,6 +434,7 @@ const getOneJob = async (req, res) => {
           savedJob: savedJob,
           likeJob: likedJob,
           reportedJob: reportedJob,
+          appliedJob: appliedJob,
         };
         res.status(200).json({
           error: false,
