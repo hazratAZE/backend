@@ -17,6 +17,7 @@ const {
   sendAgainOtp,
   uploadImage,
   getAllUsers,
+  getUserInfo,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -39,5 +40,6 @@ routes.post("/changeEmail", verifyJwt, changeEmail);
 routes.post("/verifyChangeEmail", verifyJwt, verifyChangeEmail);
 routes.post("/sendAgainOtp", sendAgainOtp);
 routes.post("/uploadImage", verifyJwt, uploadImage);
+routes.post("/getUserInfo", getUserInfo);
 
 module.exports = routes;

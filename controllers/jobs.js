@@ -156,6 +156,7 @@ const createJob = async (req, res) => {
       agreement,
       company: existingUser.name + " " + existingUser.surname,
       category,
+      email: existingUser.email,
       image: existingUser.image,
       createdBy: existingUser, // Assign the user's ID as the 'createdBy' value
     });
