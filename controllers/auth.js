@@ -777,6 +777,30 @@ const getUserInfo = async (req, res) => {
     });
   }
 };
+const changePrivateMode = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { mode } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      if (mode) {
+        myUser.privateMode = true;
+      } else {
+        myUser.privateMode = false;
+      }
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Private mode has been changed",
+      });
+    }
+  } catch (error) {}
+};
 const uploadImage = async (req, res) => {
   const s3Client = new S3Client({
     region: "eu-north-1",
@@ -853,4 +877,5 @@ module.exports = {
   uploadImage,
   getAllUsers,
   getUserInfo,
+  changePrivateMode,
 };
