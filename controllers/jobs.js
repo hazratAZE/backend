@@ -21,7 +21,9 @@ const getAllJobs = async (req, res) => {
     }
     var allJobs = await job.find(filter).sort({ createdAt: -1 });
     if (req.query.typing) {
-      allJobs = allJobs.filter((oneJob) => oneJob.title.includes(typing));
+      allJobs = allJobs.filter((oneJob) =>
+        oneJob.title.toLocaleLowerCase().includes(typing)
+      );
     }
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
