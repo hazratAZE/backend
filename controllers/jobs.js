@@ -365,6 +365,47 @@ const getMyReportedJobs = async (req, res) => {
     });
   }
 };
+const getMyAppledJobs = async (req, res) => {
+  try {
+    const { email } = req.user;
+    if (!email) {
+      return res.status(404).json({
+        error: true,
+        message: "Kimlik doğrulama başarısız",
+      });
+    }
+
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "Kullanıcı bulunamadı",
+      });
+    }
+
+    const jobIds = myUser.appliedJobs; // Sadece iş kimliklerini alıyoruz
+
+    // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
+    const allJobs = await job.find({ _id: { $in: jobIds } });
+    jobList = allJobs.map((oneJob) => ({
+      ...oneJob._doc,
+      savedJob: myUser.savedJobs.includes(oneJob._id),
+      likedJob: myUser.likedJobs.includes(oneJob._id),
+      reportedJob: myUser.reportedJobs.includes(oneJob._id),
+      myJob: myUser.addedJobs.includes(oneJob._id),
+      appliedJob: myUser.appliedJobs.includes(oneJob._id),
+    }));
+    res.status(200).json({
+      error: false,
+      data: jobList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getOneMyJob = async (req, res) => {
   try {
     const { email } = req.user;
@@ -671,4 +712,5 @@ module.exports = {
   getMyLikedJobs,
   getMyReportedJobs,
   applyJob,
+  getMyAppledJobs,
 };
