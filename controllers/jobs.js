@@ -451,16 +451,14 @@ const getOneJob = async (req, res) => {
         message: "Job not found",
       });
     } else {
-      const newJob = await job.findOne({ _id: id });
+      const newJob = await job
+        .findOne({ _id: id })
+        .populate("applicants", "name email surname image");
       var addedJob = false;
       var savedJob = false;
       var likedJob = false;
       var reportedJob = false;
       var appliedJob = false;
-      const applicantsList = await job
-        .findById(newJob._id)
-        .populate("applicants"); // Specify the
-
       if (email) {
         const myUser = await user.findOne({ email: email });
         // if (myUser.addedJobs.contains(newJob._id)) {
@@ -485,7 +483,6 @@ const getOneJob = async (req, res) => {
           likeJob: likedJob,
           reportedJob: reportedJob,
           appliedJob: appliedJob,
-          applicantsList: applicantsList,
         };
         res.status(200).json({
           error: false,
