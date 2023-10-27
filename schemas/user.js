@@ -114,6 +114,10 @@ const User = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    privateMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

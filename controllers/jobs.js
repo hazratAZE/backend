@@ -631,6 +631,7 @@ const applyJob = async (req, res) => {
     });
   }
 };
+
 function scheduleJobStatusUpdate(jobId, date) {
   schedule.scheduleJob(date, async () => {
     try {
