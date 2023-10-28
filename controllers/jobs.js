@@ -4,7 +4,9 @@ const schedule = require("node-schedule");
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
-    const filter = {};
+    const filter = {
+      status: "active",
+    };
     var jobs = [];
     const { typing } = req.query;
     if (req.query.type) {
