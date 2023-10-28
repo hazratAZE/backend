@@ -15,6 +15,7 @@ const {
   applyJob,
   getMyAppledJobs,
   deleteJob,
+  editJob,
 } = require("../controllers/jobs");
 const { verifyJwt } = require("../middleware/jwt");
 const routes = express.Router();
@@ -33,5 +34,6 @@ routes.get("/myLikedJobs", verifyJwt, getMyLikedJobs);
 routes.post("/applyJob", verifyJwt, applyJob);
 routes.get("/getMyAppliedJobs", verifyJwt, getMyAppledJobs);
 routes.post("/deleteJob", verifyJwt, deleteJob);
+routes.post("/editJob", verifyJwt, editJob);
 
 module.exports = routes;

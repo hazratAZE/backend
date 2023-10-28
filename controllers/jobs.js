@@ -733,6 +733,61 @@ const deleteJob = async (req, res) => {
     });
   }
 };
+const editJob = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      lauch,
+      term,
+      salary,
+      location,
+      city,
+      category,
+      id,
+    } = req.body;
+    const { email } = req.user;
+    if (
+      !title ||
+      !category ||
+      !location ||
+      !salary ||
+      !description ||
+      !city ||
+      !term ||
+      !lauch
+    ) {
+      res.status(419).json({
+        error: true,
+        message: "Missing required",
+      });
+    } else {
+      await job.updateOne(
+        { _id: id },
+        {
+          title: title,
+          category: category,
+          description: description,
+          city: city,
+          salary: salary,
+          location: location,
+          term: term,
+          lauch: lauch,
+        }
+      );
+      const newJob = await job.findOne({ _id: id });
+      res.status(200).json({
+        error: false,
+        data: newJob,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 function scheduleJobStatusUpdate(jobId, date) {
   schedule.scheduleJob(date, async () => {
     try {
@@ -765,4 +820,5 @@ module.exports = {
   applyJob,
   getMyAppledJobs,
   deleteJob,
+  editJob,
 };
