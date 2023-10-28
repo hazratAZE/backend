@@ -393,7 +393,8 @@ const getMyAppledJobs = async (req, res) => {
     const jobIds = myUser.appliedJobs; // Sadece iş kimliklerini alıyoruz
 
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const allJobs = await job.find({ _id: { $in: jobIds } });
+    var allJobs = await job.find({ _id: { $in: jobIds } });
+    allJobs = await allJobs.filter((job) => job.status !== "deleted");
     jobList = allJobs.map((oneJob) => ({
       ...oneJob._doc,
       savedJob: myUser.savedJobs.includes(oneJob._id),
