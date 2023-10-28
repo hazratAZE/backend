@@ -694,7 +694,37 @@ const applyJob = async (req, res) => {
     });
   }
 };
+const deleteJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
 
+    if (!myUser && !myJob && !id && !email) {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      myUser.addedJobs = myUser.addedJobs.filter(
+        (likedJob) => likedJob._id.toString() !== myJob._id.toString()
+      );
+      myJob.status = "deleted";
+      await myJob.save();
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Job deleted successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 function scheduleJobStatusUpdate(jobId, date) {
   schedule.scheduleJob(date, async () => {
     try {
@@ -726,4 +756,5 @@ module.exports = {
   getMyReportedJobs,
   applyJob,
   getMyAppledJobs,
+  deleteJob,
 };
