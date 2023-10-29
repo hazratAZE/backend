@@ -462,39 +462,55 @@ const getOneJob = async (req, res) => {
       const newJob = await job
         .findOne({ _id: id })
         .populate("applicants", "name email surname image");
+
       var addedJob = false;
       var savedJob = false;
       var likedJob = false;
       var reportedJob = false;
       var appliedJob = false;
+      var timeToEnd = 0; // Initialize timeToEnd to 0
+
       if (email) {
         const myUser = await user.findOne({ email: email });
-        // if (myUser.addedJobs.contains(newJob._id)) {
-        //   myJob = true;
-        // }
         addedJob = myUser.addedJobs.includes(newJob._id);
         savedJob = myUser.savedJobs.includes(newJob._id);
         likedJob = myUser.likedJobs.includes(newJob._id);
         reportedJob = myUser.reportedJobs.includes(newJob._id);
         appliedJob = myUser.appliedJobs.includes(newJob._id);
       }
-      if (!newJob) {
+
+      if (newJob) {
+        if (newJob.endDate) {
+          const now = new Date();
+          const endDate = new Date(newJob.endDate);
+          timeToEnd = Math.max(0, endDate - now);
+
+          const formattedTimeToEnd = formatTimeRemaining(timeToEnd);
+
+          const jobWithMyStatus = {
+            ...newJob._doc,
+            addedJob: addedJob,
+            savedJob: savedJob,
+            likeJob: likedJob,
+            reportedJob: reportedJob,
+            appliedJob: appliedJob,
+            timeToEnd: formattedTimeToEnd,
+          };
+
+          res.status(200).json({
+            error: false,
+            data: jobWithMyStatus,
+          });
+        } else {
+          res.status(200).json({
+            error: false,
+            data: newJob,
+          });
+        }
+      } else {
         res.status(404).json({
           error: true,
           message: "Job not found",
-        });
-      } else {
-        const jobWithMyStatus = {
-          ...newJob._doc, // Convert newJob to a plain JavaScript object
-          addedJob: addedJob,
-          savedJob: savedJob,
-          likeJob: likedJob,
-          reportedJob: reportedJob,
-          appliedJob: appliedJob,
-        };
-        res.status(200).json({
-          error: false,
-          data: jobWithMyStatus,
         });
       }
     }
@@ -804,6 +820,38 @@ function scheduleJobStatusUpdate(jobId, date) {
     }
   });
 }
+function formatTimeRemaining(milliseconds) {
+  const seconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  const remainingHours = hours % 24;
+  const remainingMinutes = minutes % 60;
+  const remainingSeconds = seconds % 60;
+
+  const timeParts = [];
+
+  if (days > 0) {
+    timeParts.push(`${days} day${days > 1 ? "s" : ""}`);
+  }
+  if (remainingHours > 0) {
+    timeParts.push(`${remainingHours} hour${remainingHours > 1 ? "s" : ""}`);
+  }
+  if (remainingMinutes > 0) {
+    timeParts.push(
+      `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
+    );
+  }
+  if (remainingSeconds > 0) {
+    timeParts.push(
+      `${remainingSeconds} second${remainingSeconds > 1 ? "s" : ""}`
+    );
+  }
+
+  return timeParts.join(" ");
+}
+
 module.exports = {
   getAllJobs,
   createJob,

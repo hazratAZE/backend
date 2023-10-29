@@ -63,6 +63,9 @@ const Job = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    endDate: {
+      type: Date,
+    },
     saveUsers: {
       type: [
         {
@@ -86,5 +89,15 @@ const Job = new mongoose.Schema(
     timestamps: true,
   }
 );
+Job.pre("save", function (next) {
+  // Check if "endDate" is not already set
+  if (!this.endDate) {
+    // Calculate the endDate by adding 3 days to the createdAt date
+    const endDate = new Date(this.createdAt);
+    endDate.setDate(endDate.getDate() + 3);
+    this.endDate = endDate;
+  }
 
+  next();
+});
 module.exports = mongoose.model("Job", Job);
