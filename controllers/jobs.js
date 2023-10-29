@@ -821,14 +821,12 @@ function scheduleJobStatusUpdate(jobId, date) {
   });
 }
 function formatTimeRemaining(milliseconds) {
-  const seconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(seconds / 60);
+  const minutes = Math.floor(milliseconds / 1000 / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
   const remainingHours = hours % 24;
   const remainingMinutes = minutes % 60;
-  const remainingSeconds = seconds % 60;
 
   const timeParts = [];
 
@@ -841,11 +839,6 @@ function formatTimeRemaining(milliseconds) {
   if (remainingMinutes > 0) {
     timeParts.push(
       `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
-    );
-  }
-  if (remainingSeconds > 0) {
-    timeParts.push(
-      `${remainingSeconds} second${remainingSeconds > 1 ? "s" : ""}`
     );
   }
 
