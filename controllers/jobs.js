@@ -173,11 +173,8 @@ const createJob = async (req, res) => {
     // Save the new job to the database
     const savedJob = await newJob.save();
     // Schedule a job status update for 3 days in the future
-    const threeDaysFromNow = new Date();
-    threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
-
     // Schedule the job status update
-    scheduleJobStatusUpdate(savedJob._id, threeDaysFromNow);
+    scheduleJobStatusUpdate(savedJob._id, savedJob.endDate);
 
     // Add the job object to the 'addedJobs' array of the user
     existingUser.addedJobs.push(savedJob);
