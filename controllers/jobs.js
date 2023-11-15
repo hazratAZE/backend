@@ -75,6 +75,8 @@ const createJob = async (req, res) => {
       createdBy,
       agreement,
       category,
+      longitude,
+      latitude,
     } = req.body;
 
     // Check if any required fields are empty
@@ -105,6 +107,13 @@ const createJob = async (req, res) => {
         error: {
           type: "lauch",
           message: "Launch section is required",
+        },
+      });
+    } else if (!longitude || !latitude) {
+      return res.status(419).json({
+        error: {
+          type: "map",
+          message: "Please enter latitude and longitude",
         },
       });
     } else if (!term) {
@@ -167,7 +176,9 @@ const createJob = async (req, res) => {
       category,
       email: existingUser.email,
       image: existingUser.image,
-      createdBy: existingUser, // Assign the user's ID as the 'createdBy' value
+      createdBy: existingUser,
+      longitude,
+      latitude, // Assign the user's ID as the 'createdBy' value
     });
 
     // Save the new job to the database
