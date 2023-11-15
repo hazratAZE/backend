@@ -26,14 +26,6 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
     agreement: {
       type: Boolean,
       required: true,
@@ -59,10 +51,6 @@ const Job = new mongoose.Schema(
       required: true,
     },
     city: {
-      type: String,
-      required: true,
-    },
-    company: {
       type: String,
       required: true,
     },

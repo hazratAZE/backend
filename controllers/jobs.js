@@ -172,11 +172,8 @@ const createJob = async (req, res) => {
       location,
       city,
       agreement,
-      company: existingUser.name + " " + existingUser.surname,
       category,
-      email: existingUser.email,
-      image: existingUser.image,
-      createdBy: existingUser,
+      createdBy: existingUser._id,
       longitude,
       latitude, // Assign the user's ID as the 'createdBy' value
     });
@@ -234,9 +231,7 @@ const getAllMyJobs = async (req, res) => {
         message: "Kullanıcı bulunamadı",
       });
     }
-
     const jobIds = myUser.addedJobs; // Sadece iş kimliklerini alıyoruz
-
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
     const allJobs = await job.find({ _id: { $in: jobIds } });
     jobList = allJobs.map((oneJob) => ({
@@ -470,13 +465,17 @@ const getOneJob = async (req, res) => {
       const newJob = await job
         .findOne({ _id: id })
         .populate("applicants", "name email surname image");
-
+      const userFromId = await user.findOne(newJob.createdBy);
       var addedJob = false;
       var savedJob = false;
       var likedJob = false;
       var reportedJob = false;
       var appliedJob = false;
-      var timeToEnd = 0; // Initialize timeToEnd to 0
+      var timeToEnd = 0;
+      const company = userFromId.name + " " + userFromId.surname;
+      const userEmail = userFromId.email;
+      const userImage = userFromId.image;
+      // Initialize timeToEnd to 0
 
       if (email) {
         const myUser = await user.findOne({ email: email });
@@ -497,6 +496,9 @@ const getOneJob = async (req, res) => {
 
           const jobWithMyStatus = {
             ...newJob._doc,
+            company: company,
+            email: userEmail,
+            image: userImage,
             addedJob: addedJob,
             savedJob: savedJob,
             likeJob: likedJob,
