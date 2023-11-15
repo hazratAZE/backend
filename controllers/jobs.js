@@ -236,6 +236,9 @@ const getAllMyJobs = async (req, res) => {
     const allJobs = await job.find({ _id: { $in: jobIds } });
     jobList = allJobs.map((oneJob) => ({
       ...oneJob._doc,
+      company: myUser.name + " " + myUser.surname,
+      email: myUser.email,
+      image: myUser.image,
       savedJob: myUser.savedJobs.includes(oneJob._id),
       likedJob: myUser.likedJobs.includes(oneJob._id),
       reportedJob: myUser.reportedJobs.includes(oneJob._id),
