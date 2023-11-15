@@ -29,23 +29,51 @@ const getAllJobs = async (req, res) => {
     }
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
-      jobs = allJobs.map((oneJob) => ({
-        ...oneJob._doc,
-        savedJob: myUser.savedJobs.includes(oneJob._id),
-        likedJob: myUser.likedJobs.includes(oneJob._id),
-        reportedJob: myUser.reportedJobs.includes(oneJob._id),
-        myJob: myUser.addedJobs.includes(oneJob._id),
-        appliedJobs: myUser.appliedJobs.includes(oneJob._id),
-      }));
+      jobs = await Promise.all(
+        allJobs.map(async (oneJob) => {
+          try {
+            const newUser = await user.findOne(oneJob.createdBy);
+            return {
+              ...oneJob._doc,
+              company: newUser.name,
+              image: newUser.image,
+              email: newUser.email,
+              savedJob: myUser.savedJobs.includes(oneJob._id),
+              likedJob: myUser.likedJobs.includes(oneJob._id),
+              reportedJob: myUser.reportedJobs.includes(oneJob._id),
+              myJob: myUser.addedJobs.includes(oneJob._id),
+              appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+            };
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+            // Handle error if necessary, e.g., return the original job details
+            return oneJob._doc;
+          }
+        })
+      );
     } else {
-      jobs = allJobs.map((oneJob) => ({
-        ...oneJob._doc,
-        savedJob: false,
-        likedJob: false,
-        reportedJob: false,
-        myJob: false,
-        appliedJob: false,
-      }));
+      jobs = await Promise.all(
+        allJobs.map(async (oneJob) => {
+          try {
+            const newUser = await user.findOne(oneJob.createdBy);
+            return {
+              ...oneJob._doc,
+              company: newUser.name + " " + oneJob.surname,
+              image: newUser.image,
+              email: newUser.email,
+              savedJob: false,
+              likedJob: false,
+              reportedJob: false,
+              myJob: false,
+              appliedJobs: false,
+            };
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+            // Handle error if necessary, e.g., return the original job details
+            return oneJob._doc;
+          }
+        })
+      );
     }
     // Fetch jobs with the applied filter
 
