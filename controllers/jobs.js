@@ -35,7 +35,7 @@ const getAllJobs = async (req, res) => {
             const newUser = await user.findOne(oneJob.createdBy);
             return {
               ...oneJob._doc,
-              company: newUser.name,
+              company: newUser.name + " " + oneJob.surname,
               image: newUser.image,
               email: newUser.email,
               savedJob: myUser.savedJobs.includes(oneJob._id),
