@@ -305,14 +305,28 @@ const getMySavedJobs = async (req, res) => {
 
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
     const allJobs = await job.find({ _id: { $in: jobIds } });
-    jobList = allJobs.map((oneJob) => ({
-      ...oneJob._doc,
-      savedJob: myUser.savedJobs.includes(oneJob._id),
-      likedJob: myUser.likedJobs.includes(oneJob._id),
-      reportedJob: myUser.reportedJobs.includes(oneJob._id),
-      myJob: myUser.addedJobs.includes(oneJob._id),
-      appliedJob: myUser.appliedJobs.includes(oneJob._id),
-    }));
+    jobList = await Promise.all(
+      allJobs.map(async (oneJob) => {
+        try {
+          const newUser = await user.findOne(oneJob.createdBy);
+          return {
+            ...oneJob._doc,
+            company: newUser.name + " " + newUser.surname,
+            image: newUser.image,
+            email: newUser.email,
+            savedJob: myUser.savedJobs.includes(oneJob._id),
+            likedJob: myUser.likedJobs.includes(oneJob._id),
+            reportedJob: myUser.reportedJobs.includes(oneJob._id),
+            myJob: myUser.addedJobs.includes(oneJob._id),
+            appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+          };
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+          // Handle error if necessary, e.g., return the original job details
+          return oneJob._doc;
+        }
+      })
+    );
     res.status(200).json({
       error: false,
       data: jobList,
