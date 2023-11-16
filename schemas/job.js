@@ -32,7 +32,7 @@ const Job = new mongoose.Schema(
     },
     type: {
       type: String,
-      default: "daily",
+      required: true,
     },
     status: {
       type: Object,

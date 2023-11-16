@@ -172,6 +172,13 @@ const createJob = async (req, res) => {
           message: "Loaction must be at least 2 characters",
         },
       });
+    } else if (!type) {
+      return res.status(419).json({
+        error: {
+          type: "type",
+          message: "Type section is required",
+        },
+      });
     } else if (!city) {
       return res.status(419).json({
         error: {
