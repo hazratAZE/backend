@@ -10,10 +10,6 @@ const User = new mongoose.Schema(
       type: String,
       required: [true, "Surname is required"],
     },
-    fatherName: {
-      type: String,
-      required: [true, "Father name is required"],
-    },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -21,7 +17,10 @@ const User = new mongoose.Schema(
     },
     jobCatagory: {
       type: String,
-      required: [true, "Job catagory is required"],
+    },
+    role: {
+      type: String,
+      default: "user",
     },
     password: {
       type: String,
@@ -92,7 +91,6 @@ const User = new mongoose.Schema(
     },
     city: {
       type: String,
-      required: true,
     },
     cv: {
       type: String,

@@ -30,17 +30,8 @@ const getAllUsers = async (req, res) => {
   }
 };
 const registerUser = async (request, response) => {
-  const {
-    name,
-    surname,
-    fatherName,
-    email,
-    jobCatagory,
-    city,
-    password,
-    confirmPassword,
-    agreement,
-  } = request.body;
+  const { name, surname, email, password, confirmPassword, agreement } =
+    request.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -54,32 +45,13 @@ const registerUser = async (request, response) => {
       response.status(419).json({
         error: { type: "name", message: "Name is required" },
       });
-    } else if (!city) {
-      response.status(419).json({
-        error: { type: "city", message: "City is required" },
-      });
     } else if (!surname) {
       response.status(419).json({
         error: { type: "surname", message: "Surname is required" },
       });
-    } else if (!fatherName) {
-      response.status(419).json({
-        error: { type: "fatherName", message: "Father name is required" },
-      });
-    } else if (!agreement) {
-      response.status(419).json({
-        error: { type: "agreement", message: "Agreement is required" },
-      });
     } else if (!validator.validate(email)) {
       response.status(419).json({
         error: { type: "email", message: "Please enter a valid email address" },
-      });
-    } else if (!jobCatagory) {
-      response.status(419).json({
-        error: {
-          type: "jobCatagory",
-          message: "Job catagory section is required",
-        },
       });
     } else if (password.length < 6) {
       response.status(419).json({
@@ -95,17 +67,18 @@ const registerUser = async (request, response) => {
           message: "Confirm password not same",
         },
       });
+    } else if (!agreement) {
+      response.status(419).json({
+        error: { type: "agreement", message: "Agreement is required" },
+      });
     } else {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
       const newUser = new User({
         name: name,
         surname: surname,
-        fatherName: fatherName,
         email: email,
         agreement: agreement,
-        city: city,
-        jobCatagory: jobCatagory,
         password: hashPassword,
       });
       newUser
