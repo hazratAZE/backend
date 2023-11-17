@@ -472,7 +472,7 @@ const addNewPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { name, surname, fatherName, status, city, jobCatagory } = req.body;
+    const { name, surname } = req.body;
     const { email } = req.user;
 
     if (!email) {
@@ -488,27 +488,12 @@ const updateUser = async (req, res) => {
       res.status(419).json({
         error: { type: "surname", message: "Surname is required" },
       });
-    } else if (!fatherName) {
-      res.status(419).json({
-        error: { type: "fatherName", message: "Father name is required" },
-      });
-    } else if (!jobCatagory) {
-      res.status(419).json({
-        error: {
-          type: "jobCatagory",
-          message: "Job catagory section is required",
-        },
-      });
     } else {
       await User.updateOne(
         { email: email },
         {
           name: name,
           surname: surname,
-          fatherName: fatherName,
-          status: status,
-          city: city,
-          jobCatagory: jobCatagory,
         }
       );
       const myUser = await User.findOne({ email: email });
