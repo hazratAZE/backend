@@ -406,7 +406,8 @@ const getMyReportedJobs = async (req, res) => {
     const jobIds = myUser.reportedJobs; // Sadece iş kimliklerini alıyoruz
 
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const allJobs = await job.find({ _id: { $in: jobIds } });
+    const allJobsList = await job.find({ _id: { $in: jobIds } });
+    const allJobs = allJobsList.filter((job) => job.status !== "deleted");
     jobList = await Promise.all(
       allJobs.map(async (oneJob) => {
         try {
