@@ -299,7 +299,6 @@ const getMySavedJobs = async (req, res) => {
         message: "Kimlik doğrulama başarısız",
       });
     }
-
     const myUser = await user.findOne({ email: email });
     if (!myUser) {
       return res.status(404).json({
@@ -308,10 +307,10 @@ const getMySavedJobs = async (req, res) => {
       });
     }
 
-    const jobIds = myUser.savedJobs; // Sadece iş kimliklerini alıyoruz
-
+    const jobIds = myUser.savedJobs;
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const allJobs = await job.find({ _id: { $in: jobIds } });
+    const allJobsList = await job.find({ _id: { $in: jobIds } });
+    const allJobs = allJobsList.filter((job) => job.status !== "deleted");
     jobList = await Promise.all(
       allJobs.map(async (oneJob) => {
         try {
