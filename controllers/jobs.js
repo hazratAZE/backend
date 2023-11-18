@@ -8,7 +8,7 @@ const getAllJobs = async (req, res) => {
       status: "active",
     };
     var jobs = [];
-    const { typing } = req.query;
+    const { typing, limit } = req.query;
     if (req.query.type) {
       filter.type = req.query.type;
     }
@@ -22,6 +22,9 @@ const getAllJobs = async (req, res) => {
       filter.category = req.query.category;
     }
     var allJobs = await job.find(filter).sort({ createdAt: -1 });
+    if (limit) {
+      allJobs = allJobs.slice(0, parseInt(limit));
+    }
     if (req.query.typing) {
       allJobs = allJobs.filter((oneJob) =>
         oneJob.title.toLocaleLowerCase().includes(typing)
