@@ -6,6 +6,7 @@ const catagories = require("./routes/catagories");
 const job = require("./routes/job");
 const pages = require("./routes/pages");
 const news = require("./routes/news");
+const notifications = require("./routes/notifications");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
@@ -19,6 +20,8 @@ app.use("/api/v1/catagories/", catagories);
 app.use("/api/v1/jobs/", job);
 app.use("/api/v1/about/", pages);
 app.use("/api/v1/news", news);
+app.use("/api/v1/notifications", notifications);
+
 mongoose
   .connect(process.env.DB_URL)
   .then(

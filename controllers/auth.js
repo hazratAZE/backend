@@ -135,8 +135,8 @@ const verifyEmail = async (req, res) => {
             await user.updateOne({ _id: userId }, { verified: true });
             const myUser = await user.findOne({ _id: userId });
             const notification = await createNotification(
-              "Welcome to Workly!",
-              "Welcome to Workly!",
+              `${myUser.name} ${myUser.surname} Workly'e xos geldiniz!`,
+              "Qeydiyyatiniz ugurla tamamlandi!",
               myUser.image,
               myUser._id,
               "general"
