@@ -105,7 +105,12 @@ const User = new mongoose.Schema(
       default: [],
     },
     notifications: {
-      type: [String],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Notifications",
+        },
+      ],
       default: [],
     },
     type: {
