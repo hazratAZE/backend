@@ -2,7 +2,7 @@ const news = require("../schemas/news");
 
 const getAllNews = async (req, res) => {
   try {
-    const allNews = await news.find();
+    const allNews = await news.find().sort({ createdAt: -1 });
     res.status(200).json({
       error: false,
       data: allNews,
