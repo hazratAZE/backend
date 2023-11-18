@@ -10,7 +10,7 @@ const createNotification = async (title, body, image, onPress, type) => {
       type: type,
     });
     await newNotification.save();
-    return newNotification;
+    return newNotification._id;
   } catch (error) {
     console.log(error);
   }
