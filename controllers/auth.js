@@ -134,14 +134,14 @@ const verifyEmail = async (req, res) => {
           } else {
             await user.updateOne({ _id: userId }, { verified: true });
             const myUser = await user.findOne({ _id: userId });
-            const notification = createNotification(
+            const notification = await createNotification(
               "Welcome to Workly!",
               "Welcome to Workly!",
               myUser.image,
               myUser._id,
               "general"
             );
-            myUser.notifications = myUser.notifications.push(notification);
+            myUser.notifications.push(notification);
             myUser.save();
             UserOTPVerification.deleteMany({ userId: userId });
             res.status(201).json({
