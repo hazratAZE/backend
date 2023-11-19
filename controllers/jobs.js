@@ -221,14 +221,6 @@ const createJob = async (req, res) => {
 
     // Save the new job to the database
     const savedJob = await newJob.save();
-    const allUsers = await user.find();
-    for (let index = 0; index < allUsers.length; index++) {
-      sendPushNotification(
-        allUsers[index].fcmToken,
-        "New Job Created",
-        `${savedJob.title},${savedJob.location}`
-      );
-    }
     // Schedule a job status update for 3 days in the future
     // Schedule the job status update
     scheduleJobStatusUpdate(savedJob._id, savedJob.endDate);
@@ -787,6 +779,7 @@ const applyJob = async (req, res) => {
     const { apply } = req.body;
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
+    const owner = await user.findOne({ _id: myJob.createdAt });
     if (myUser && myJob) {
       if (apply) {
         myUser.appliedJobs = myUser.appliedJobs.filter(
@@ -804,6 +797,11 @@ const applyJob = async (req, res) => {
       } else {
         myUser.appliedJobs.push(myJob);
         myJob.applicants.push(myUser);
+        sendPushNotification(
+          owner.fcmToken,
+          "New Apply!",
+          `${myUser.name}${myUser.surname} applied to you job!`
+        );
         await myUser.save();
         await myJob.save();
         res.status(200).json({
