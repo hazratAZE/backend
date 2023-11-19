@@ -8,6 +8,7 @@ var validator = require("email-validator");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { fromBase64 } = require("@aws-sdk/util-base64-node"); // You may need to install this package
 const { createNotification } = require("./notifications");
+const job = require("../schemas/job");
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -361,6 +362,12 @@ const deleteUser = async (req, res) => {
         message: "Authentication failed",
       });
     }
+    await job.updateMany(
+      { createdBy: newUser._id },
+      {
+        $set: { status: "deleted" },
+      }
+    );
     const newUser = await User.findOneAndDelete({ email: email });
     if (!newUser) {
       res.status(419).json({
