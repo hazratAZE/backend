@@ -779,7 +779,7 @@ const applyJob = async (req, res) => {
     const { apply } = req.body;
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
-    const owner = await user.findOne({ _id: myJob.createdAt });
+    const owner = await user.findOne({ _id: myJob.createdBy });
     if (myUser && myJob) {
       if (apply) {
         myUser.appliedJobs = myUser.appliedJobs.filter(
