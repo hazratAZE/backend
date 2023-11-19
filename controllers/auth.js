@@ -362,13 +362,13 @@ const deleteUser = async (req, res) => {
         message: "Authentication failed",
       });
     }
+    const newUser = await User.findOneAndDelete({ email: email });
     await job.updateMany(
-      { createdBy: newUser },
+      { createdBy: newUser._id },
       {
         $set: { status: "deleted" },
       }
     );
-    const newUser = await User.findOneAndDelete({ email: email });
     if (!newUser) {
       res.status(419).json({
         error: true,
