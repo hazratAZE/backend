@@ -800,12 +800,12 @@ const applyJob = async (req, res) => {
         myJob.applicants.push(myUser);
         sendPushNotification(
           owner.fcmToken,
-          "New Apply!",
-          `${myUser.name}${myUser.surname} applied to you job!`
+          "Yeni müraciətiniz var!",
+          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`
         );
         const notification = await createNotification(
-          "New Apply!",
-          `${myUser.name}${myUser.surname} applied to you job!`,
+          "Yeni müraciətiniz var!",
+          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`,
           myUser.image,
           myJob._id,
           "apply"
