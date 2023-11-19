@@ -113,6 +113,9 @@ const User = new mongoose.Schema(
       ],
       default: [],
     },
+    fcmToken: {
+      type: String,
+    },
     type: {
       type: String,
       default: "user",

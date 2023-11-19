@@ -31,8 +31,15 @@ const getAllUsers = async (req, res) => {
   }
 };
 const registerUser = async (request, response) => {
-  const { name, surname, email, password, confirmPassword, agreement } =
-    request.body;
+  const {
+    name,
+    surname,
+    email,
+    password,
+    confirmPassword,
+    agreement,
+    fcmToken,
+  } = request.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -79,6 +86,7 @@ const registerUser = async (request, response) => {
         name: name,
         surname: surname,
         email: email,
+        fcmToken: fcmToken,
         agreement: agreement,
         password: hashPassword,
       });
