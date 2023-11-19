@@ -1,6 +1,9 @@
 const job = require("../schemas/job");
 const user = require("../schemas/user");
 const schedule = require("node-schedule");
+var FCM = require("fcm-node");
+var serverKey = process.env.MY_SERVER_KEY; //put your server key here
+var fcm = new FCM(serverKey);
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
@@ -218,6 +221,14 @@ const createJob = async (req, res) => {
 
     // Save the new job to the database
     const savedJob = await newJob.save();
+    const allUsers = await user.find();
+    for (let index = 0; index < allUsers.length; index++) {
+      sendPushNotification(
+        allUsers[index].fcmToken,
+        "New Job Created",
+        `${savedJob.title},${savedJob.location}`
+      );
+    }
     // Schedule a job status update for 3 days in the future
     // Schedule the job status update
     scheduleJobStatusUpdate(savedJob._id, savedJob.endDate);
@@ -939,7 +950,23 @@ function formatTimeRemaining(milliseconds) {
 
   return timeParts.join(" ");
 }
+const sendPushNotification = (to, title, body) => {
+  var message = {
+    to: to,
 
+    notification: {
+      title: title,
+      body: body,
+    },
+  };
+  fcm.send(message, function (err, response) {
+    if (err) {
+      console.log("Something has gone wrong!");
+    } else {
+      console.log("Successfully sent with response: ", response);
+    }
+  });
+};
 module.exports = {
   getAllJobs,
   createJob,
