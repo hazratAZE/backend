@@ -363,7 +363,7 @@ const deleteUser = async (req, res) => {
       });
     }
     await job.updateMany(
-      { createdBy: newUser._id },
+      { createdBy: newUser },
       {
         $set: { status: "deleted" },
       }
