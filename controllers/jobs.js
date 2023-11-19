@@ -2,6 +2,7 @@ const job = require("../schemas/job");
 const user = require("../schemas/user");
 const schedule = require("node-schedule");
 var FCM = require("fcm-node");
+const { createNotification } = require("./notifications");
 var serverKey = process.env.MY_SERVER_KEY; //put your server key here
 var fcm = new FCM(serverKey);
 const getAllJobs = async (req, res) => {
@@ -802,6 +803,15 @@ const applyJob = async (req, res) => {
           "New Apply!",
           `${myUser.name}${myUser.surname} applied to you job!`
         );
+        const notification = await createNotification(
+          "New Apply!",
+          `${myUser.name}${myUser.surname} applied to you job!`,
+          myUser.image,
+          myJob._id,
+          "apply"
+        );
+        owner.notifications.push(notification);
+        await owner.save();
         await myUser.save();
         await myJob.save();
         res.status(200).json({
