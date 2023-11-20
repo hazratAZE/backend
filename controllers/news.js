@@ -14,6 +14,28 @@ const getAllNews = async (req, res) => {
     });
   }
 };
+const getOneNews = async (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      res.status(404).json({
+        error: true,
+        message: "News not found",
+      });
+    } else {
+      const myNews = await news.findOne({ _id: id });
+      res.status(200).json({
+        error: false,
+        data: myNews,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const createNews = async (req, res) => {
   try {
     const { title, body, image } = req.body;
@@ -51,4 +73,4 @@ const createNews = async (req, res) => {
     });
   }
 };
-module.exports = { getAllNews, createNews };
+module.exports = { getAllNews, createNews, getOneNews };
