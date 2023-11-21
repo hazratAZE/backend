@@ -171,18 +171,18 @@ const createJob = async (req, res) => {
           message: "Term section is required",
         },
       });
+    } else if (!lauch) {
+      return res.status(419).json({
+        error: {
+          type: "lauch",
+          message: "Launch section is required",
+        },
+      });
     } else if (description.length < 60) {
       return res.status(419).json({
         error: {
           type: "description",
           message: "Description must be at least 60 characters",
-        },
-      });
-    } else if (!lauch.length) {
-      return res.status(419).json({
-        error: {
-          type: "lauch",
-          message: "Launch section is required",
         },
       });
     } else if (!agreement) {
