@@ -178,7 +178,7 @@ const createJob = async (req, res) => {
           message: "Description must be at least 60 characters",
         },
       });
-    } else if (!lauch) {
+    } else if (!lauch.length) {
       return res.status(419).json({
         error: {
           type: "lauch",
