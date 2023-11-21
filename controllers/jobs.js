@@ -115,68 +115,18 @@ const createJob = async (req, res) => {
     } = req.body;
 
     // Check if any required fields are empty
-
-    if (title.length < 2) {
-      return res.status(419).json({
-        error: {
-          type: "title",
-          message: "Title must be at least 2 characters",
-        },
-      });
-    } else if (description.length < 60) {
-      return res.status(419).json({
-        error: {
-          type: "description",
-          message: "Description must be at least 60 characters",
-        },
-      });
-    } else if (!agreement) {
-      return res.status(419).json({
-        error: {
-          type: "agreement",
-          message: "Agreement is required",
-        },
-      });
-    } else if (!lauch) {
-      return res.status(419).json({
-        error: {
-          type: "lauch",
-          message: "Launch section is required",
-        },
-      });
-    } else if (!longitude || !latitude) {
-      return res.status(419).json({
-        error: {
-          type: "map",
-          message: "Please enter latitude and longitude",
-        },
-      });
-    } else if (!term) {
-      return res.status(419).json({
-        error: {
-          type: "term",
-          message: "Term section is required",
-        },
-      });
-    } else if (!salary) {
-      return res.status(419).json({
-        error: {
-          type: "salary",
-          message: "Salary section is required",
-        },
-      });
-    } else if (!category) {
+    if (!category) {
       return res.status(419).json({
         error: {
           type: "category",
           message: "Type section is required",
         },
       });
-    } else if (location.length < 2) {
+    } else if (title.length < 2) {
       return res.status(419).json({
         error: {
-          type: "location",
-          message: "Loaction must be at least 2 characters",
+          type: "title",
+          message: "Title must be at least 2 characters",
         },
       });
     } else if (!type) {
@@ -191,6 +141,55 @@ const createJob = async (req, res) => {
         error: {
           type: "city",
           message: "City section is required",
+        },
+      });
+    } else if (location.length < 2) {
+      return res.status(419).json({
+        error: {
+          type: "location",
+          message: "Loaction must be at least 2 characters",
+        },
+      });
+    } else if (!longitude || !latitude) {
+      return res.status(419).json({
+        error: {
+          type: "map",
+          message: "Please enter latitude and longitude",
+        },
+      });
+    } else if (!salary) {
+      return res.status(419).json({
+        error: {
+          type: "salary",
+          message: "Salary section is required",
+        },
+      });
+    } else if (!term) {
+      return res.status(419).json({
+        error: {
+          type: "term",
+          message: "Term section is required",
+        },
+      });
+    } else if (description.length < 60) {
+      return res.status(419).json({
+        error: {
+          type: "description",
+          message: "Description must be at least 60 characters",
+        },
+      });
+    } else if (!lauch) {
+      return res.status(419).json({
+        error: {
+          type: "lauch",
+          message: "Launch section is required",
+        },
+      });
+    } else if (!agreement) {
+      return res.status(419).json({
+        error: {
+          type: "agreement",
+          message: "Agreement is required",
         },
       });
     }
