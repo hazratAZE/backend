@@ -15,7 +15,7 @@ const Job = new mongoose.Schema(
       required: true,
     },
     lauch: {
-      type: Boolean,
+      type: String,
       required: true,
     },
     term: {
