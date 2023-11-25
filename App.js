@@ -7,6 +7,9 @@ const job = require("./routes/job");
 const pages = require("./routes/pages");
 const news = require("./routes/news");
 const notifications = require("./routes/notifications");
+const messages = require("./routes/messages");
+const chat = require("./routes/chat");
+
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
@@ -21,6 +24,8 @@ app.use("/api/v1/jobs/", job);
 app.use("/api/v1/about/", pages);
 app.use("/api/v1/news", news);
 app.use("/api/v1/notifications", notifications);
+app.use("/api/v1/chat", chat);
+app.use("/api/v1/messages", messages);
 
 mongoose
   .connect(process.env.DB_URL)

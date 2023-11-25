@@ -48,6 +48,15 @@ const User = new mongoose.Schema(
       default: [],
       required: true,
     },
+    chat: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Chat",
+        },
+      ],
+      default: [],
+    },
     status: {
       type: String,
       default: "online",
