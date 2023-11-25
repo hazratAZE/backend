@@ -17,6 +17,7 @@ const createChat = async (req, res) => {
         sender: myUser,
         receiver: newUser,
         image: newUser.image,
+        title: newUser.name + " " + newUser.surname,
       });
       await newChat.save();
       myUser.chat.push(newChat);

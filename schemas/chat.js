@@ -25,6 +25,9 @@ const Chat = new mongoose.Schema(
       type: String,
       default: "active",
     },
+    title: {
+      type: String,
+    },
     newMessage: {
       type: Boolean,
       default: false,
