@@ -52,4 +52,32 @@ const getMyChats = async (req, res) => {
     });
   }
 };
-module.exports = { createChat, getMyChats };
+const deleteChat = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myChat = await chat.findOne({ _id: id });
+    if (myUser && myChat) {
+      myUser.chat = myUser.chat.filter(
+        (one) => one._id.toString() !== myChat._id.toString()
+      );
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Chat deleted successfully",
+      });
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+module.exports = { createChat, getMyChats, deleteChat };
