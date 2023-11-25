@@ -18,14 +18,6 @@ const Messages = new mongoose.Schema(
         },
       ],
     },
-    chat: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Chat",
-        },
-      ],
-    },
     image: {
       type: String,
     },
