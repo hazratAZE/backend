@@ -1,5 +1,6 @@
 const messages = require("../schemas/messages");
 const user = require("../schemas/user");
+const { sendPushNotification } = require("./jobs");
 
 const createMessage = async (req, res) => {
   try {
@@ -22,6 +23,11 @@ const createMessage = async (req, res) => {
         image: myUser.image,
       });
       await newMessage.save();
+      sendPushNotification(
+        newUser.fcmToken,
+        `${myUser.name} + ${newUser.surname}`,
+        `${newMessage.content}`
+      );
       res.status(200).json({
         error: false,
         message: "Message seded!",
