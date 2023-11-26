@@ -29,15 +29,20 @@ const createChat = async (req, res) => {
         error: false,
         message: "Chat already exists",
       });
-    } else {
-      const newChat = await chat.create({
-        sender: myUser,
-        receiver: newUser,
-        image: newUser.image,
-        title: newUser.name + " " + newUser.surname,
-        status: "active", // Assuming you set the status while creating a chat
-      });
+    }
+    const newChat = await chat.create({
+      sender: myUser,
+      receiver: newUser,
+      image: newUser.image,
+      title: newUser.name + " " + newUser.surname,
+      status: "active", // Assuming you set the status while creating a chat
+    });
 
+    const existingChatForNewUser = newUser.chat.find(
+      (chat) => chat.receiver.toString() === newUser._id.toString()
+    );
+    console.log(existingChatForNewUser);
+    if (!existingChatForNewUser) {
       const newChatForOther = await chat.create({
         sender: newUser,
         receiver: myUser,
@@ -45,26 +50,17 @@ const createChat = async (req, res) => {
         title: myUser.name + " " + myUser.surname,
         status: "active",
       });
-
-      const existignChatForOther = await chat.findOne({
-        sender: newUser,
-        receiver: myUser,
-        status: "active",
-      });
-      if (!existignChatForOther) {
-        await newChatForOther.save();
-        newUser.chat.push(newChatForOther);
-        await newUser.save();
-      }
-      await newChat.save(), myUser.chat.push(newChat);
-
-      await myUser.save();
-
-      res.status(200).json({
-        error: false,
-        message: "Chat successfully created",
-      });
+      await newChatForOther.save();
+      newUser.chat.push(newChatForOther);
+      await newUser.save();
     }
+    await newChat.save();
+    myUser.chat.push(newChat);
+    await myUser.save();
+    res.status(200).json({
+      error: false,
+      message: "Chat successfully created",
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({
@@ -73,6 +69,7 @@ const createChat = async (req, res) => {
     });
   }
 };
+
 const openChat = async (req, res) => {
   try {
     const { id } = req.body;
