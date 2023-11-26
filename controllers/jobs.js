@@ -991,4 +991,5 @@ module.exports = {
   getMyAppledJobs,
   deleteJob,
   editJob,
+  sendPushNotification,
 };

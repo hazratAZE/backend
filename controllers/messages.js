@@ -1,6 +1,6 @@
-const chat = require("../schemas/chat");
 const messages = require("../schemas/messages");
 const user = require("../schemas/user");
+const { sendPushNotification } = require("./jobs");
 
 const createMessage = async (req, res) => {
   try {
@@ -15,6 +15,7 @@ const createMessage = async (req, res) => {
     } else {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
+
       const newMessage = new messages({
         sender: myUser._id,
         receiver: newUser._id,
@@ -22,13 +23,18 @@ const createMessage = async (req, res) => {
         image: myUser.image,
       });
       await newMessage.save();
-      res.status(404).json({
-        error: true,
+      sendPushNotification(
+        newUser.fcmToken,
+        `${myUser.name} + ${newUser.surname}`,
+        `${newMessage.content}`
+      );
+      res.status(200).json({
+        error: false,
         message: "Message seded!",
       });
     }
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       error: true,
       message: error.message,
     });
@@ -40,22 +46,25 @@ const getMessages = async (req, res) => {
     const { id } = req.body;
     const newUser = await user.findOne({ _id: id });
     const myUser = await user.findOne({ email: email });
+
     if (!myUser || !newUser) {
-      res.status(404).json({
+      return res.status(404).json({
         error: true,
         message: "User not found!",
       });
-    } else {
-      const allMessages = await messages.find({
-        sender: myUser,
-        receiver: newUser,
-        status: "send",
-      });
-      res.status(200).json({
-        error: false,
-        data: allMessages,
-      });
     }
+
+    const allMessages = await messages.find({
+      $or: [
+        { sender: myUser, receiver: newUser },
+        { sender: newUser, receiver: myUser },
+      ],
+      status: { $in: ["send", "read"] }, // Fetch messages with "send" or "read" status
+    });
+    res.status(200).json({
+      error: false,
+      data: allMessages,
+    });
   } catch (error) {
     res.status(500).json({
       error: true,
@@ -63,6 +72,7 @@ const getMessages = async (req, res) => {
     });
   }
 };
+
 const deleteMessage = async (req, res) => {
   try {
     const { email } = req.user;
