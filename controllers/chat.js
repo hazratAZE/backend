@@ -18,45 +18,48 @@ const createChat = async (req, res) => {
     const newUser = await user.findOne({ _id: id });
 
     // Check if active chat already exists between these users
-    const existingChat = await chat.findOne({
+    const myChatExist = await chat.findOne({
       sender: myUser,
       receiver: newUser,
       status: "active",
     });
-
-    if (existingChat) {
-      return res.status(200).json({
-        error: false,
-        message: "Chat already exists",
-      });
-    }
-    const newChat = await chat.create({
-      sender: myUser,
-      receiver: newUser,
-      image: newUser.image,
-      title: newUser.name + " " + newUser.surname,
-      status: "active", // Assuming you set the status while creating a chat
+    const yourChatExists = await chat.findOne({
+      sender: newUser,
+      receiver: myUser,
+      status: "active",
     });
 
-    const existingChatForNewUser = newUser.chat.find(
-      (chat) => chat.receiver.toString() === newUser._id.toString()
-    );
-    console.log(existingChatForNewUser);
-    if (!existingChatForNewUser) {
-      const newChatForOther = await chat.create({
-        sender: newUser,
-        receiver: myUser,
-        image: myUser.image,
-        title: myUser.name + " " + myUser.surname,
+    if (!myChatExist) {
+      const newChatMyUser = new chat({
+        sender: myUser,
+        receiver: newUser,
+        senderImage: myUser.image,
+        receiverImage: newUser.image,
+        senderName: myUser.name + " " + myUser.surname,
+        receiverName: newUser.name + " " + newUser.surname,
         status: "active",
       });
-      await newChatForOther.save();
-      newUser.chat.push(newChatForOther);
-      await newUser.save();
+
+      myUser.chat.push(newChatMyUser);
+
+      await Promise.all([newChatMyUser.save(), myUser.save(), newUser.save()]);
     }
-    await newChat.save();
-    myUser.chat.push(newChat);
-    await myUser.save();
+
+    if (!yourChatExists) {
+      const newChatNewUser = new chat({
+        sender: newUser,
+        receiver: myUser,
+        senderImage: newUser.image,
+        receiverImage: myUser.image,
+        senderName: newUser.name + " " + newUser.surname,
+        receiverName: myUser.name + " " + myUser.surname,
+        status: "active",
+      });
+      newUser.chat.push(newChatNewUser);
+
+      await Promise.all([newChatNewUser.save(), myUser.save(), newUser.save()]);
+    }
+
     res.status(200).json({
       error: false,
       message: "Chat successfully created",
