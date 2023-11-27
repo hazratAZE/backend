@@ -40,6 +40,28 @@ const createMessage = async (req, res) => {
     });
   }
 };
+const getMyNewMessageCount = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const myUser = await user.findOne({ email: email });
+    const allMessagesCount = async () => {
+      const messageCount = await messages.countDocuments({
+        receiver: myUser._id,
+        status: "send", // Include both "send" and "read" statuses
+      });
+      return messageCount ? messageCount : 0;
+    };
+    res.status(200).json({
+      error: false,
+      data: await allMessagesCount(),
+    });
+  } catch (error) {
+    res.status(200).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getMessages = async (req, res) => {
   try {
     const { email } = req.user;
@@ -60,6 +82,7 @@ const getMessages = async (req, res) => {
         { sender: newUser, receiver: myUser },
       ],
       status: { $in: ["send", "read"] }, // Fetch messages with "send" or "read" status
+      status: { $ne: "deleted" }, // Exclude messages with status "deleted"
     });
     res.status(200).json({
       error: false,
@@ -81,15 +104,15 @@ const deleteMessage = async (req, res) => {
     if (!id || !myUser) {
       res.status(404).json({
         error: true,
-        message: "User not found",
+        message: "User not found or message ID missing",
       });
     } else {
       await messages.updateOne(
         {
           _id: id,
-          sender: myUser,
+          sender: myUser._id, // Use myUser._id instead of myUser
         },
-        { status: "deleted" }
+        { $set: { status: "deleted" } } // Use $set to update the status field
       );
       res.status(200).json({
         error: false,
@@ -103,8 +126,10 @@ const deleteMessage = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   createMessage,
   getMessages,
   deleteMessage,
+  getMyNewMessageCount,
 };

@@ -122,7 +122,7 @@ const getMyChats = async (req, res) => {
         receiver: myUser._id,
         status: "send", // Include both "send" and "read" statuses
       });
-      return messageCount;
+      return messageCount ? messageCount : 0;
     };
     const getLastMessage = async (sender, rec) => {
       const lastMessage = await messages
@@ -143,9 +143,29 @@ const getMyChats = async (req, res) => {
         .sort({ createdAt: -1 })
         .limit(1); // Sorting by createdAt and limiting to 1 message
 
-      return lastMessage.length > 0 ? lastMessage[0].content : null;
+      return lastMessage.length > 0 ? lastMessage[0].content : "";
     };
+    const getLastMessageTime = async (sender, rec) => {
+      const lastMessage = await messages
+        .find({
+          $or: [
+            {
+              sender: sender[0],
+              receiver: rec[0],
+              status: { $in: ["send", "read"] },
+            },
+            {
+              sender: rec[0],
+              receiver: sender[0],
+              status: { $in: ["send", "read"] },
+            },
+          ],
+        })
+        .sort({ createdAt: -1 })
+        .limit(1); // Sorting by createdAt and limiting to 1 message
 
+      return lastMessage.length > 0 ? lastMessage[0].createdAt : null;
+    };
     const allChats = await chat.find({ _id: { $in: chatIds } });
 
     const newListPromises = allChats.map(async (oneChat) => ({
@@ -153,6 +173,10 @@ const getMyChats = async (req, res) => {
       newMessageCount: await allMessagesCount(oneChat.receiver),
       newMessage: (await allMessagesCount(oneChat.receiver)) > 0,
       lastMessage: await getLastMessage(oneChat.sender, oneChat.receiver),
+      lastMessageTime: await getLastMessageTime(
+        oneChat.sender,
+        oneChat.receiver
+      ),
     }));
 
     const newList = await Promise.all(newListPromises);
