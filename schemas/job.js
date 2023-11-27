@@ -18,10 +18,6 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
-    term: {
-      type: String,
-      required: true,
-    },
     salary: {
       type: String,
       required: true,
@@ -61,6 +57,12 @@ const Job = new mongoose.Schema(
     },
     endDate: {
       type: Date,
+    },
+    companyName: {
+      type: String,
+    },
+    companyEmail: {
+      type: String,
     },
     saveUsers: {
       type: [

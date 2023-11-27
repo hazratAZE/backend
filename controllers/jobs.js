@@ -102,11 +102,12 @@ const createJob = async (req, res) => {
       title,
       description,
       lauch,
-      term,
       salary,
       type,
       location,
       city,
+      companyEmail,
+      companyName,
       createdBy,
       agreement,
       category,
@@ -164,13 +165,6 @@ const createJob = async (req, res) => {
           message: "Salary section is required",
         },
       });
-    } else if (!term) {
-      return res.status(419).json({
-        error: {
-          type: "term",
-          message: "Term section is required",
-        },
-      });
     } else if (!lauch) {
       return res.status(419).json({
         error: {
@@ -192,6 +186,20 @@ const createJob = async (req, res) => {
           message: "Agreement is required",
         },
       });
+    } else if (!companyEmail && req.query.type !== "Daily") {
+      return res.status(419).json({
+        error: {
+          type: "companyEmail",
+          message: "Company email is required",
+        },
+      });
+    } else if (!companyName && req.query.type !== "Daily") {
+      return res.status(419).json({
+        error: {
+          type: "companyName",
+          message: "Company name is required",
+        },
+      });
     }
     // Check if the 'createdBy' user exists with the email from req.user
     const existingUser = await user.findOne({ email });
@@ -207,13 +215,14 @@ const createJob = async (req, res) => {
       title,
       description,
       lauch,
-      term,
       salary,
       type,
       location,
       city,
       agreement,
       category,
+      companyEmail: companyEmail,
+      companyName: companyName,
       createdBy: existingUser._id,
       longitude,
       latitude, // Assign the user's ID as the 'createdBy' value
