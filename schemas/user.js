@@ -15,7 +15,7 @@ const User = new mongoose.Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    jobCatagory: {
+    jobCategory: {
       type: String,
     },
     role: {
@@ -100,17 +100,9 @@ const User = new mongoose.Schema(
     city: {
       type: String,
     },
-    cv: {
-      type: String,
-      default: "",
-    },
     rating: {
       type: Number,
       default: 0,
-    },
-    messages: {
-      type: [String],
-      default: [],
     },
     notifications: {
       type: [
@@ -124,13 +116,42 @@ const User = new mongoose.Schema(
     fcmToken: {
       type: String,
     },
-    type: {
-      type: String,
-      default: "user",
-    },
     privateMode: {
       type: Boolean,
       default: false,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    age: {
+      type: String,
+    },
+    experience: {
+      type: String,
+    },
+    latitude: {
+      type: String,
+    },
+    longitude: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    driveLicense: {
+      type: String,
+    },
+    categorySpecific: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
+    about: {
+      type: String,
+    },
+    country: {
+      type: String,
     },
   },
   {
