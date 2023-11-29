@@ -120,7 +120,7 @@ const User = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    phoneNumber: {
+    phone: {
       type: String,
     },
     age: {
