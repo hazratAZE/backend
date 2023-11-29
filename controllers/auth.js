@@ -19,7 +19,23 @@ let transporter = nodemailer.createTransport({
 });
 const getAllUsers = async (req, res) => {
   try {
-    const users = await user.find().sort({ rating: -1 });
+    const { email } = req.query;
+    var users;
+    if (email) {
+      users = await user
+        .find({
+          role: "master",
+          email: { $ne: email }, // Exclude the user with the specified email
+        })
+        .sort({ rating: -1 });
+    } else {
+      users = await user
+        .find({
+          role: "master",
+        })
+        .sort({ rating: -1 });
+    }
+
     res.status(200).json({
       error: false,
       data: users,
