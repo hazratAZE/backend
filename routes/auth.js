@@ -18,7 +18,8 @@ const {
   uploadImage,
   getAllUsers,
   getUserInfo,
-  changePrivateMode,
+  changeCallPermission,
+  changeMapPermission,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -42,6 +43,7 @@ routes.post("/verifyChangeEmail", verifyJwt, verifyChangeEmail);
 routes.post("/sendAgainOtp", sendAgainOtp);
 routes.post("/uploadImage", verifyJwt, uploadImage);
 routes.post("/getUserInfo", getUserInfo);
-routes.post("/changePrivateMode", verifyJwt, changePrivateMode);
+routes.post("/changePrivateMode", verifyJwt, changeCallPermission);
+routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
 
 module.exports = routes;

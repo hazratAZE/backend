@@ -116,9 +116,13 @@ const User = new mongoose.Schema(
     fcmToken: {
       type: String,
     },
-    privateMode: {
+    call: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    map: {
+      type: Boolean,
+      default: true,
     },
     phone: {
       type: String,

@@ -777,7 +777,7 @@ const getUserInfo = async (req, res) => {
     });
   }
 };
-const changePrivateMode = async (req, res) => {
+const changeCallPermission = async (req, res) => {
   try {
     const { email } = req.user;
     const { mode } = req.body;
@@ -789,14 +789,38 @@ const changePrivateMode = async (req, res) => {
       });
     } else {
       if (mode) {
-        myUser.privateMode = true;
+        myUser.call = true;
       } else {
-        myUser.privateMode = false;
+        myUser.call = false;
       }
       await myUser.save();
       res.status(200).json({
         error: false,
-        message: "Private mode has been changed",
+        message: "Call has been changed",
+      });
+    }
+  } catch (error) {}
+};
+const changeMapPermission = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { mode } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      if (mode) {
+        myUser.map = true;
+      } else {
+        myUser.map = false;
+      }
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "Map permission has been changed",
       });
     }
   } catch (error) {}
@@ -877,5 +901,6 @@ module.exports = {
   uploadImage,
   getAllUsers,
   getUserInfo,
-  changePrivateMode,
+  changeCallPermission,
+  changeMapPermission,
 };
