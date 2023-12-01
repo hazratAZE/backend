@@ -12,7 +12,7 @@ const getAllJobs = async (req, res) => {
       status: "active",
     };
     var jobs = [];
-    const { typing, limit } = req.query;
+    const { typing, limit, rating } = req.query;
     if (req.query.type) {
       filter.type = req.query.type;
     }
@@ -26,6 +26,9 @@ const getAllJobs = async (req, res) => {
       filter.category = req.query.category;
     }
     var allJobs = await job.find(filter).sort({ createdAt: -1 });
+    if (rating) {
+      allJobs = await job.find(filter).sort({ rating: 1 });
+    }
     if (limit) {
       allJobs = allJobs.slice(0, parseInt(limit));
     }
@@ -679,13 +682,17 @@ const saveJob = async (req, res) => {
         myUser.savedJobs = myUser.savedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
+        myJob.rating = myJob.rating + 1;
+        await myJob.save();
         await myUser.save();
         res.status(200).json({
           error: false,
           message: "Job unsaved successfully",
         });
       } else {
+        myJob.rating = myJob.rating - 1;
         myUser.savedJobs.push(myJob);
+        await myJob.save();
         await myUser.save();
         res.status(200).json({
           error: false,
@@ -717,6 +724,8 @@ const likeJob = async (req, res) => {
         myUser.likedJobs = myUser.likedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
+        myJob.rating = myJob.rating + 1;
+        await myJob.save();
         await myUser.save();
         res.status(200).json({
           error: false,
@@ -724,6 +733,8 @@ const likeJob = async (req, res) => {
         });
       } else {
         myUser.likedJobs.push(myJob);
+        myJob.rating = myJob.rating - 1;
+        await myJob.save();
         await myUser.save();
         res.status(200).json({
           error: false,
