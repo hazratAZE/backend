@@ -27,7 +27,7 @@ const getAllJobs = async (req, res) => {
     }
     var allJobs = await job.find(filter).sort({ createdAt: -1 });
     if (rating) {
-      allJobs = await job.find(filter).sort({ rating: 1 });
+      allJobs = await job.find(filter).sort({ rating: -1 });
     }
     if (limit) {
       allJobs = allJobs.slice(0, parseInt(limit));
@@ -682,7 +682,7 @@ const saveJob = async (req, res) => {
         myUser.savedJobs = myUser.savedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
-        myJob.rating = myJob.rating + 1;
+        myJob.rating = myJob.rating - 1;
         await myJob.save();
         await myUser.save();
         res.status(200).json({
@@ -690,7 +690,7 @@ const saveJob = async (req, res) => {
           message: "Job unsaved successfully",
         });
       } else {
-        myJob.rating = myJob.rating - 1;
+        myJob.rating = myJob.rating + 1;
         myUser.savedJobs.push(myJob);
         await myJob.save();
         await myUser.save();
@@ -724,7 +724,7 @@ const likeJob = async (req, res) => {
         myUser.likedJobs = myUser.likedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
-        myJob.rating = myJob.rating + 1;
+        myJob.rating = myJob.rating - 1;
         await myJob.save();
         await myUser.save();
         res.status(200).json({
@@ -733,7 +733,7 @@ const likeJob = async (req, res) => {
         });
       } else {
         myUser.likedJobs.push(myJob);
-        myJob.rating = myJob.rating - 1;
+        myJob.rating = myJob.rating + 1;
         await myJob.save();
         await myUser.save();
         res.status(200).json({
@@ -808,6 +808,7 @@ const applyJob = async (req, res) => {
         myJob.applicants = myJob.applicants.filter(
           (one) => one._id.toString() !== myUser._id.toString()
         );
+        myJob.rating = myJob.rating - 1;
         await myUser.save();
         await myJob.save();
         res.status(200).json({
@@ -829,6 +830,7 @@ const applyJob = async (req, res) => {
           myJob._id,
           "apply"
         );
+        myJob.rating = myJob.rating + 1;
         owner.notifications.push(notification);
         await owner.save();
         await myUser.save();
