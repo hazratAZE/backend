@@ -25,7 +25,14 @@ const changeRoleUser = async (req, res) => {
         messsage: "User not found",
       });
     } else {
-      if (!category) {
+      if (!longitude || !latitude) {
+        res.status(419).json({
+          error: {
+            type: "location",
+            message: "Your device location is not active",
+          },
+        });
+      } else if (!category) {
         res.status(419).json({
           error: {
             type: "category",
@@ -100,13 +107,6 @@ const changeRoleUser = async (req, res) => {
           error: {
             type: "about",
             message: "About section must be at least 60 characters",
-          },
-        });
-      } else if (!longitude || !latitude) {
-        res.status(419).json({
-          error: {
-            type: "location",
-            message: "Your device location is not active",
           },
         });
       } else {
