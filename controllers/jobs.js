@@ -231,11 +231,20 @@ const createJob = async (req, res) => {
       latitude, // Assign the user's ID as the 'createdBy' value
     });
 
+    let endDate = new Date();
+    if (newJob.type === "Daily") {
+      // Add 3 days if the job type is "Daily"
+      endDate.setDate(endDate.getDate() + 3);
+    } else {
+      // Add one month if the job type is not "Daily"
+      endDate.setMonth(endDate.getMonth() + 1);
+    }
     // Save the new job to the database
+    newJob.endDate = endDate;
     const savedJob = await newJob.save();
     // Schedule a job status update for 3 days in the future
     // Schedule the job status update
-    scheduleJobStatusUpdate(savedJob._id, savedJob.endDate);
+    scheduleJobStatusUpdate(savedJob._id, endDate);
 
     // Add the job object to the 'addedJobs' array of the user
     existingUser.addedJobs.push(savedJob);
@@ -564,7 +573,7 @@ const getOneJob = async (req, res) => {
     } else {
       const newJob = await job
         .findOne({ _id: id })
-        .populate("applicants", "name email surname image");
+        .populate("applicants", "name email surname image role");
       const userFromId = await user.findOne(newJob.createdBy);
       var addedJob = false;
       var savedJob = false;
@@ -636,31 +645,50 @@ const updateJobStatus = async (req, res) => {
     const { email } = req.user;
     const { id } = req.query;
     const { status } = req.body;
+
     if (!status) {
-      req.status(404).json({
+      res.status(404).json({
         error: true,
         message: "Please select status",
       });
     } else if (!email) {
-      req.status(404).json({
+      res.status(404).json({
         error: true,
         message: "Authentication failed",
       });
     } else {
       const myUser = await user.findOne({ email: email });
+
       if (!myUser) {
-        req.status(404).json({
+        res.status(404).json({
           error: true,
           message: "Authentication failed",
         });
       } else {
-        await job.updateOne({ _id: id }, { status: status });
-        const myJob = await job.findOne({ _id: id });
-        res.status(200).json({
-          error: false,
-          data: myJob,
-          message: "Status updated successfully",
-        });
+        const currentJob = await job.findOne({ _id: id });
+
+        if (!currentJob) {
+          res.status(404).json({
+            error: true,
+            message: "Job not found",
+          });
+        } else {
+          if (status === "active" && new Date() > currentJob.endDate) {
+            res.status(419).json({
+              error: false,
+              message: "End date has already passed",
+            });
+          } else {
+            await job.updateOne({ _id: id }, { status });
+            const myJob = await job.findOne({ _id: id });
+
+            res.status(200).json({
+              error: false,
+              data: myJob,
+              message: "Status updated successfully",
+            });
+          }
+        }
       }
     }
   } catch (error) {
@@ -670,6 +698,7 @@ const updateJobStatus = async (req, res) => {
     });
   }
 };
+
 const saveJob = async (req, res) => {
   try {
     const { email } = req.user;
