@@ -48,15 +48,8 @@ const getAllUsers = async (req, res) => {
   }
 };
 const registerUser = async (request, response) => {
-  const {
-    name,
-    surname,
-    email,
-    password,
-    confirmPassword,
-    agreement,
-    fcmToken,
-  } = request.body;
+  const { name, surname, email, password, confirmPassword, agreement } =
+    request.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -103,7 +96,6 @@ const registerUser = async (request, response) => {
         name: name,
         surname: surname,
         email: email,
-        fcmToken: fcmToken,
         agreement: agreement,
         password: hashPassword,
       });
@@ -238,7 +230,7 @@ const resendOtpCode = async (user, res) => {
   }
 };
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, fcmtoken } = req.body;
 
   try {
     if (!validator.validate(email)) {
@@ -267,6 +259,8 @@ const loginUser = async (req, res) => {
                 expiresIn: "7d",
               }
             );
+            user.fcmToken = fcmtoken;
+            await user.save();
             res.status(200).json({
               error: false,
               message: "User found",
@@ -357,6 +351,8 @@ const logOut = async (req, res) => {
         message: "Authentication failed",
       });
     } else {
+      newUser.fcmToken = "";
+      await newUser.save();
       res.status(200).json({
         error: false,
         message: "User logged out successfully",
