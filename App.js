@@ -11,6 +11,7 @@ const messages = require("./routes/messages");
 const chat = require("./routes/chat");
 const master = require("./routes/master");
 const appinfo = require("./routes/appinfo");
+const infopush = require("./routes/infopush");
 
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
@@ -30,6 +31,7 @@ app.use("/api/v1/chat", chat);
 app.use("/api/v1/messages", messages);
 app.use("/api/v1/master", master);
 app.use("/api/v1/info", appinfo);
+app.use("/api/v1/infopush", infopush);
 
 mongoose
   .connect(process.env.DB_URL)
