@@ -102,6 +102,13 @@ const changeRoleUser = async (req, res) => {
             message: "About section must be at least 60 characters",
           },
         });
+      } else if (!longitude || !latitude) {
+        res.status(419).json({
+          error: {
+            type: "location",
+            message: "Your device location is not active",
+          },
+        });
       } else {
         await user.updateOne(
           { email: email },
