@@ -56,7 +56,7 @@ const registerUser = async (request, response) => {
       response.status(419).json({
         error: {
           type: "email",
-          message: res.__("this_email_already_registered"),
+          message: response.__("this_email_already_registered"),
         },
       });
     } else if (!name) {
