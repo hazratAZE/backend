@@ -1,0 +1,9 @@
+{
+  "this_email_already_registered": "Этот адрес электронной почты уже зарегистрирован.",
+  "name_section_is_required": "Требуется имя.",
+  "surname_section_is_required": "Требуется фамилия.",
+  "please_enter_valid_email": "Пожалуйста, введите действительный адрес электронной почты.",
+  "password_must_be_6": "Пароль должен содержать не менее 6 символов.",
+  "comfirm_password_not_same": "Подтверждение пароля не совпадает с паролем.",
+  "agreement_required": "Требуется согласие."
+}

@@ -12,11 +12,24 @@ const chat = require("./routes/chat");
 const master = require("./routes/master");
 const appinfo = require("./routes/appinfo");
 const infopush = require("./routes/infopush");
-
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const app = express();
+const path = require("path");
+const { I18n } = require("i18n");
+
+const i18n = new I18n({
+  locales: ["en", "az", "ru"],
+  directory: path.join(__dirname, "localization"),
+  defaultLocale: "en",
+});
+
+app.use(i18n.init);
+app.use((req, res, next) => {
+  i18n.setLocale(req, req.query.lang);
+  next();
+});
 app.use(express.json());
 app.use(fileUpload());
 app.use(cors());

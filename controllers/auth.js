@@ -56,38 +56,50 @@ const registerUser = async (request, response) => {
       response.status(419).json({
         error: {
           type: "email",
-          message: "This email address is already registered",
+          message: res.__("this_email_already_registered"),
         },
       });
     } else if (!name) {
       response.status(419).json({
-        error: { type: "name", message: "Name is required" },
+        error: {
+          type: "name",
+          message: response.__("name_section_is_required"),
+        },
       });
     } else if (!surname) {
       response.status(419).json({
-        error: { type: "surname", message: "Surname is required" },
+        error: {
+          type: "surname",
+          message: response.__("surname_section_is_required"),
+        },
       });
     } else if (!validator.validate(email)) {
       response.status(419).json({
-        error: { type: "email", message: "Please enter a valid email address" },
+        error: {
+          type: "email",
+          message: response.__("please_enter_valid_email"),
+        },
       });
     } else if (password.length < 6) {
       response.status(419).json({
         error: {
           type: "password",
-          message: "Password must be at least 6 characters",
+          message: response.__("password_must_be_6"),
         },
       });
     } else if (password !== confirmPassword) {
       response.status(419).json({
         error: {
           type: "confirmPassword",
-          message: "Confirm password not same",
+          message: response.__("comfirm_password_not_same"),
         },
       });
     } else if (!agreement) {
       response.status(419).json({
-        error: { type: "agreement", message: "Agreement is required" },
+        error: {
+          type: "agreement",
+          message: response.__("agreement_required"),
+        },
       });
     } else {
       const salt = await bcrypt.genSalt(10);

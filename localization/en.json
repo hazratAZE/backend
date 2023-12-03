@@ -1,0 +1,9 @@
+{
+  "this_email_already_registered": "This email address is already registered.",
+  "name_section_is_required": "Name field is required.",
+  "surname_section_is_required": "Surname field is required.",
+  "please_enter_valid_email": "Please enter a valid email address.",
+  "password_must_be_6": "Password must be at least 6 characters.",
+  "comfirm_password_not_same": "Confirm password is not the same as password.",
+  "agreement_required": "Agreement field is required."
+}

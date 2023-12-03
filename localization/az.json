@@ -1,0 +1,9 @@
+{
+  "this_email_already_registered": "Bu email ünvanı artıq qeydiyyatdan keçib.",
+  "name_section_is_required": "Ad sahəsi tələb olunur.",
+  "surname_section_is_required": "Soyad sahəsi tələb olunur.",
+  "please_enter_valid_email": "Zəhmət olmasa düzgün email ünvanı daxil edin.",
+  "password_must_be_6": "Şifrə ən azı 6 simvoldan ibarət olmalıdır.",
+  "comfirm_password_not_same": "Təsdiq şifrəsi əsas şifrə ilə eyni deyil.",
+  "agreement_required": "Razılaşma sahəsi tələb olunur."
+}
