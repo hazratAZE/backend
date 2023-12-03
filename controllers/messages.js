@@ -70,7 +70,7 @@ const getMessages = async (req, res) => {
     const myUser = await user.findOne({ email: email });
 
     if (!myUser || !newUser) {
-      return res.status(404).json({
+      return res.status(419).json({
         error: true,
         message: "User not found!",
       });

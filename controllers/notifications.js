@@ -29,9 +29,9 @@ const getAllMyNotifications = async (req, res) => {
 
     const myUser = await user.findOne({ email: email });
     if (!myUser) {
-      return res.status(404).json({
+      return res.status(419).json({
         error: true,
-        message: "Kullanıcı bulunamadı",
+        message: res.__("user_not_found"),
       });
     }
     const notificationsList = myUser.notifications; // Sadece iş kimliklerini alıyoruz

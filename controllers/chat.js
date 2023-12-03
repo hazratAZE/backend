@@ -79,28 +79,34 @@ const openChat = async (req, res) => {
     const { email } = req.user;
 
     if (!id || !email) {
-      res.status(404).json({
+      res.status(419).json({
         error: true,
         message: "Invalid id or email",
       });
     } else {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
+      if (!newUser) {
+        res.status(419).json({
+          error: true,
+          message: res.__("user_not_found"),
+        });
+      } else {
+        await messages.updateMany(
+          {
+            sender: newUser._id,
+            receiver: myUser._id,
+            status: "send",
+          },
+          { $set: { status: "read" } }
+        );
 
+        res.status(200).json({
+          error: false,
+          message: "Chat opened and messages updated to read",
+        });
+      }
       // Update messages to "read" sent from newUser to myUser
-      await messages.updateMany(
-        {
-          sender: newUser._id,
-          receiver: myUser._id,
-          status: "send",
-        },
-        { $set: { status: "read" } }
-      );
-
-      res.status(200).json({
-        error: false,
-        message: "Chat opened and messages updated to read",
-      });
     }
   } catch (error) {
     res.status(500).json({
