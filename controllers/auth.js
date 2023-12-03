@@ -247,13 +247,16 @@ const loginUser = async (req, res) => {
   try {
     if (!validator.validate(email)) {
       res.status(419).json({
-        error: { type: "email", message: "Please enter a valid email address" },
+        error: {
+          type: "email",
+          message: res.__("please_enter_valid_email"),
+        },
       });
     } else if (password.length < 6) {
       res.status(419).json({
         error: {
           type: "password",
-          message: "Password must be at least 6 characters",
+          message: res.__("password_must_be_6"),
         },
       });
     } else {
@@ -283,7 +286,7 @@ const loginUser = async (req, res) => {
             res.status(419).json({
               error: {
                 type: "password",
-                message: "Password is not valid",
+                message: res.__("password_is_incorrect"),
               },
             });
           }
@@ -292,7 +295,7 @@ const loginUser = async (req, res) => {
         res.status(419).json({
           error: {
             type: "email",
-            message: "User not found",
+            message: res.__("user_not_found"),
           },
         });
       }
