@@ -7,5 +7,8 @@
   "comfirm_password_not_same": "Подтверждение пароля не совпадает с паролем.",
   "agreement_required": "Требуется согласие.",
   "password_is_incorrect": "Пароль неверный.",
-  "user_not_found": "Пользователь не найден."
+  "user_not_found": "Пользователь не найден.",
+  "please_enter": "Пожалуйста, введите код",
+  "code_is_expired": "Срок действия кода истек.",
+  "code_is_incorrect": "Неверный код."
 }

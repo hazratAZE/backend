@@ -452,7 +452,7 @@ const confirmForgotPasswordEmail = async (req, res) => {
     if (!userId || !otp) {
       res.status(419).json({
         error: true,
-        message: "Empty details not allowed",
+        message: res.__("please_enter"),
       });
     } else {
       const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
@@ -468,13 +468,13 @@ const confirmForgotPasswordEmail = async (req, res) => {
           UserOTPVerification.deleteMany({ userId: userId });
           res.status(419).json({
             error: true,
-            message: "Code is expired",
+            message: res.__("code_is_expired"),
           });
         } else {
           if (password !== otp) {
             res.status(419).json({
               error: true,
-              message: "Code invalid",
+              message: res.__("code_is_incorrect"),
             });
           } else {
             res.status(200).json({
@@ -499,14 +499,14 @@ const addNewPassword = async (req, res) => {
       res.status(419).json({
         error: {
           type: "password",
-          message: "Password must be at least 6 characters",
+          message: res.__("password_must_be_6"),
         },
       });
     } else if (password !== confirmPassword) {
       res.status(419).json({
         error: {
           type: "confirm_password",
-          message: "Confirm password not same as password",
+          message: res.__("comfirm_password_not_same"),
         },
       });
     } else {

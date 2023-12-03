@@ -7,5 +7,8 @@
   "comfirm_password_not_same": "Confirm password is not the same as password.",
   "agreement_required": "Agreement field is required.",
   "password_is_incorrect": "The password is incorrect.",
-  "user_not_found": "User not found."
+  "user_not_found": "User not found.",
+  "please_enter": "Please enter the code",
+  "code_is_expired": "Code is expired.",
+  "code_is_incorrect": "The code is incorrect."
 }
