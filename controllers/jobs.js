@@ -114,6 +114,7 @@ const createJob = async (req, res) => {
       createdBy,
       agreement,
       category,
+      criterion,
       longitude,
       latitude,
     } = req.body;
@@ -166,6 +167,13 @@ const createJob = async (req, res) => {
         error: {
           type: "salary",
           message: "Salary section is required",
+        },
+      });
+    } else if (!criterion) {
+      return res.status(419).json({
+        error: {
+          type: "criterion",
+          message: "Criterion section is required",
         },
       });
     } else if (!lauch) {
@@ -224,6 +232,7 @@ const createJob = async (req, res) => {
       city,
       agreement,
       category,
+      criterion,
       companyEmail: companyEmail,
       companyName: companyName,
       createdBy: existingUser._id,

@@ -34,6 +34,10 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
+    criterion: {
+      type: String,
+      required: true,
+    },
     status: {
       type: Object,
       default: "active",

@@ -17,6 +17,7 @@ const changeRoleUser = async (req, res) => {
       country,
       longitude,
       latitude,
+      agreement,
     } = req.body;
     const myUser = await user.findOne({ email: email });
     if (!myUser) {
@@ -107,6 +108,13 @@ const changeRoleUser = async (req, res) => {
           error: {
             type: "about",
             message: "About section must be at least 60 characters",
+          },
+        });
+      } else if (!agreement) {
+        res.status(419).json({
+          error: {
+            type: "agreement",
+            message: "Agreement section is required",
           },
         });
       } else {
