@@ -10,5 +10,17 @@
   "user_not_found": "İstifadəçi tapılmadı.",
   "please_enter": "Zəhmət olmasa kodu daxil edin",
   "code_is_expired": "Kod vaxtı keçmişdir.",
-  "code_is_incorrect": "Kod səhvdir."
+  "code_is_incorrect": "Kod səhvdir.",
+  "job_category_is_required": "İş kategoriyası sahəsi tələb olunur.",
+  "title_field_is_required": "Başlıq sahəsi tələb olunur.",
+  "type_field_is_required": "Növ sahəsi tələb olunur.",
+  "city_field_is_required": "Şəhər sahəsi tələb olunur.",
+  "address_field_is_required": "Ünvan sahəsi tələb olunur.",
+  "cost_field_is_required": "Əmək haqqı sahəsi tələb olunur.",
+  "criterion_field_is_required": "Kriteriya sahəsi tələb olunur",
+  "lunch_field_is_required": "Nahar sahəsi tələb olunur.",
+  "description_field_is_required": "Ətraflı mətn 60 simvoldan az ola bilməz",
+  "company_email_is_required": "Şirkət e-poçtu tələb olunur",
+  "company_name_is_required": "Şirkət adı tələb olunur",
+  "user_successfully_updated": "İstifadəçi uğurla yeniləndi"
 }

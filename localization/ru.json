@@ -10,5 +10,17 @@
   "user_not_found": "Пользователь не найден.",
   "please_enter": "Пожалуйста, введите код",
   "code_is_expired": "Срок действия кода истек.",
-  "code_is_incorrect": "Неверный код."
+  "code_is_incorrect": "Неверный код.",
+  "job_category_is_required": "Поле категории работы обязательно.",
+  "title_field_is_required": "Поле заголовка обязательно.",
+  "type_field_is_required": "Поле типа обязательно.",
+  "city_field_is_required": "Поле города обязательно.",
+  "address_field_is_required": "Поле адреса обязательно.",
+  "cost_field_is_required": "Поле зарплаты обязательно.",
+  "criterion_field_is_required": "Поле критерия обязательно",
+  "lunch_field_is_required": "Поле обеденного перерыва обязательно.",
+  "description_field_is_required": "Описание должно содержать не менее 60 символов",
+  "company_email_is_required": "Требуется электронная почта компании",
+  "company_name_is_required": "Требуется название компании",
+  "user_successfully_updated": "Пользователь успешно обновлен"
 }

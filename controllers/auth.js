@@ -542,11 +542,14 @@ const updateUser = async (req, res) => {
       });
     } else if (!name) {
       res.status(419).json({
-        error: { type: "name", message: "Name is required" },
+        error: { type: "name", message: res.__("name_section_is_required") },
       });
     } else if (!surname) {
       res.status(419).json({
-        error: { type: "surname", message: "Surname is required" },
+        error: {
+          type: "surname",
+          message: res.__("surname_section_is_required"),
+        },
       });
     } else {
       await User.updateOne(
@@ -559,7 +562,7 @@ const updateUser = async (req, res) => {
       const myUser = await User.findOne({ email: email });
       res.status(200).json({
         error: false,
-        message: "User has been updated",
+        message: res.__("user_successfully_updated"),
         user: myUser,
       });
     }

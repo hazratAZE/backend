@@ -124,35 +124,35 @@ const createJob = async (req, res) => {
       return res.status(419).json({
         error: {
           type: "category",
-          message: "Type section is required",
+          message: res.__("job_category_is_required"),
         },
       });
-    } else if (title.length < 2) {
+    } else if (!title) {
       return res.status(419).json({
         error: {
           type: "title",
-          message: "Title must be at least 2 characters",
+          message: res.__("title_field_is_required"),
         },
       });
     } else if (!type) {
       return res.status(419).json({
         error: {
           type: "type",
-          message: "Type section is required",
+          message: res.__("type_field_is_required"),
         },
       });
     } else if (!city) {
       return res.status(419).json({
         error: {
           type: "city",
-          message: "City section is required",
+          message: res.__("city_field_is_required"),
         },
       });
-    } else if (location.length < 2) {
+    } else if (!location) {
       return res.status(419).json({
         error: {
           type: "location",
-          message: "Loaction must be at least 2 characters",
+          message: res.__("address_field_is_required"),
         },
       });
     } else if (!longitude || !latitude) {
@@ -166,49 +166,49 @@ const createJob = async (req, res) => {
       return res.status(419).json({
         error: {
           type: "salary",
-          message: "Salary section is required",
+          message: res.__("cost_field_is_required"),
         },
       });
     } else if (!criterion) {
       return res.status(419).json({
         error: {
           type: "criterion",
-          message: "Criterion section is required",
+          message: res.__("criterion_field_is_required"),
         },
       });
     } else if (!lauch) {
       return res.status(419).json({
         error: {
           type: "lauch",
-          message: "Launch section is required",
+          message: res.__("lunch_field_is_required"),
         },
       });
     } else if (description.length < 60) {
       return res.status(419).json({
         error: {
           type: "description",
-          message: "Description must be at least 60 characters",
+          message: res.__("description_field_is_required"),
         },
       });
     } else if (!agreement) {
       return res.status(419).json({
         error: {
           type: "agreement",
-          message: "Agreement is required",
+          message: res.__("agreement_required"),
         },
       });
     } else if (!companyEmail && req.query.type !== "Daily") {
       return res.status(419).json({
         error: {
           type: "companyEmail",
-          message: "Company email is required",
+          message: res.__("company_email_is_required"),
         },
       });
     } else if (!companyName && req.query.type !== "Daily") {
       return res.status(419).json({
         error: {
           type: "companyName",
-          message: "Company name is required",
+          message: res.__("company_name_is_required"),
         },
       });
     }

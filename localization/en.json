@@ -10,5 +10,17 @@
   "user_not_found": "User not found.",
   "please_enter": "Please enter the code",
   "code_is_expired": "Code is expired.",
-  "code_is_incorrect": "The code is incorrect."
+  "code_is_incorrect": "The code is incorrect.",
+  "job_category_is_required": "Job category field is required.",
+  "title_field_is_required": "Title field is required.",
+  "type_field_is_required": "Type field is required.",
+  "city_field_is_required": "City field is required.",
+  "address_field_is_required": "Address field is required.",
+  "cost_field_is_required": "Salary field is required.",
+  "criterion_field_is_required": "Criterion field is required",
+  "lunch_field_is_required": "Lunch field is required.",
+  "description_field_is_required": "Description must be at least 60 characters",
+  "company_email_is_required": "Company email is required",
+  "company_name_is_required": "Company name is required",
+  "user_successfully_updated": "User successfully updated"
 }
