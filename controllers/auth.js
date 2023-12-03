@@ -416,13 +416,12 @@ const deleteUser = async (req, res) => {
 };
 const forgotPassword = async (req, res) => {
   try {
-    console.log("hello");
     const { email } = req.body;
-    if (!email) {
+    if (!validator.validate(email)) {
       res.status(419).json({
         error: {
           type: "email",
-          message: "Please enter valid email address",
+          message: res.__("please_enter_valid_email"),
         },
       });
     } else {
@@ -431,7 +430,7 @@ const forgotPassword = async (req, res) => {
         res.status(419).json({
           error: {
             type: "email",
-            message: "User not found",
+            message: res.__("user_not_found"),
           },
         });
       } else {
