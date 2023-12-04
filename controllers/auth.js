@@ -532,9 +532,22 @@ const addNewPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { name, surname } = req.body;
+    const {
+      name,
+      surname,
+      jobCategory,
+      subCategory,
+      city,
+      address,
+      gender,
+      country,
+      phone,
+      age,
+      experience,
+      driveLicense,
+      about,
+    } = req.body;
     const { email } = req.user;
-
     if (!email) {
       res.status(419).json({
         error: true,
@@ -551,12 +564,100 @@ const updateUser = async (req, res) => {
           message: res.__("surname_section_is_required"),
         },
       });
+    } else if (!jobCategory) {
+      res.status(419).json({
+        error: {
+          type: "jobCategory",
+          message: res.__("job_category_is_required"),
+        },
+      });
+    } else if (!subCategory) {
+      res.status(419).json({
+        error: {
+          type: "subCategory",
+          message: res.__("subcategory_field_is_required"),
+        },
+      });
+    } else if (!city) {
+      res.status(419).json({
+        error: {
+          type: "city",
+          message: res.__("city_field_is_required"),
+        },
+      });
+    } else if (!address) {
+      res.status(419).json({
+        error: {
+          type: "address",
+          message: res.__("address_field_is_required"),
+        },
+      });
+    } else if (!gender) {
+      res.status(419).json({
+        error: {
+          type: "gender",
+          message: res.__("gender_field_is_required"),
+        },
+      });
+    } else if (!country) {
+      res.status(419).json({
+        error: {
+          type: "country",
+          message: res.__("country_field_is_required"),
+        },
+      });
+    } else if (!phone) {
+      res.status(419).json({
+        error: {
+          type: "phone",
+          message: res.__("phone_field_is_required"),
+        },
+      });
+    } else if (!age) {
+      res.status(419).json({
+        error: {
+          type: "age",
+          message: res.__("age_field_is_required"),
+        },
+      });
+    } else if (!experience) {
+      res.status(419).json({
+        error: {
+          type: "experience",
+          message: res.__("experiance_field_is_required"),
+        },
+      });
+    } else if (!driveLicense) {
+      res.status(419).json({
+        error: {
+          type: "driveLicense",
+          message: res.__("driver_license_field_is_required"),
+        },
+      });
+    } else if (about.length < 60) {
+      res.status(419).json({
+        error: {
+          type: "about",
+          message: res.__("description_field_is_required"),
+        },
+      });
     } else {
       await User.updateOne(
         { email: email },
         {
           name: name,
           surname: surname,
+          jobCategory: jobCategory,
+          categorySpecific: subCategory,
+          city: city,
+          address: address,
+          gender: gender,
+          country: country,
+          phone: phone,
+          age: age,
+          experience: experience,
+          driveLicense: driveLicense,
+          about: about,
         }
       );
       const myUser = await User.findOne({ email: email });
