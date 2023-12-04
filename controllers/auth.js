@@ -689,28 +689,28 @@ const updatePassword = async (req, res) => {
       res.status(419).json({
         error: {
           type: "password",
-          message: "Password must be at least 6 characters",
+          message: res.__("password_must_be_6"),
         },
       });
     } else if (newPassword.length < 6) {
       res.status(419).json({
         error: {
           type: "newPassword",
-          message: "Password must be at least 6 characters",
+          message: res.__("password_must_be_6"),
         },
       });
     } else if (confirmNewPassword.length < 6) {
       res.status(419).json({
         error: {
           type: "confirmNewPassword",
-          message: "Password must be at least 6 characters",
+          message: res.__("password_must_be_6"),
         },
       });
     } else if (newPassword !== confirmNewPassword) {
       res.status(419).json({
         error: {
           type: "confirmNewPassword",
-          message: "Passwords do not match",
+          message: res.__("comfirm_password_not_same"),
         },
       });
     } else {
@@ -725,12 +725,11 @@ const updatePassword = async (req, res) => {
           oldPassword,
           myUser.password
         );
-        console.log(myUser.password);
         if (!matchPassword) {
           res.status(419).json({
             error: {
               type: "password",
-              message: "Password not correct",
+              message: res.__("password_is_incorrect"),
             },
           });
         } else {
@@ -765,7 +764,7 @@ const changeEmail = async (req, res) => {
       res.status(419).json({
         error: {
           type: "email",
-          message: "Please enter a valid email address",
+          message: res.__("please_enter_valid_email"),
         },
       });
     } else {
@@ -775,7 +774,7 @@ const changeEmail = async (req, res) => {
         res.status(419).json({
           error: {
             type: "email",
-            message: "This email address already exists",
+            message: res.__("this_email_already_registered"),
           },
         });
       } else {
@@ -797,7 +796,7 @@ const verifyChangeEmail = async (req, res) => {
     if (!userId || !otp) {
       res.status(419).json({
         error: true,
-        message: "Empty details not allowed",
+        message: res.__("please_enter"),
       });
     } else {
       const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
@@ -813,13 +812,13 @@ const verifyChangeEmail = async (req, res) => {
           UserOTPVerification.deleteMany({ userId: userId });
           res.status(419).json({
             error: true,
-            message: "Code is expired",
+            message: res.__("code_is_expired"),
           });
         } else {
           if (password !== otp) {
             res.status(419).json({
               error: true,
-              message: "Code invalid",
+              message: res.__("code_is_incorrect"),
             });
           } else {
             await user.updateOne(
