@@ -22,5 +22,13 @@
   "description_field_is_required": "Description must be at least 60 characters",
   "company_email_is_required": "Company email is required",
   "company_name_is_required": "Company name is required",
-  "user_successfully_updated": "User successfully updated"
+  "user_successfully_updated": "User successfully updated",
+  "your_device_location_not_active": "Your device's location is not active",
+  "subcategory_field_is_required": "Subcategory field is required",
+  "age_field_is_required": "Age field is required",
+  "gender_field_is_required": "Gender field is required",
+  "experiance_field_is_required": "Field of experience required",
+  "driver_license_field_is_required": "Driver's license field is required",
+  "country_field_is_required": "Country field is required",
+  "phone_field_is_required": "Phone field is required"
 }

@@ -23,98 +23,98 @@ const changeRoleUser = async (req, res) => {
     if (!myUser) {
       res.status(404).json({
         error: true,
-        messsage: "User not found",
+        message: res.__("user_not_found"),
       });
     } else {
       if (!longitude || !latitude) {
         res.status(419).json({
           error: {
             type: "location",
-            message: "Your device location is not active",
+            message: res.__("your_device_location_not_active"),
           },
         });
       } else if (!category) {
         res.status(419).json({
           error: {
             type: "category",
-            message: "Category is required",
+            message: res.__("job_category_is_required"),
           },
         });
-      } else if (categorySpecific.length < 4) {
+      } else if (!categorySpecific) {
         res.status(419).json({
           error: {
             type: "subcategory",
-            message: "Subcategory is required",
+            message: res.__("subcategory_field_is_required"),
           },
         });
       } else if (!age) {
         res.status(419).json({
           error: {
             type: "age",
-            message: "Age is required",
+            message: res.__("age_field_is_required"),
           },
         });
       } else if (!gender) {
         res.status(419).json({
           error: {
             type: "gender",
-            message: "Gender is required",
+            message: res.__("gender_field_is_required"),
           },
         });
       } else if (!experience) {
         res.status(419).json({
           error: {
             type: "experience",
-            message: "Experience is required",
+            message: res.__("experiance_field_is_required"),
           },
         });
       } else if (!driveLicense) {
         res.status(419).json({
           error: {
             type: "drivelicense",
-            message: "Drive license section is required",
+            message: res.__("driver_license_field_is_required"),
           },
         });
       } else if (!country) {
         res.status(419).json({
           error: {
             type: "country",
-            message: "Country section is required",
+            message: res.__("country_field_is_required"),
           },
         });
       } else if (!phone) {
         res.status(419).json({
           error: {
             type: "phone",
-            message: "Phone section is required",
+            message: res.__("phone_field_is_required"),
           },
         });
       } else if (!city) {
         res.status(419).json({
           error: {
             type: "city",
-            message: "City  section is required",
+            message: res.__("city_field_is_required"),
           },
         });
-      } else if (address.length < 6) {
+      } else if (!address) {
         res.status(419).json({
           error: {
             type: "address",
-            message: "Address section is must be at least 6 charactest",
+            message: res.__("address_field_is_required"),
           },
         });
       } else if (about.length < 60) {
         res.status(419).json({
           error: {
             type: "about",
-            message: "About section must be at least 60 characters",
+            message: res.__("description_field_is_required"),
           },
         });
       } else if (!agreement) {
         res.status(419).json({
           error: {
             type: "agreement",
-            message: "Agreement section is required",
+            message: res.__("agreement_required"),
           },
         });
       } else {

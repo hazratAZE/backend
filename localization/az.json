@@ -22,5 +22,13 @@
   "description_field_is_required": "Ətraflı mətn 60 simvoldan az ola bilməz",
   "company_email_is_required": "Şirkət e-poçtu tələb olunur",
   "company_name_is_required": "Şirkət adı tələb olunur",
-  "user_successfully_updated": "İstifadəçi uğurla yeniləndi"
+  "user_successfully_updated": "İstifadəçi uğurla yeniləndi",
+  "your_device_location_not_active": "Cihazınızın mövqeyi aktiv deyil",
+  "subcategory_field_is_required": "Alt kateqoriya sahəsi tələb olunur",
+  "age_field_is_required": "Yaş sahəsi tələb olunur",
+  "gender_field_is_required": "Cins sahəsi tələb olunur",
+  "experience_field_is_required": "Təcrübə sahəsi tələb olunur",
+  "driver_license_field_is_required": "Sürücülük vəsiqəsi sahəsi tələb olunur",
+  "country_field_is_required": "Ölkə sahəsi tələb olunur",
+  "phone_field_is_required": "Telefon sahəsi tələb olunur"
 }
