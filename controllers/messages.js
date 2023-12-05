@@ -15,23 +15,34 @@ const createMessage = async (req, res) => {
     } else {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
-
-      const newMessage = new messages({
-        sender: myUser._id,
-        receiver: newUser._id,
-        content: content,
-        image: myUser.image,
-      });
-      await newMessage.save();
-      sendPushNotification(
-        newUser.fcmToken,
-        `${myUser.name} ${myUser.surname}`,
-        `${newMessage.content}`
-      );
-      res.status(200).json({
-        error: false,
-        message: "Message seded!",
-      });
+      if (newUser.blockUsers.includes(myUser._id)) {
+        res.status(419).json({
+          error: true,
+          message: res.__("user_blocked_your_account"),
+        });
+      } else if (myUser.blockUsers.includes(newUser._id)) {
+        res.status(419).json({
+          error: true,
+          message: res.__("you_blocked_this_account"),
+        });
+      } else {
+        const newMessage = new messages({
+          sender: myUser._id,
+          receiver: newUser._id,
+          content: content,
+          image: myUser.image,
+        });
+        await newMessage.save();
+        sendPushNotification(
+          newUser.fcmToken,
+          `${myUser.name} ${myUser.surname}`,
+          `${newMessage.content}`
+        );
+        res.status(200).json({
+          error: false,
+          message: "Message seded!",
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
@@ -72,7 +83,7 @@ const getMessages = async (req, res) => {
     if (!myUser || !newUser) {
       return res.status(419).json({
         error: true,
-        message: "User not found!",
+        message: res.__("user_not_found"),
       });
     }
 

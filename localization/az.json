@@ -30,5 +30,7 @@
   "experience_field_is_required": "Təcrübə sahəsi tələb olunur",
   "driver_license_field_is_required": "Sürücülük vəsiqəsi sahəsi tələb olunur",
   "country_field_is_required": "Ölkə sahəsi tələb olunur",
-  "phone_field_is_required": "Telefon sahəsi tələb olunur"
+  "phone_field_is_required": "Telefon sahəsi tələb olunur",
+  "user_blocked_your_account": "İstifadəçi hesabınızı bloklamışdır",
+  "you_blocked_this_account": "Siz bu hesabı blokladınız"
 }

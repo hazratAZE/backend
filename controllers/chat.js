@@ -183,6 +183,7 @@ const getMyChats = async (req, res) => {
         oneChat.sender,
         oneChat.receiver
       ),
+      id: oneChat.receiver._id,
     }));
 
     const newList = await Promise.all(newListPromises);
@@ -235,5 +236,36 @@ const deleteChat = async (req, res) => {
     });
   }
 };
+const blockUser = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id, chatId } = req.body;
+    const myChat = await chat.findOne({ _id: chatId });
+    const myUser = await user.findOne({ email: email });
+    const newUser = await user.findOne({ _id: id });
 
-module.exports = { createChat, getMyChats, deleteChat, openChat };
+    if (!newUser || !newUser) {
+      res.status(419).json({
+        error: true,
+        message: res.__("user_not_found"),
+      });
+    } else {
+      myUser.blockUsers.push(newUser);
+      myUser.chat = myUser.chat.filter(
+        (one) => one._id.toString() !== myChat._id.toString()
+      );
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: "User blocked successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { createChat, getMyChats, deleteChat, openChat, blockUser };

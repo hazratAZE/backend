@@ -30,5 +30,7 @@
   "experience_field_is_required": "Требуется поле опыта",
   "driver_license_field_is_required": "Требуется поле водительского удостоверения",
   "country_field_is_required": "Требуется поле страны",
-  "phone_field_is_required": "Требуется поле телефона"
+  "phone_field_is_required": "Требуется поле телефона",
+  "user_blocked_your_account": "Пользователь заблокировал ваш аккаунт",
+  "you_blocked_this_account": "Вы заблокировали этот аккаунт"
 }

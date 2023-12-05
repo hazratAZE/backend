@@ -88,6 +88,15 @@ const User = new mongoose.Schema(
       ],
       default: [],
     },
+    blockUsers: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
     appliedJobs: {
       type: [
         {

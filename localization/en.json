@@ -30,5 +30,7 @@
   "experiance_field_is_required": "Field of experience required",
   "driver_license_field_is_required": "Driver's license field is required",
   "country_field_is_required": "Country field is required",
-  "phone_field_is_required": "Phone field is required"
+  "phone_field_is_required": "Phone field is required",
+  "user_blocked_your_account": "User blocked your account",
+  "you_blocked_this_account": "You blocked this account"
 }
