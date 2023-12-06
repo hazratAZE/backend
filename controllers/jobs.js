@@ -863,7 +863,10 @@ const applyJob = async (req, res) => {
         sendPushNotification(
           owner.fcmToken,
           "Yeni müraciətiniz var!",
-          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`
+          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`,
+          "apply",
+          myUser._id,
+          myUser.image
         );
         const notification = await createNotification(
           "Yeni müraciətiniz var!",
