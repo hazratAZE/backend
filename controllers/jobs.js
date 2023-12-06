@@ -3,6 +3,7 @@ const user = require("../schemas/user");
 const schedule = require("node-schedule");
 var FCM = require("fcm-node");
 const { createNotification } = require("./notifications");
+var validator = require("email-validator");
 var serverKey = process.env.MY_SERVER_KEY; //put your server key here
 var fcm = new FCM(serverKey);
 const getAllJobs = async (req, res) => {
@@ -141,6 +142,23 @@ const createJob = async (req, res) => {
           message: res.__("type_field_is_required"),
         },
       });
+    } else if (!companyName && req.query.type !== "Daily") {
+      return res.status(419).json({
+        error: {
+          type: "companyName",
+          message: res.__("company_name_is_required"),
+        },
+      });
+    } else if (
+      !validator.validate(companyEmail) &&
+      req.query.type !== "Daily"
+    ) {
+      return res.status(419).json({
+        error: {
+          type: "companyEmail",
+          message: res.__("company_email_is_required"),
+        },
+      });
     } else if (!city) {
       return res.status(419).json({
         error: {
@@ -195,20 +213,6 @@ const createJob = async (req, res) => {
         error: {
           type: "agreement",
           message: res.__("agreement_required"),
-        },
-      });
-    } else if (!companyEmail && req.query.type !== "Daily") {
-      return res.status(419).json({
-        error: {
-          type: "companyEmail",
-          message: res.__("company_email_is_required"),
-        },
-      });
-    } else if (!companyName && req.query.type !== "Daily") {
-      return res.status(419).json({
-        error: {
-          type: "companyName",
-          message: res.__("company_name_is_required"),
         },
       });
     }
