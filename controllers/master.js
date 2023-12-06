@@ -178,7 +178,37 @@ const changeRoleUserToStandard = async (req, res) => {
     });
   }
 };
+const updateUserLocation = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { longitude, latitude } = req.body;
+    if (!email) {
+      res.status(419).json({
+        error: true,
+        message: "User does not exist",
+      });
+    } else {
+      await user.updateOne(
+        { email: email },
+        {
+          longitude: longitude,
+          latitude: latitude,
+        }
+      );
+      res.status(200).json({
+        error: false,
+        message: "User updated successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   changeRoleUser,
   changeRoleUserToStandard,
+  updateUserLocation,
 };
