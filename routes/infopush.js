@@ -36,7 +36,14 @@ routes.post("/create", async function (req, res) {
       });
       await newAppInfo.save();
       allFcmTokens.forEach(async (one) => {
-        await sendPushNotification(one.fcmToken, title, body);
+        await sendPushNotification(
+          one.fcmToken,
+          title,
+          body,
+          "info",
+          one._id,
+          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png"
+        );
       });
       res.status(200).json({
         error: false,
