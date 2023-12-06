@@ -865,7 +865,7 @@ const applyJob = async (req, res) => {
           "Yeni müraciətiniz var!",
           `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`,
           "apply",
-          myUser._id,
+          myUser.email,
           myUser.image
         );
         const notification = await createNotification(
