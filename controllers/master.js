@@ -188,17 +188,24 @@ const updateUserLocation = async (req, res) => {
         message: "User does not exist",
       });
     } else {
-      await user.updateOne(
-        { email: email },
-        {
-          longitude: longitude,
-          latitude: latitude,
-        }
-      );
-      res.status(200).json({
-        error: false,
-        message: "User updated successfully",
-      });
+      if (!longitude || !latitude) {
+        res.status(419).json({
+          error: true,
+          message: "Invalid latitude or longitude",
+        });
+      } else {
+        await user.updateOne(
+          { email: email },
+          {
+            longitude: longitude,
+            latitude: latitude,
+          }
+        );
+        res.status(200).json({
+          error: false,
+          message: "User updated successfully",
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
