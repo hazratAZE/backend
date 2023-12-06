@@ -1021,13 +1021,18 @@ function formatTimeRemaining(milliseconds) {
 
   return timeParts.join(" ");
 }
-const sendPushNotification = (to, title, body) => {
+const sendPushNotification = (to, title, body, type, id, image) => {
   var message = {
     to: to,
 
     notification: {
       title: title,
       body: body,
+    },
+    data: {
+      type: type,
+      id: id,
+      image: image,
     },
   };
   fcm.send(message, function (err, response) {
