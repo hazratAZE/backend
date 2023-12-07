@@ -1,65 +1,177 @@
 const getTerms = (req, res) => {
   try {
-    const data = `
-        **Mobile App Terms and Conditions**
-        
-        **Last Updated: [Date]**
-        
-        Please read these terms and conditions carefully before using our mobile application ("App"). By downloading, installing, or using the App, you agree to comply with and be bound by these terms. If you do not agree with these terms, please do not use the App.
-        
-        **1. License to Use**
-        
-        1.1. We grant you a limited, non-exclusive, non-transferable, revocable license to use the App solely for your personal, non-commercial purposes.
-        
-        1.2. You agree not to:
-           - Use the App for any unlawful purpose.
-           - Modify, adapt, or hack the App or otherwise attempt to gain unauthorized access to the App or its related systems.
-           - Use the App in any way that may disrupt or interfere with its functionality.
-        
-        **2. User Accounts**
-        
-        2.1. Some features of the App may require you to create a user account. You are responsible for maintaining the security of your account and for any actions taken under your account.
-        
-        2.2. You must provide accurate and complete information when creating your account. Failure to do so may result in the termination of your account.
-        
-        **3. Privacy**
-        
-        3.1. Your use of the App is also governed by our Privacy Policy, which is available on our website.
-        
-        **4. Content and Intellectual Property**
-        
-        4.1. The App and its content, including text, images, and software, are protected by copyright and other intellectual property rights. You may not use, modify, distribute, or reproduce any of the content without our explicit permission.
-        
-        **5. Third-Party Services**
-        
-        5.1. The App may include links or features that interact with third-party services. We are not responsible for the availability or quality of these services, and your use of such services is subject to the terms and policies of the third-party providers.
-        
-        **6. Termination**
-        
-        6.1. We reserve the right to terminate or suspend your access to the App, without notice, if you violate these terms or engage in any activity that we deem harmful to other users or the App itself.
-        
-        **7. Disclaimers**
-        
-        7.1. The App is provided "as is" without any warranties, express or implied. We do not warrant that the App will be error-free or uninterrupted.
-        
-        **8. Limitation of Liability**
-        
-        8.1. We shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from your use of the App.
-        
-        **9. Changes to Terms**
-        
-        9.1. We may update these terms at any time. Any changes will be effective immediately upon posting within the App. Your continued use of the App after such changes constitutes acceptance of the updated terms.
-        
-        **10. Governing Law**
-        
-        10.1. These terms are governed by and construed in accordance with the laws of [Your Jurisdiction].
-        
-        **11. Contact Information**
-        
-        11.1. If you have any questions or concerns about these terms, please contact us at [Your Contact Information].
-        
-        By using our mobile App, you acknowledge that you have read, understood, and agreed to these Terms and Conditions.
-        `;
+    const { lang } = req.query;
+    var data;
+    if (lang == "en") {
+      data = `Terms and Conditions of Yolu App
+
+      Welcome to Yolu, a job-searching application designed to connect job seekers with employment opportunities. By using the Yolu app, you agree to the following terms and conditions:
+      
+      1. User Responsibilities
+      
+      a. You must provide accurate and updated information when creating your profile or applying for jobs on Yolu.
+      
+      b. You are responsible for maintaining the confidentiality of your account login credentials.
+      
+      c. Users must comply with all applicable laws and regulations while using the app.
+      
+      2. Job Listings and Applications
+      
+      a. Yolu provides job listings as a service but does not guarantee the accuracy or availability of listed positions.
+      
+      b. Applying for jobs through Yolu does not guarantee employment, and Yolu is not liable for the hiring decisions made by employers.
+      
+      3. Content Guidelines
+      
+      a. Users are responsible for the content they post, ensuring it complies with community guidelines and does not contain offensive, misleading, or unlawful material.
+      
+      b. Yolu reserves the right to remove or modify content that violates these guidelines without notice.
+      
+      4. Data Privacy and Security
+      
+      a. Yolu respects user privacy and handles personal information in accordance with its Privacy Policy.
+      
+      b. Users are responsible for safeguarding their personal data and should report any security concerns or unauthorized access.
+      
+      5. Intellectual Property
+      
+      a. Yolu retains ownership of all intellectual property rights associated with the app.
+      
+      b. Users must not reproduce, distribute, or modify Yolu's proprietary content without permission.
+      
+      6. Limitation of Liability
+      
+      a. Yolu is not liable for any direct or indirect damages, including but not limited to loss of data, profits, or business opportunities arising from app usage.
+      
+      b. Yolu is not responsible for the actions or conduct of users or third-party content on the app.
+      
+      7. Modifications to Terms
+      
+      a. Yolu reserves the right to update or modify these terms and conditions at any time without prior notice.
+      
+      b. Continued use of the app after modifications implies acceptance of the updated terms.
+      
+      8. Termination
+      
+      a. Yolu may terminate or suspend user accounts for violations of these terms or for any other reason deemed necessary.
+      
+      b. Users can deactivate or delete their accounts by following the app's provided instructions.
+      
+      By using the Yolu app, you agree to abide by these terms and conditions. If you do not agree, please refrain from using the app.`;
+    } else if (lang == "ru") {
+      data = `Условия использования приложения Yolu
+
+      Добро пожаловать в Yolu, приложение для поиска работы, предназначенное для того, чтобы связать соискателей с возможностями трудоустройства. Используя приложение Yolu, вы соглашаетесь со следующими условиями:
+      
+      1. Обязанности пользователя
+      
+      а. Вы должны предоставить точную и обновленную информацию при создании своего профиля или подаче заявки на работу на Yolu.
+      
+      б. Вы несете ответственность за сохранение конфиденциальности учетных данных для входа в вашу учетную запись.
+      
+      в. Пользователи должны соблюдать все применимые законы и правила при использовании приложения.
+      
+      2. Списки вакансий и заявления
+      
+      а. Yolu предоставляет списки вакансий в качестве услуги, но не гарантирует точность или доступность перечисленных вакансий.
+      
+      б. Подача заявления о приеме на работу через Yolu не гарантирует трудоустройство, и Yolu не несет ответственности за решения о найме, принятые работодателями.
+      
+      3. Рекомендации по содержанию
+      
+      а. Пользователи несут ответственность за публикуемый ими контент, обеспечивая его соответствие принципам сообщества и отсутствие оскорбительных, вводящих в заблуждение или незаконных материалов.
+      
+      б. Yolu оставляет за собой право удалять или изменять контент, нарушающий эти правила, без предварительного уведомления.
+      
+      4. Конфиденциальность и безопасность данных
+      
+      а. Yolu уважает конфиденциальность пользователей и обрабатывает личную информацию в соответствии со своей Политикой конфиденциальности.
+      
+      б. Пользователи несут ответственность за защиту своих личных данных и должны сообщать о любых проблемах безопасности или несанкционированном доступе.
+      
+      5. Интеллектуальная собственность
+      
+      а. Yolu сохраняет за собой все права интеллектуальной собственности, связанные с приложением.
+      
+      б. Пользователи не должны воспроизводить, распространять или изменять собственный контент Yolu без разрешения.
+      
+      6. Ограничение ответственности
+      
+      а. Yolu не несет ответственности за любой прямой или косвенный ущерб, включая, помимо прочего, потерю данных, прибыли или деловых возможностей, возникающих в результате использования приложения.
+      
+      б. Yolu не несет ответственности за действия или поведение пользователей или сторонний контент в приложении.
+      
+      7. Изменения в Условиях
+      
+      а. Yolu оставляет за собой право обновлять или изменять эти условия в любое время без предварительного уведомления.
+      
+      б. Продолжение использования приложения после внесения изменений подразумевает принятие обновленных условий.
+      
+      8. Прекращение действия
+      
+      а. Yolu может прекратить или приостановить действие учетных записей пользователей за нарушение настоящих условий или по любой другой причине, которую сочтет необходимой.
+      
+      б. Пользователи могут деактивировать или удалить свои учетные записи, следуя инструкциям приложения.
+      
+      Используя приложение Yolu, вы соглашаетесь соблюдать эти условия. Если вы не согласны, пожалуйста, воздержитесь от использования приложения.`;
+    } else {
+      data = `Yolu Tətbiqinin Qaydaları və Şərtləri
+
+      İş axtaranları məşğulluq imkanları ilə əlaqələndirmək üçün nəzərdə tutulmuş iş axtarış proqramı olan Yolu-ya xoş gəlmisiniz. Yolu tətbiqindən istifadə etməklə siz aşağıdakı şərtlərlə razılaşırsınız:
+      
+      1. İstifadəçinin Məsuliyyətləri
+      
+      a. Profilinizi yaratarkən və ya Yolu-da iş üçün müraciət edərkən dəqiq və yenilənmiş məlumatları təqdim etməlisiniz.
+      
+      b. Siz hesabınıza giriş məlumatlarınızın məxfiliyinin qorunmasına cavabdehsiniz.
+      
+      c. İstifadəçilər tətbiqdən istifadə edərkən bütün qüvvədə olan qanun və qaydalara əməl etməlidirlər.
+      
+      2. İş siyahıları və ərizələr
+      
+      a. Yolu bir xidmət kimi iş siyahıları təqdim edir, lakin sadalanan vəzifələrin düzgünlüyünə və ya mövcudluğuna zəmanət vermir.
+      
+      b. Yolu vasitəsilə iş üçün müraciət etmək işə zəmanət vermir və Yolu işəgötürənlər tərəfindən verilən işə qəbul qərarlarına görə məsuliyyət daşımır.
+      
+      3. Məzmun Təlimatları
+      
+      a. İstifadəçilər dərc etdikləri məzmuna görə məsuliyyət daşıyırlar, onun icma qaydalarına uyğun olmasını və təhqiredici, aldadıcı və ya qeyri-qanuni materialları ehtiva etməməsini təmin edirlər.
+      
+      b. Yolu xəbərdarlıq etmədən bu qaydaları pozan məzmunu silmək və ya dəyişdirmək hüququnu özündə saxlayır.
+      
+      4. Məlumat Məxfiliyi və Təhlükəsizliyi
+      
+      a. Yolu istifadəçi məxfiliyinə hörmət edir və şəxsi məlumatı Məxfilik Siyasətinə uyğun olaraq idarə edir.
+      
+      b. İstifadəçilər şəxsi məlumatlarının qorunmasına cavabdehdirlər və hər hansı təhlükəsizlik narahatlığı və ya icazəsiz giriş barədə məlumat verməlidirlər.
+      
+      5. Əqli Mülkiyyət
+      
+      a. Yolu proqramla əlaqəli bütün əqli mülkiyyət hüquqlarının sahibliyini özündə saxlayır.
+      
+      b. İstifadəçilər icazəsiz Yolu-nun mülkiyyət məzmununu çoxaltmamalı, yaymamalı və ya dəyişdirməməlidir.
+      
+      6. Məsuliyyətin məhdudlaşdırılması
+      
+      a. Yolu tətbiqin istifadəsi nəticəsində yaranan məlumatların, mənfəətlərin və ya biznes imkanlarının itirilməsi daxil olmaqla, lakin bununla məhdudlaşmayan hər hansı birbaşa və ya dolayı zərərə görə məsuliyyət daşımır.
+      
+      b. Yolu istifadəçilərin hərəkətlərinə və ya davranışlarına və ya tətbiqdəki üçüncü tərəf məzmununa görə məsuliyyət daşımır.
+      
+      7. Şərtlərə Dəyişikliklər
+      
+      a. Yolu istənilən vaxt əvvəlcədən xəbərdarlıq etmədən bu şərtləri yeniləmək və ya dəyişdirmək hüququnu özündə saxlayır.
+      
+      b. Dəyişikliklərdən sonra tətbiqdən istifadənin davam etdirilməsi yenilənmiş şərtlərin qəbul edilməsini nəzərdə tutur.
+      
+      8. Xitam
+      
+      a. Yolu bu şərtlərin pozulmasına görə və ya zəruri hesab edilən hər hansı digər səbəbdən istifadəçi hesablarını dayandıra və ya dayandıra bilər.
+      
+      b. İstifadəçilər proqramın təqdim etdiyi təlimatlara əməl etməklə hesablarını deaktiv edə və ya silə bilərlər.
+      
+      Yolu proqramından istifadə etməklə siz bu şərtlərə əməl etməyə razısınız. Razı deyilsinizsə, proqramdan istifadə etməkdən çəkinin.`;
+    }
+
     res.status(200).json({
       error: false,
       data: data,
