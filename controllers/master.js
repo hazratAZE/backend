@@ -166,6 +166,8 @@ const changeRoleUserToStandard = async (req, res) => {
           role: "user",
         }
       );
+      myUser.appliedJobs = [];
+      await myUser.save();
       res.status(200).json({
         error: false,
         message: "User updated successfully",
