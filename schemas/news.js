@@ -14,6 +14,10 @@ const News = new mongoose.Schema(
       type: String,
       required: [true, "Titile is required"],
     },
+    lang: {
+      type: String,
+      default: "az",
+    },
   },
   {
     timestamps: true,
