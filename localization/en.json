@@ -5,7 +5,7 @@
   "please_enter_valid_email": "Please enter a valid email address.",
   "password_must_be_6": "Password must be at least 6 characters.",
   "comfirm_password_not_same": "Confirm password is not the same as password.",
-  "agreement_required": "Agreement field is required.",
+  "agreement_required": "Terms and Conditions is field required",
   "password_is_incorrect": "The password is incorrect.",
   "user_not_found": "User not found.",
   "please_enter": "Please enter the code",
