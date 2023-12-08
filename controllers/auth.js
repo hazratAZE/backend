@@ -198,8 +198,9 @@ const sendOtpVerificationEmail = async ({ _id, email }, res) => {
       html: `
       <html>
         <body>
+        <img src="https://worklytest.s3.eu-north-1.amazonaws.com/image23.png" alt="Image description" style="width: 200px; height: auto;" />
           <h1 style="color: black; font-size: 28px;">Your Verification Code</h1>
-          <p style="font-size: 24px;">${otp}</p>
+          <p style="font-size: 24px; padding: 8px; background-color: black; color: white; text-align: center; width: 100px;letter-spacing: 4px;font-weight: bold;">${otp}</p>
           <p>Please use the above code to verify your account.</p>
         </body>
       </html>
