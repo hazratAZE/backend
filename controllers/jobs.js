@@ -698,7 +698,7 @@ const updateJobStatus = async (req, res) => {
             res.status(200).json({
               error: false,
               data: myJob,
-              message: "Status updated successfully",
+              message: res.__("announce_status_updated"),
             });
           }
         }
