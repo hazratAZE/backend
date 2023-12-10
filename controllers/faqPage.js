@@ -17,9 +17,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 3,
-          question: "What is the meaning of life?",
+          question: "Is registration required to apply for announcements?",
           answer:
-            "The meaning of life is a philosophical question with no definitive answer. It varies from person to person.",
+            "Registration is required to apply for daily announcements on the Yolu platform. However, there is no registration requirement for other announcements.",
         },
         {
           id: 4,
@@ -76,9 +76,10 @@ const faqPage = (req, res) => {
         },
         {
           id: 3,
-          question: "Что такое смысл жизни?",
+          question:
+            "Требуется ли регистрация для подачи заявки на размещение объявления?",
           answer:
-            "Смысл жизни - философский вопрос без определенного ответа. Он зависит от человека.",
+            "Регистрация необходима для подачи заявки на ежедневные объявления на платформе Yolu. Однако для других объявлений регистрация не требуется.",
         },
         {
           id: 4,
@@ -135,9 +136,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 3,
-          question: "Həyatın mənası nədir?",
+          question: "Elana müraciət etmək üçün qeydiyyat tələb olunurmu?",
           answer:
-            "Həyatın mənası müəyyən bir cavabı olmayan fəlsəfi bir sualdır. Bu insanın özündən asılıdır.",
+            "Yolu platformasında gündəlik elanlara müraciət etmək üçün qeydiyyat tələb olunur. Lakin digər elanlar üçün qeydiyyat tələbi yoxdur.",
         },
         {
           id: 4,
