@@ -29,8 +29,8 @@ const faqPage = (req, res) => {
         },
         {
           id: 5,
-          question: "What is the largest mammal in the world?",
-          answer: "The largest mammal in the world is the blue whale.",
+          question: "How often are new job listings posted on the app?",
+          answer: "Job postings are updated based on user activity.",
         },
         {
           id: 6,
@@ -89,8 +89,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 5,
-          question: "Какое самое большое млекопитающее в мире?",
-          answer: "Самое большое млекопитающее в мире - голубой кит.",
+          question: "Как часто в приложении публикуются новые списки вакансий?",
+          answer:
+            "Объявления о вакансиях обновляются в зависимости от активности пользователей.",
         },
         {
           id: 6,
@@ -148,8 +149,8 @@ const faqPage = (req, res) => {
         },
         {
           id: 5,
-          question: "Dünyanın ən böyük meməlisi hansıdır?",
-          answer: "Dünyanın ən böyük meməlisi mavi balınadır.",
+          question: "Yeni iş elanları tətbiqdə nə qədər tez-tez dərc olunur?",
+          answer: "İş elanları istifadəçi fəaliyyətinə əsasən yenilənir.",
         },
         {
           id: 6,
