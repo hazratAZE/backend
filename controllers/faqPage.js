@@ -25,7 +25,7 @@ const faqPage = (req, res) => {
           id: 4,
           question: "How can I contact customer support?",
           answer:
-            "You can contact our customer support team by calling our toll-free number at 1-800-123-4567 or by sending an email to support@example.com.",
+            "You can contact our customer support team by calling our toll-free number at +994(70)811 74 34 or by sending an email to hazratqafo@gmail.com.",
         },
         {
           id: 5,
@@ -85,7 +85,7 @@ const faqPage = (req, res) => {
           id: 4,
           question: "Как связаться с службой поддержки?",
           answer:
-            "Вы можете связаться с нашей службой поддержки, позвонив по бесплатному номеру 1-800-123-4567 или отправив письмо на support@example.com.",
+            "Вы можете связаться с нашей службой поддержки, позвонив по бесплатному номеру +994(70)811 74 34 или отправив письмо на hazratqafo@gmail.com.",
         },
         {
           id: 5,
@@ -144,7 +144,7 @@ const faqPage = (req, res) => {
           id: 4,
           question: "Müştəri dəstəklə necə əlaqə saxlaya bilərəm?",
           answer:
-            "Müştəri dəstəyimizlə pulsuz nömrəmiz olan 1-800-123-4567 zəng edərək və ya support@example.com ünvanına e-poçt göndərərək əlaqə saxlaya bilərsiniz.",
+            "Müştəri dəstəyimizlə pulsuz nömrəmiz olan +994(70)811 74 34 zəng edərək və ya hazratqafo@gmail.com ünvanına e-poçt göndərərək əlaqə saxlaya bilərsiniz.",
         },
         {
           id: 5,
