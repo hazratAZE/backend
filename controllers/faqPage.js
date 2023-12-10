@@ -46,9 +46,10 @@ const faqPage = (req, res) => {
         },
         {
           id: 8,
-          question: "How do I check my account balance?",
+          question:
+            "Can I receive notifications for new job postings that match my preferences?",
           answer:
-            "You can check your account balance by logging into your account or by visiting one of our ATMs.",
+            "You will be able to receive notifications about vacancies added according to your section.",
         },
         {
           id: 9,
@@ -108,9 +109,10 @@ const faqPage = (req, res) => {
         },
         {
           id: 8,
-          question: "Как проверить баланс моего счета?",
+          question:
+            "Могу ли я получать уведомления о новых объявлениях о вакансиях, соответствующих моим предпочтениям?",
           answer:
-            "Вы можете проверить баланс своего счета, войдя в свою учетную запись или посетив один из наших банкоматов.",
+            "Вы сможете получать уведомления о вакансиях, добавленных в соответствии с вашим разделом.",
         },
         {
           id: 9,
@@ -168,9 +170,10 @@ const faqPage = (req, res) => {
         },
         {
           id: 8,
-          question: "Hesabımın balansını necə yoxlaya bilərəm?",
+          question:
+            "Tercihlərimə uyğun gələn yeni iş elanları üçün bildirişlər ala bilərəmmi?",
           answer:
-            "Hesabınızın balansını hesabınıza daxil olaraq və ya bizim bankomatlarımızdan birinə getməklə yoxlaya bilərsiniz.",
+            "Bölmənizə uyğun olaraq əlavə edilmiş vakansiyalar haqqında bildirişlər ala biləcəksiniz.",
         },
         {
           id: 9,
