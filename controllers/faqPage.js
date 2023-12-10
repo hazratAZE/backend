@@ -34,9 +34,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 6,
-          question: "How can I subscribe to your newsletter?",
+          question: "Can I search for specific job categories?",
           answer:
-            "To subscribe to our newsletter, visit our website and enter your email address in the subscription form.",
+            "Yes. You can search for the job category you want. For this, visit the search page.",
         },
         {
           id: 7,
@@ -95,9 +95,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 6,
-          question: "Как подписаться на вашу рассылку?",
+          question: "Могу ли я искать конкретные категории вакансий?",
           answer:
-            "Чтобы подписаться на нашу рассылку, посетите наш сайт и введите свой адрес электронной почты в форму подписки.",
+            "Да. Вы можете найти нужную вам категорию вакансий. Для этого посетите страницу поиска.",
         },
         {
           id: 7,
@@ -154,9 +154,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 6,
-          question: "Xəbərlərinizə necə abunə oluna bilər?",
+          question: "Xüsusi iş kateqoriyaları üçün axtarış edə bilərəmmi?",
           answer:
-            "Xəbərlərimizə abunə olmaq üçün veb saytımızı ziyarət edib abunəlik formasına e-poçt ünvanınızı daxil edin.",
+            "Bəli. İstədiyiniz iş kateqoriyasını axtara bilərsiniz. Bunun üçün axtarış səhifəsinə daxil olun.",
         },
         {
           id: 7,
