@@ -40,8 +40,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 7,
-          question: "What are the primary colors?",
-          answer: "The primary colors are red, blue, and yellow.",
+          question: "Can I save jobs to apply to later?",
+          answer:
+            "Yes. You can save announcements  that you want to apply to later.",
         },
         {
           id: 8,
@@ -101,8 +102,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 7,
-          question: "Какие основные цвета?",
-          answer: "Основные цвета - красный, синий и желтый.",
+          question: "Могу ли я сохранить вакансии, чтобы подать заявку позже?",
+          answer:
+            "Да. Вы можете сохранить объявления, к которым хотите применить позже.",
         },
         {
           id: 8,
@@ -160,8 +162,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 7,
-          question: "Əsas rənglər hansılardır?",
-          answer: "Əsas rənglər qırmızı, mavi və sarıdır.",
+          question: "Daha sonra müraciət etmək üçün işləri saxlaya bilərəmmi?",
+          answer:
+            "Bəli. Daha sonra müraciət etmək istədiyiniz elanları saxlaya bilərsiniz.",
         },
         {
           id: 8,
