@@ -53,14 +53,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 9,
-          question: "What is the square root of 25?",
-          answer: "The square root of 25 is 5.",
-        },
-        {
-          id: 10,
-          question: "How do I update my profile information?",
+          question: "Is Yolu available in multiple languages?",
           answer:
-            "To update your profile information, log into your account and go to the 'Profile' section where you can make the necessary changes.",
+            "Three languages are available in the Yolu program: Azerbaijani, Russian, English.",
         },
       ];
     } else if (lang == "ru") {
@@ -116,14 +111,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 9,
-          question: "Корень квадратный из 25?",
-          answer: "Корень квадратный из 25 равен 5.",
-        },
-        {
-          id: 10,
-          question: "Как обновить информацию в моем профиле?",
+          question: "Доступен ли Yolu на нескольких языках?",
           answer:
-            "Чтобы обновить информацию в вашем профиле, войдите в свою учетную запись и перейдите в раздел 'Профиль', где вы сможете внести необходимые изменения.",
+            "В программе Yolu доступны три языка: Азербайджанский, Русский, Английский.",
         },
       ];
     } else {
@@ -177,14 +167,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 9,
-          question: "25-in kvadrat kökü nədir?",
-          answer: "25-in kvadrat kökü 5-dir.",
-        },
-        {
-          id: 10,
-          question: "Profil məlumatlarımı necə yeniləyə bilərəm?",
+          question: "Yolu bir neçə dildə mövcuddur?",
           answer:
-            "Profil məlumatlarınızı yeniləmək üçün hesabınıza daxil olun və lazım olan dəyişiklikləri etmək imkanı olan 'Profil' bölməsinə keçin.",
+            "Yolu proqramında üç dil mövcuddur: Azərbaycan, Rus, İngilis.",
         },
       ];
     }
