@@ -6,8 +6,8 @@ const faqPage = (req, res) => {
       data = [
         {
           id: 1,
-          question: "What is the capital of France?",
-          answer: "The capital of France is Paris.",
+          question: "Are there any fees for posting an announce?",
+          answer: "No. Placing an announce on Yolu program is free.",
         },
         {
           id: 2,
@@ -65,8 +65,8 @@ const faqPage = (req, res) => {
       data = [
         {
           id: 1,
-          question: "Какая столица Франции?",
-          answer: "Столица Франции - Париж.",
+          question: "Взимается ли плата за размещение объявления?",
+          answer: "Нет. Размещение объявления в программе Yolu бесплатное.",
         },
         {
           id: 2,
@@ -124,8 +124,8 @@ const faqPage = (req, res) => {
       data = [
         {
           id: 1,
-          question: "Fransanın paytaxtı hansıdır?",
-          answer: "Fransanın paytaxtı Parisdir.",
+          question: "Elan yerləşdirmək üçün hər hansı ödəniş varmı?",
+          answer: "Xeyr. Yolu proqramında elan yerləşdirmək pulsuzdur.",
         },
         {
           id: 2,
