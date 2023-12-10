@@ -11,7 +11,7 @@ const faqPage = (req, res) => {
         },
         {
           id: 2,
-          question: "How do I reset my password?",
+          question: "What types of jobs are available on Yolu?",
           answer:
             "To reset your password, go to the 'Forgot Password' page and follow the instructions.",
         },
@@ -70,9 +70,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 2,
-          question: "Как сбросить пароль?",
+          question: "Какие типы вакансий доступны на Yolu?",
           answer:
-            "Чтобы сбросить пароль, перейдите на страницу 'Забыли пароль' и следуйте инструкциям.",
+            "На дороге есть четыре типа объявлений о вакансиях. Ежедневно, полная занятость, частичная занятость, удаленно.",
         },
         {
           id: 3,
@@ -130,9 +130,9 @@ const faqPage = (req, res) => {
         },
         {
           id: 2,
-          question: "Parolumu necə sıfırlayabilərəm?",
+          question: "Yolu-da hansı iş növləri mövcuddur?",
           answer:
-            "'Parolunuzu unutmusunuz?' səhifəsinə keçib təlimatları izləyərək parolunuzu sıfırlayabilirsiniz.",
+            "Yolda dörd növ iş elanı var. Gündəlik, Tam iş günü, Part-Time, Uzaqdan.",
         },
         {
           id: 3,
