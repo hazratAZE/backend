@@ -243,7 +243,6 @@ const createJob = async (req, res) => {
       longitude,
       latitude, // Assign the user's ID as the 'createdBy' value
     });
-
     let endDate = new Date();
     const millisecondsInDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
     const millisecondsInMonth = millisecondsInDay * 30; // Milliseconds in a month (approximate)
@@ -268,6 +267,22 @@ const createJob = async (req, res) => {
 
     // Save the updated user document
     await existingUser.save();
+    const userList = await user.find({ jobCategory: category });
+    userList.forEach(async (one) => {
+      await sendPushNotification(
+        one.fcmToken,
+        "Sizin sahenize uygun yeni is elani!",
+        `${newJob.title}
+         ${newJob.salary}
+         ${newJob.type}
+         ${newJob.location}
+         ${newJob.description}
+        `,
+        "info",
+        one._id,
+        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png"
+      );
+    });
     const responseObject = {
       error: false,
       data: {
