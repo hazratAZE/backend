@@ -2,6 +2,7 @@ const user = require("../schemas/user");
 
 const changeRoleUser = async (req, res) => {
   try {
+    const phoneNumberPattern = /^\+?\d{1,3}[- ]?\d{3}[- ]?\d{3}[- ]?\d{4}$/;
     const { email } = req.user;
     const {
       category,
@@ -82,7 +83,7 @@ const changeRoleUser = async (req, res) => {
             message: res.__("country_field_is_required"),
           },
         });
-      } else if (!phone) {
+      } else if (!phoneNumberPattern.test(phone)) {
         res.status(419).json({
           error: {
             type: "phone",
