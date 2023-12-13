@@ -33,5 +33,7 @@
   "phone_field_is_required": "Telefon sahəsi tələb olunur",
   "user_blocked_your_account": "İstifadəçi hesabınızı bloklamışdır",
   "you_blocked_this_account": "Siz bu hesabı blokladınız",
-  "announce_status_updated": "Elanın statusu uğurla yeniləndi."
+  "announce_status_updated": "Elanın statusu uğurla yeniləndi.",
+  "announce_updated_successfully": "Elan uğurla yeniləndi",
+  "end_date_has_already_passed": "Elanın müddəti artıq başa çatıb"
 }

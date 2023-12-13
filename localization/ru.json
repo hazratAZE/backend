@@ -33,5 +33,7 @@
   "phone_field_is_required": "Требуется поле телефона",
   "user_blocked_your_account": "Пользователь заблокировал ваш аккаунт",
   "you_blocked_this_account": "Вы заблокировали этот аккаунт",
-  "announce_status_updated": "Статус объявления успешно обновлен."
+  "announce_status_updated": "Статус объявления успешно обновлен.",
+  "announce_updated_successfully": "Объявление успешно обновлено",
+  "end_date_has_already_passed": "Срок действия объявления уже истек"
 }

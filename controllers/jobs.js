@@ -245,13 +245,17 @@ const createJob = async (req, res) => {
     });
 
     let endDate = new Date();
+    const millisecondsInDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    const millisecondsInMonth = millisecondsInDay * 30; // Milliseconds in a month (approximate)
+
     if (newJob.type === "Daily") {
       // Add 3 days if the job type is "Daily"
-      endDate.setDate(endDate.getDate() + 3);
+      endDate.setTime(endDate.getTime() + 3 * millisecondsInDay);
     } else {
       // Add one month if the job type is not "Daily"
-      endDate.setMonth(endDate.getMonth() + 1);
+      endDate.setTime(endDate.getTime() + millisecondsInMonth);
     }
+
     // Save the new job to the database
     newJob.endDate = endDate;
     const savedJob = await newJob.save();
@@ -689,7 +693,7 @@ const updateJobStatus = async (req, res) => {
           if (status === "active" && new Date() > currentJob.endDate) {
             res.status(419).json({
               error: false,
-              message: "End date has already passed",
+              message: res.__("end_date_has_already_passed"),
             });
           } else {
             await job.updateOne({ _id: id }, { status });
@@ -931,51 +935,140 @@ const deleteJob = async (req, res) => {
 };
 const editJob = async (req, res) => {
   try {
+    const { jobType } = req.query;
     const {
-      title,
-      description,
-      lauch,
-      term,
-      salary,
-      location,
-      city,
       category,
+      title,
+      type,
+      companyName,
+      companyEmail,
+      city,
+      address,
+      latitude,
+      longitude,
+      salary,
+      criterion,
+      lauch,
+      description,
       id,
     } = req.body;
     const { email } = req.user;
-    if (
-      !title ||
-      !category ||
-      !location ||
-      !salary ||
-      !description ||
-      !city ||
-      !term ||
-      !lauch
-    ) {
-      res.status(419).json({
+    if (!email) {
+      res.status(403).json({
         error: true,
-        message: "Missing required",
+        message: "Authentication failed",
       });
     } else {
-      await job.updateOne(
-        { _id: id },
-        {
-          title: title,
-          category: category,
-          description: description,
-          city: city,
-          salary: salary,
-          location: location,
-          term: term,
-          lauch: lauch,
-        }
-      );
-      const newJob = await job.findOne({ _id: id });
-      res.status(200).json({
-        error: false,
-        data: newJob,
-      });
+      if (!category) {
+        return res.status(419).json({
+          error: {
+            type: "category",
+            message: res.__("job_category_is_required"),
+          },
+        });
+      } else if (!title) {
+        return res.status(419).json({
+          error: {
+            type: "title",
+            message: res.__("title_field_is_required"),
+          },
+        });
+      } else if (!type) {
+        return res.status(419).json({
+          error: {
+            type: "type",
+            message: res.__("type_field_is_required"),
+          },
+        });
+      } else if (!companyName && jobType !== "Daily") {
+        return res.status(419).json({
+          error: {
+            type: "companyName",
+            message: res.__("company_name_is_required"),
+          },
+        });
+      } else if (!companyEmail && jobType !== "Daily") {
+        return res.status(419).json({
+          error: {
+            type: "companyEmail",
+            message: res.__("company_email_is_required"),
+          },
+        });
+      } else if (!city) {
+        return res.status(419).json({
+          error: {
+            type: "city",
+            message: res.__("city_field_is_required"),
+          },
+        });
+      } else if (!city) {
+        return res.status(419).json({
+          error: {
+            type: "address",
+            message: res.__("address_field_is_required"),
+          },
+        });
+      } else if (!longitude || !latitude) {
+        return res.status(419).json({
+          error: {
+            type: "location",
+            message: res.__("your_device_location_not_active"),
+          },
+        });
+      } else if (!salary) {
+        return res.status(419).json({
+          error: {
+            type: "salary",
+            message: res.__("cost_field_is_required"),
+          },
+        });
+      } else if (!criterion) {
+        return res.status(419).json({
+          error: {
+            type: "criterion",
+            message: res.__("criterion_field_is_required"),
+          },
+        });
+      } else if (!lauch) {
+        return res.status(419).json({
+          error: {
+            type: "lauch",
+            message: res.__("lunch_field_is_required"),
+          },
+        });
+      } else if (!description) {
+        return res.status(419).json({
+          error: {
+            type: "description",
+            message: res.__("description_field_is_required"),
+          },
+        });
+      } else {
+        await job.updateOne(
+          { _id: id },
+          {
+            category: category,
+            title: title,
+            type: type,
+            companyName: companyName,
+            companyEmail: companyEmail,
+            city: city,
+            location: address,
+            longitude: longitude,
+            latitude: latitude,
+            salary: salary,
+            criterion: criterion,
+            lauch: lauch,
+            description: description,
+          }
+        );
+        const myJob = await job.findOne({ _id: id });
+        res.status(201).json({
+          error: false,
+          data: myJob,
+          message: res.__("announce_updated_successfully"),
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
@@ -985,11 +1078,11 @@ const editJob = async (req, res) => {
   }
 };
 function scheduleJobStatusUpdate(jobId, date) {
+  console.log(jobId, date);
   schedule.scheduleJob(date, async () => {
     try {
       // Find the job by ID
       const jobToUpdate = await job.findOne({ _id: jobId });
-
       if (jobToUpdate) {
         // Update the job status to "closed"
         jobToUpdate.status = "closed";
