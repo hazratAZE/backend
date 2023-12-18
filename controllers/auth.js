@@ -19,23 +19,32 @@ let transporter = nodemailer.createTransport({
 });
 const getAllUsers = async (req, res) => {
   try {
-    const { email } = req.query;
+    const { email, typing } = req.query;
     var users;
+    const filter = {
+      role: "master",
+    };
+    if (req.query.category) {
+      filter.jobCategory = req.query.category;
+    }
+    if (req.query.city) {
+      filter.city = req.query.city;
+    }
     if (email) {
       users = await user
         .find({
-          role: "master",
+          ...filter,
           email: { $ne: email }, // Exclude the user with the specified email
         })
         .sort({ rating: -1 });
     } else {
-      users = await user
-        .find({
-          role: "master",
-        })
-        .sort({ rating: -1 });
+      users = await user.find(filter).sort({ rating: -1 });
     }
-
+    if (typing) {
+      users = users.filter((oneJob) =>
+        oneJob.name.toLocaleLowerCase().includes(typing)
+      );
+    }
     res.status(200).json({
       error: false,
       data: users,
