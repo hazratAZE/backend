@@ -35,5 +35,6 @@
   "you_blocked_this_account": "Вы заблокировали этот аккаунт",
   "announce_status_updated": "Статус объявления успешно обновлен.",
   "announce_updated_successfully": "Объявление успешно обновлено",
-  "end_date_has_already_passed": "Срок действия объявления уже истек"
+  "end_date_has_already_passed": "Срок действия объявления уже истек",
+  "today": "Сегодня"
 }

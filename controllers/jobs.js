@@ -13,7 +13,7 @@ const getAllJobs = async (req, res) => {
       status: "active",
     };
     var jobs = [];
-    const { typing, limit, rating } = req.query;
+    const { typing, limit, rating, lang } = req.query;
     if (req.query.type) {
       filter.type = req.query.type;
     }
@@ -54,6 +54,19 @@ const getAllJobs = async (req, res) => {
               reportedJob: myUser.reportedJobs.includes(oneJob._id),
               myJob: myUser.addedJobs.includes(oneJob._id),
               appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+              trCity:
+                lang == "az"
+                  ? oneJob.city.split(",")[0]
+                  : lang == "ru"
+                  ? oneJob.city.split(",")[1]
+                  : oneJob.city.split(",")[2],
+              trCategory:
+                lang == "az"
+                  ? oneJob.category.split(",")[1]
+                  : lang == "ru"
+                  ? oneJob.category.split(",")[2]
+                  : oneJob.category.split(",")[0],
+              trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
             console.error("Error fetching user details:", error);
@@ -77,6 +90,19 @@ const getAllJobs = async (req, res) => {
               reportedJob: false,
               myJob: false,
               appliedJobs: false,
+              trCity:
+                lang == "az"
+                  ? oneJob.city.split(",")[0]
+                  : lang == "ru"
+                  ? oneJob.city.split(",")[1]
+                  : oneJob.city.split(",")[2],
+              trCategory:
+                lang == "az"
+                  ? oneJob.category.split(",")[1]
+                  : lang == "ru"
+                  ? oneJob.category.split(",")[2]
+                  : oneJob.category.split(",")[0],
+              trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
             console.error("Error fetching user details:", error);
@@ -1132,6 +1158,33 @@ function formatTimeRemaining(milliseconds) {
 
   return timeParts.join(" ");
 }
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
+
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
+  }
+};
 const sendPushNotification = (to, title, body, type, id, image) => {
   var message = {
     to: to,

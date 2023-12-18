@@ -35,5 +35,6 @@
   "you_blocked_this_account": "Siz bu hesabı blokladınız",
   "announce_status_updated": "Elanın statusu uğurla yeniləndi.",
   "announce_updated_successfully": "Elan uğurla yeniləndi",
-  "end_date_has_already_passed": "Elanın müddəti artıq başa çatıb"
+  "end_date_has_already_passed": "Elanın müddəti artıq başa çatıb",
+  "today": "Bu gün"
 }

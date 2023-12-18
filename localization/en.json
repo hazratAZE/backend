@@ -35,5 +35,6 @@
   "you_blocked_this_account": "You blocked this account",
   "announce_status_updated": "The announce has been successfully updated.",
   "announce_updated_successfully": "The announcement has been updated successfully",
-  "end_date_has_already_passed": "The announcement has already expired"
+  "end_date_has_already_passed": "The announcement has already expired",
+  "today": "Today"
 }
