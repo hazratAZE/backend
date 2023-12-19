@@ -42,7 +42,7 @@ const getAllUsers = async (req, res) => {
     }
     if (typing) {
       users = users.filter((oneJob) =>
-        oneJob.name.toLocaleLowerCase().includes(typing)
+        oneJob.fullName.toLocaleLowerCase().includes(typing)
       );
     }
     res.status(200).json({
@@ -117,6 +117,7 @@ const registerUser = async (request, response) => {
         name: name,
         surname: surname,
         email: email,
+        fullName: `${name} ${surname}`,
         agreement: agreement,
         password: hashPassword,
       });
