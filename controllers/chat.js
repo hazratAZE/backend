@@ -119,6 +119,7 @@ const openChat = async (req, res) => {
 const getMyChats = async (req, res) => {
   try {
     const { email } = req.user;
+    const { typing } = req.query;
     const myUser = await user.findOne({ email: email });
     const chatIds = myUser.chat;
 
@@ -186,8 +187,12 @@ const getMyChats = async (req, res) => {
       id: oneChat.receiver._id,
     }));
 
-    const newList = await Promise.all(newListPromises);
-
+    var newList = await Promise.all(newListPromises);
+    if (typing) {
+      newList = newList.filter((oneJob) =>
+        oneJob.receiverName.toLocaleLowerCase().includes(typing)
+      );
+    }
     res.status(200).json({
       error: false,
       data: newList,
