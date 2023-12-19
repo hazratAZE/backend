@@ -622,7 +622,7 @@ const getOneMyJob = async (req, res) => {
 };
 const getOneJob = async (req, res) => {
   try {
-    const { id, email } = req.query;
+    const { id, email, lang } = req.query;
     if (!id) {
       res.status(404).json({
         error: true,
@@ -672,6 +672,19 @@ const getOneJob = async (req, res) => {
             reportedJob: reportedJob,
             appliedJob: appliedJob,
             timeToEnd: formattedTimeToEnd,
+            trCity:
+              lang == "az"
+                ? newJob.city.split(",")[0]
+                : lang == "ru"
+                ? newJob.city.split(",")[1]
+                : newJob.city.split(",")[2],
+            trCategory:
+              lang == "az"
+                ? newJob.category.split(",")[1]
+                : lang == "ru"
+                ? newJob.category.split(",")[2]
+                : newJob.category.split(",")[0],
+            trDate: changeDate(newJob.createdAt, res.__("today")),
           };
 
           res.status(200).json({
