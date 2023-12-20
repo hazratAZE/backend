@@ -36,5 +36,6 @@
   "announce_status_updated": "Elanın statusu uğurla yeniləndi.",
   "announce_updated_successfully": "Elan uğurla yeniləndi",
   "end_date_has_already_passed": "Elanın müddəti artıq başa çatıb",
-  "today": "Bu gün"
+  "today": "Bu gün",
+  "another_phone_error": "Hesab başqa telefonda istifadə olunur. Zəhmət olmasa hesabdan çıxın."
 }

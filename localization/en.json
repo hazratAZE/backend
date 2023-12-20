@@ -36,5 +36,6 @@
   "announce_status_updated": "The announce has been successfully updated.",
   "announce_updated_successfully": "The announcement has been updated successfully",
   "end_date_has_already_passed": "The announcement has already expired",
-  "today": "Today"
+  "today": "Today",
+  "another_phone_error": "The account is in use on another phone. Please log out of the account."
 }

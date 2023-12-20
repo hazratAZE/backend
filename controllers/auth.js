@@ -293,14 +293,23 @@ const loginUser = async (req, res) => {
                 expiresIn: "7d",
               }
             );
-            user.fcmToken = fcmtoken;
-            await user.save();
-            res.status(200).json({
-              error: false,
-              message: "User found",
-              user: user,
-              token: token,
-            });
+            if (user.fcmToken !== "") {
+              res.status(419).json({
+                error: {
+                  type: "email",
+                  message: res.__("another_phone_error"),
+                },
+              });
+            } else {
+              user.fcmToken = fcmtoken;
+              await user.save();
+              res.status(200).json({
+                error: false,
+                message: "User found",
+                user: user,
+                token: token,
+              });
+            }
           } else {
             res.status(419).json({
               error: {
