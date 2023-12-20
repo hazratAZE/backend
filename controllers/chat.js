@@ -211,7 +211,7 @@ const getMyChats = async (req, res) => {
         oneChat.receiver
       ),
       id: oneChat.receiver._id,
-      trDate: changeDate(newJob.createdAt, res.__("today")),
+      trDate: changeDate(oneChat.createdAt, res.__("today")),
     }));
 
     var newList = await Promise.all(newListPromises);
