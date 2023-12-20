@@ -1,4 +1,5 @@
 const user = require("../schemas/user");
+const job = require("../schemas/job");
 
 const changeRoleUser = async (req, res) => {
   try {
@@ -167,8 +168,18 @@ const changeRoleUserToStandard = async (req, res) => {
           role: "user",
         }
       );
+
       myUser.appliedJobs = [];
       await myUser.save();
+      const jobsToUpdate = await job.find({ applicants: myUser._id });
+
+      for (const job of jobsToUpdate) {
+        job.applicants = job.applicants.filter(
+          (applicant) => !applicant.equals(myUser._id)
+        );
+        await job.save();
+      }
+
       res.status(200).json({
         error: false,
         message: "User updated successfully",
