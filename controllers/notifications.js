@@ -39,9 +39,18 @@ const getAllMyNotifications = async (req, res) => {
     const allNotifications = await notifications
       .find({ _id: { $in: notificationsList } })
       .sort({ createdAt: -1 });
+    const notificationList = await Promise.all(
+      allNotifications.map((one) => {
+        return {
+          ...one._doc,
+          trDate: changeDate(one.createdAt, res.__("today")), // Assuming changeDate is defined
+        };
+      })
+    );
+
     res.status(200).json({
       error: false,
-      data: allNotifications,
+      data: notificationList,
     });
   } catch (error) {
     res.status(500).json({
@@ -278,6 +287,33 @@ const getNotificationsCount = async (req, res) => {
       error: true,
       message: error.message,
     });
+  }
+};
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
+
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
   }
 };
 module.exports = {
