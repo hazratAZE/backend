@@ -115,7 +115,33 @@ const openChat = async (req, res) => {
     });
   }
 };
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
 
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
+  }
+};
 const getMyChats = async (req, res) => {
   try {
     const { email } = req.user;
@@ -185,6 +211,7 @@ const getMyChats = async (req, res) => {
         oneChat.receiver
       ),
       id: oneChat.receiver._id,
+      trDate: changeDate(newJob.createdAt, res.__("today")),
     }));
 
     var newList = await Promise.all(newListPromises);
