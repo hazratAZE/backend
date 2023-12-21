@@ -37,5 +37,11 @@
   "announce_updated_successfully": "The announcement has been updated successfully",
   "end_date_has_already_passed": "The announcement has already expired",
   "today": "Today",
-  "another_phone_error": "The account is in use on another phone. Please log out of the account."
+  "another_phone_error": "The account is in use on another phone. Please log out of the account.",
+  "minute": "minute",
+  "minutes": "minutes",
+  "hours": "hours",
+  "hour": "hour",
+  "day": "day",
+  "days": "days"
 }

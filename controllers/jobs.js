@@ -659,7 +659,7 @@ const getOneJob = async (req, res) => {
           const endDate = new Date(newJob.endDate);
           timeToEnd = Math.max(0, endDate - now);
 
-          const formattedTimeToEnd = formatTimeRemaining(timeToEnd);
+          const formattedTimeToEnd = formatTimeRemaining(timeToEnd, res);
 
           const jobWithMyStatus = {
             ...newJob._doc,
@@ -1147,7 +1147,7 @@ function scheduleJobStatusUpdate(jobId, date) {
     }
   });
 }
-function formatTimeRemaining(milliseconds) {
+function formatTimeRemaining(milliseconds, res) {
   const minutes = Math.floor(milliseconds / 1000 / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
@@ -1158,14 +1158,20 @@ function formatTimeRemaining(milliseconds) {
   const timeParts = [];
 
   if (days > 0) {
-    timeParts.push(`${days} day${days > 1 ? "s" : ""}`);
+    timeParts.push(`${days} ${days > 1 ? res.__("days") : res.__("day")}`);
   }
   if (remainingHours > 0) {
-    timeParts.push(`${remainingHours} hour${remainingHours > 1 ? "s" : ""}`);
+    timeParts.push(
+      `${remainingHours} ${
+        remainingHours > 1 ? res.__("hours") : res.__("hour")
+      }`
+    );
   }
   if (remainingMinutes > 0) {
     timeParts.push(
-      `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
+      `${remainingMinutes} ${
+        remainingMinutes > 1 ? res.__("minutes") : res.__("minute")
+      }`
     );
   }
 

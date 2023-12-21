@@ -37,5 +37,11 @@
   "announce_updated_successfully": "Elan uğurla yeniləndi",
   "end_date_has_already_passed": "Elanın müddəti artıq başa çatıb",
   "today": "Bu gün",
-  "another_phone_error": "Hesab başqa telefonda istifadə olunur. Zəhmət olmasa hesabdan çıxın."
+  "another_phone_error": "Hesab başqa telefonda istifadə olunur. Zəhmət olmasa hesabdan çıxın.",
+  "minute": "dəqiqə",
+  "minutes": "dəqiqə",
+  "hours": "saat",
+  "hour": "saat",
+  "day": "gün",
+  "days": "gün"
 }
