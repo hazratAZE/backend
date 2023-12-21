@@ -72,6 +72,10 @@ const Job = new mongoose.Schema(
     companyEmail: {
       type: String,
     },
+    addedUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     saveUsers: {
       type: [
         {

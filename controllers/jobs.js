@@ -267,7 +267,8 @@ const createJob = async (req, res) => {
       companyName: companyName,
       createdBy: existingUser._id,
       longitude,
-      latitude, // Assign the user's ID as the 'createdBy' value
+      latitude,
+      addedUser: existingUser._id, // Assign the user's ID as the 'createdBy' value
     });
     let endDate = new Date();
     const millisecondsInDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
@@ -631,7 +632,8 @@ const getOneJob = async (req, res) => {
     } else {
       const newJob = await job
         .findOne({ _id: id })
-        .populate("applicants", "name email surname image role");
+        .populate("applicants", "name email surname image role")
+        .populate("addedUser", "name surname email role image");
       const userFromId = await user.findOne(newJob.createdBy);
       var addedJob = false;
       var savedJob = false;
