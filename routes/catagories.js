@@ -104,6 +104,12 @@ routes.get("/cities", (req, res) => {
         "Zaqatala,Закатала,Zaqatala",
         "Zəngilan,Зангелан,Zangilan",
         "Zərdab,Зардаб,Zardab",
+        "Samukh,Самух,Samukh",
+        "Shahbuz,Шахбуз,Shahbuz",
+        "Shahdagh,Шахдаг,Shahdagh",
+        "Shirvan,Ширван,Shirvan",
+        "Khachmaz,Хачмаз,Khachmaz",
+        "Xankəndi,Ханкенди,Khankendi",
       ],
     });
   } catch (error) {
