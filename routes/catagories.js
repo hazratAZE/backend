@@ -42,7 +42,7 @@ routes.get("/cities", (req, res) => {
       error: false,
       data: [
         "Abşeron,Абшерон,Absheron",
-        "Ağcabədi,Агдам,Aghjabadi",
+        "Ağcabədi,Агджабеди,Aghjabadi",
         "Ağdam,Агдам,Aghdam",
         "Ağdaş,Агдаш,Aghdash",
         "Ağstafa,Агстафа,Aghstafa",
