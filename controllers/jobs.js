@@ -296,19 +296,18 @@ const createJob = async (req, res) => {
     await existingUser.save();
     const userList = await user.find({ jobCategory: category });
     userList.forEach(async (one) => {
-      await sendPushNotification(
-        one.fcmToken,
-        "Sizin sahenize uygun yeni is elani!",
-        `${newJob.title}
-         ${newJob.salary}
-         ${newJob.type}
-         ${newJob.location}
-         ${newJob.description}
-        `,
-        "info",
-        one._id,
-        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png"
-      );
+      // Check if the user ID matches the ID of the user who created the job
+      if (one._id.toString() !== existingUser._id.toString()) {
+        await sendPushNotification(
+          one.fcmToken,
+          "Sizin sahenize uygun yeni is elani!",
+          `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
+  `,
+          "info",
+          one._id,
+          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png"
+        );
+      }
     });
     const responseObject = {
       error: false,
