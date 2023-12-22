@@ -1,9 +1,51 @@
 const news = require("../schemas/news");
 
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
+
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
+  }
+};
 const getAllNews = async (req, res) => {
   try {
     const { lang } = req.query;
-    const allNews = await news.find({ lang: lang }).sort({ createdAt: -1 });
+    var allNews = await news.find({ lang: lang }).sort({ createdAt: -1 });
+    allNews = await Promise.all(
+      allNews.map(async (oneJob) => {
+        try {
+          allNews = await news.findOne(oneJob.createdBy);
+          return {
+            ...oneJob._doc,
+            trDate: changeDate(oneJob.createdAt, res.__("today")),
+          };
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+          // Handle error if necessary, e.g., return the original job details
+          return oneJob._doc;
+        }
+      })
+    );
     res.status(200).json({
       error: false,
       data: allNews,
@@ -25,9 +67,13 @@ const getOneNews = async (req, res) => {
       });
     } else {
       const myNews = await news.findOne({ _id: id });
+      const myNewsTr = {
+        ...myNews._doc,
+        trDate: changeDate(myNews.createdAt, res.__("today")),
+      };
       res.status(200).json({
         error: false,
-        data: myNews,
+        data: myNewsTr,
       });
     }
   } catch (error) {
