@@ -1025,7 +1025,38 @@ const uploadImage = async (req, res) => {
     res.status(500).json({ error: "Error uploading image to S3" });
   }
 };
+const reportUser = async (req, res) => {
+  try {
+    const { reason, id } = req.body;
+    const { email } = req.user;
+    const myUser = await user.findOne({ email: email });
+    const newUser = await user.findOne({ _id: id });
+    if (!reason.length) {
+      res.status(419).json({
+        error: {
+          type: "reason",
+          message: res.__("reason_required"),
+        },
+      });
+    } else {
+      newUser.reportReasons.push(reason);
+      await newUser.save();
+      myUser.reportedUsers.push(newUser);
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: res.__("report_sended"),
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
+  reportUser,
   registerUser,
   loginUser,
   verifyEmail,

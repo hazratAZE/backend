@@ -43,5 +43,7 @@
   "hours": "saat",
   "hour": "saat",
   "day": "gün",
-  "days": "gün"
+  "days": "gün",
+  "reason_required": "Səbəb bölməsi tələb olunur",
+  "report_sended": "Hesabat uğurla göndərildi"
 }

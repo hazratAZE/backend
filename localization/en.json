@@ -43,5 +43,7 @@
   "hours": "hours",
   "hour": "hour",
   "day": "day",
-  "days": "days"
+  "days": "days",
+  "reason_required": "The reason section is required",
+  "report_sended": "The report has been sent successfully."
 }

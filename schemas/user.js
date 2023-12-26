@@ -61,6 +61,10 @@ const User = new mongoose.Schema(
       type: String,
       default: "online",
     },
+    reportReasons: {
+      type: [String],
+      default: [],
+    },
     likedJobs: {
       type: [
         {

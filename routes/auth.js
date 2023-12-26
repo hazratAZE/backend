@@ -20,6 +20,7 @@ const {
   getUserInfo,
   changeCallPermission,
   changeMapPermission,
+  reportUser,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -45,5 +46,6 @@ routes.post("/uploadImage", verifyJwt, uploadImage);
 routes.post("/getUserInfo", getUserInfo);
 routes.post("/changePrivateMode", verifyJwt, changeCallPermission);
 routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
+routes.post("/reportUser", verifyJwt, reportUser);
 
 module.exports = routes;
