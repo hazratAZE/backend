@@ -97,6 +97,15 @@ const User = new mongoose.Schema(
       ],
       default: [],
     },
+    reportedUsers: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
     appliedJobs: {
       type: [
         {
