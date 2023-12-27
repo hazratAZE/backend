@@ -30,9 +30,15 @@ const getAllJobs = async (req, res) => {
     if (rating) {
       allJobs = await job.find(filter).sort({ rating: -1 });
     }
-    if (limit) {
-      allJobs = allJobs.slice(0, parseInt(limit));
-    }
+    const page = parseInt(req.query.page) || 1; // Default page is 1 // Default limit is 20
+    const newLimit = page * limit;
+    const startIndex = 0;
+    allJobs = await job
+      .find(filter)
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(newLimit);
+
     if (req.query.typing) {
       allJobs = allJobs.filter((oneJob) =>
         oneJob.title.toLocaleLowerCase().includes(typing)
@@ -291,7 +297,6 @@ const createJob = async (req, res) => {
 
     // Add the job object to the 'addedJobs' array of the user
     existingUser.addedJobs.push(savedJob);
-
     // Save the updated user document
     await existingUser.save();
     const userList = await user.find({ jobCategory: category });
