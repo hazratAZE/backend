@@ -34,23 +34,37 @@ const getAllMyNotifications = async (req, res) => {
         message: res.__("user_not_found"),
       });
     }
-    const notificationsList = myUser.notifications; // Sadece iş kimliklerini alıyoruz
-    // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
+    const notificationsList = myUser.notifications;
+
+    // Pagination parameters - You can pass these as query parameters in your API request
+    const page = parseInt(req.query.page) || 1; // Default page is 1
+    const limit = page * 20; // Default limit is 10
+    const startIndex = 0;
     const allNotifications = await notifications
       .find({ _id: { $in: notificationsList } })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(limit);
+
     const notificationList = await Promise.all(
       allNotifications.map((one) => {
         return {
           ...one._doc,
-          trDate: changeDate(one.createdAt, res.__("today")), // Assuming changeDate is defined
+          trDate: changeDate(one.createdAt, res.__("today")),
         };
       })
     );
 
+    // Get total count of notifications to calculate total pages
+    const totalNotificationsCount = notificationsList.length;
+    const totalPages = Math.ceil(totalNotificationsCount / limit);
+
+    // Response with pagination metadata
     res.status(200).json({
       error: false,
       data: notificationList,
+      totalPages,
+      currentPage: page,
     });
   } catch (error) {
     res.status(500).json({
@@ -59,6 +73,7 @@ const getAllMyNotifications = async (req, res) => {
     });
   }
 };
+
 const openNotification = async (req, res) => {
   try {
     const { email } = req.user;
