@@ -45,5 +45,7 @@
   "day": "gün",
   "days": "gün",
   "reason_required": "Səbəb bölməsi tələb olunur",
-  "report_sended": "Hesabat uğurla göndərildi"
+  "report_sended": "Hesabat uğurla göndərildi",
+  "user_blocked": "İstifadəçi bloklanıb",
+  "user_unblocked": "İstifadəçi blokdan çıxarıldı"
 }

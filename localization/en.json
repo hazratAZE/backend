@@ -45,5 +45,7 @@
   "day": "day",
   "days": "days",
   "reason_required": "The reason section is required",
-  "report_sended": "The report has been sent successfully."
+  "report_sended": "The report has been sent successfully.",
+  "user_blocked": "User has been blocked",
+  "user_unblocked": "User unblocked"
 }

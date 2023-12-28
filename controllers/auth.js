@@ -890,23 +890,28 @@ const sendAgainOtp = async (req, res) => {
 };
 const getUserInfo = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email } = req.user;
+    const { emailUser } = req.body;
     const { lang } = req.query;
     const myUser = await user.findOne({ email: email });
-    if (!myUser) {
+    const newUser = await user.findOne({ email: emailUser });
+
+    if (!newUser) {
       res.status(404).json({
         error: true,
         message: "User not found",
       });
     } else {
       const myUserTr = {
-        ...myUser._doc,
+        ...newUser._doc,
         trCity:
           lang == "az"
-            ? myUser.city.split(",")[0]
+            ? newUser.city.split(",")[0]
             : lang == "ru"
-            ? myUser.city.split(",")[1]
-            : myUser.city.split(",")[2],
+            ? newUser.city.split(",")[1]
+            : newUser.city.split(",")[2],
+        blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
+        blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
       };
       res.status(200).json({
         error: false,

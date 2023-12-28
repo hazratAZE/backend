@@ -271,8 +271,7 @@ const deleteChat = async (req, res) => {
 const blockUser = async (req, res) => {
   try {
     const { email } = req.user;
-    const { id, chatId } = req.body;
-    const myChat = await chat.findOne({ _id: chatId });
+    const { id, block } = req.body;
     const myUser = await user.findOne({ email: email });
     const newUser = await user.findOne({ _id: id });
 
@@ -282,15 +281,22 @@ const blockUser = async (req, res) => {
         message: res.__("user_not_found"),
       });
     } else {
-      myUser.blockUsers.push(newUser);
-      myUser.chat = myUser.chat.filter(
-        (one) => one._id.toString() !== myChat._id.toString()
-      );
-      await myUser.save();
-      res.status(200).json({
-        error: false,
-        message: "User blocked successfully",
-      });
+      if (!block) {
+        myUser.blockUsers.push(newUser);
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("user_blocked"),
+        });
+      } else {
+        const index = myUser.blockUsers.indexOf(newUser);
+        myUser.blockUsers.splice(index, 1); // Removing newUser from blockUsers list
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("user_unblocked"),
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
