@@ -12,54 +12,39 @@ const getAllJobs = async (req, res) => {
     const filter = {
       status: "active",
     };
-    var jobs = [];
+    var jobs;
     const { typing, limit, rating, lang } = req.query;
-    if (req.query.type) {
-      filter.type = req.query.type;
-    }
-    if (req.query.city) {
-      filter.city = req.query.city;
-    }
-    if (req.query.salary) {
-      filter.salary = req.query.salary;
-    }
-    if (req.query.category) {
-      filter.category = req.query.category;
-    }
-    var allJobs = await job.find(filter).sort({ createdAt: -1 });
-    if (rating) {
-      allJobs = await job.find(filter).sort({ rating: -1 });
-    }
-    const page = parseInt(req.query.page) || 1; // Default page is 1 // Default limit is 20
-    const newLimit = page * limit;
-    const startIndex = 0;
-    allJobs = await job
-      .find(filter)
-      .sort({ createdAt: -1 })
-      .skip(startIndex)
-      .limit(newLimit);
+    if (req.query.type) filter.type = req.query.type;
+    if (req.query.city) filter.city = req.query.city;
+    if (req.query.salary) filter.salary = req.query.salary;
+    if (req.query.category) filter.category = req.query.category;
+
+    let allJobsQuery = rating
+      ? job.find(filter).sort({ rating: -1 })
+      : job.find(filter).sort({ createdAt: -1 });
+
+    let allJobs = await allJobsQuery;
+
     if (req.query.typing) {
-      allJobs = await job.find(filter).sort({ createdAt: -1 });
       allJobs = allJobs.filter((oneJob) =>
         oneJob.title.toLocaleLowerCase().includes(typing)
       );
     }
+
+    const page = parseInt(req.query.page) || 1;
+    const endIndex = page * limit;
+
+    allJobs = allJobs.slice(0, endIndex);
+
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
       jobs = await Promise.all(
         allJobs.map(async (oneJob) => {
           try {
-            const newUser = await user.findOne(oneJob.createdBy);
             return {
               ...oneJob._doc,
-              company: newUser.name + " " + newUser.surname,
-              image: newUser.image,
-              email: newUser.email,
               savedJob: myUser.savedJobs.includes(oneJob._id),
               likedJob: myUser.likedJobs.includes(oneJob._id),
-              reportedJob: myUser.reportedJobs.includes(oneJob._id),
-              myJob: myUser.addedJobs.includes(oneJob._id),
-              appliedJobs: myUser.appliedJobs.includes(oneJob._id),
               trCity:
                 lang == "az"
                   ? oneJob.city.split(",")[0]
@@ -85,12 +70,8 @@ const getAllJobs = async (req, res) => {
       jobs = await Promise.all(
         allJobs.map(async (oneJob) => {
           try {
-            const newUser = await user.findOne(oneJob.createdBy);
             return {
               ...oneJob._doc,
-              company: newUser.name + " " + newUser.surname,
-              image: newUser.image,
-              email: newUser.email,
               savedJob: false,
               likedJob: false,
               reportedJob: false,
