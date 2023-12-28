@@ -30,11 +30,6 @@ const getAllJobs = async (req, res) => {
     if (rating) {
       allJobs = await job.find(filter).sort({ rating: -1 });
     }
-    if (req.query.typing) {
-      allJobs = allJobs.filter((oneJob) =>
-        oneJob.title.toLocaleLowerCase().includes(typing)
-      );
-    }
     const page = parseInt(req.query.page) || 1; // Default page is 1 // Default limit is 20
     const newLimit = page * limit;
     const startIndex = 0;
@@ -43,6 +38,12 @@ const getAllJobs = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(startIndex)
       .limit(newLimit);
+    if (req.query.typing) {
+      allJobs = await job.find(filter).sort({ createdAt: -1 });
+      allJobs = allJobs.filter((oneJob) =>
+        oneJob.title.toLocaleLowerCase().includes(typing)
+      );
+    }
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
       jobs = await Promise.all(
