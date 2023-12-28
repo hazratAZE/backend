@@ -305,5 +305,37 @@ const blockUser = async (req, res) => {
     });
   }
 };
+const getBlocklist = async (req, res) => {
+  try {
+    const { email } = req.user;
+    if (!email) {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+      const blockList = myUser.blockUsers;
+      // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
+      const allBlockUsers = await user.find({ _id: { $in: blockList } });
+      res.status(200).json({
+        error: false,
+        data: allBlockUsers,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 
-module.exports = { createChat, getMyChats, deleteChat, openChat, blockUser };
+module.exports = {
+  createChat,
+  getMyChats,
+  deleteChat,
+  openChat,
+  blockUser,
+  getBlocklist,
+};
