@@ -43,7 +43,7 @@ routes.post("/changeEmail", verifyJwt, changeEmail);
 routes.post("/verifyChangeEmail", verifyJwt, verifyChangeEmail);
 routes.post("/sendAgainOtp", sendAgainOtp);
 routes.post("/uploadImage", verifyJwt, uploadImage);
-routes.post("/getUserInfo", verifyJwt, getUserInfo);
+routes.post("/getUserInfo", getUserInfo);
 routes.post("/changePrivateMode", verifyJwt, changeCallPermission);
 routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
 routes.post("/reportUser", verifyJwt, reportUser);
