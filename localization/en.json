@@ -48,5 +48,6 @@
   "report_sended": "The report has been sent successfully.",
   "user_blocked": "User has been blocked",
   "user_unblocked": "User unblocked",
-  "you_have_new_apply": "There is a new application for your announcement"
+  "you_have_new_apply": "There is a new application for your announcement",
+  "success_register": "Dear user, Welcome to Yolu mobile application"
 }

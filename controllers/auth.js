@@ -174,11 +174,11 @@ const verifyEmail = async (req, res) => {
             await user.updateOne({ _id: userId }, { verified: true });
             const myUser = await user.findOne({ _id: userId });
             const notification = await createNotification(
-              "Uğurlu qeydiyyat!",
-              `Hörmətli ${myUser.name} ${myUser.surname} , qeydiyyatınız uğurla başa çatdı!`,
+              "Register",
+              `${myUser.name} ${myUser.surname}`,
               myUser.image,
               myUser._id,
-              "general"
+              "register"
             );
             myUser.notifications.push(notification);
             myUser.save();
