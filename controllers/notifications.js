@@ -58,7 +58,7 @@ const getAllMyNotifications = async (req, res) => {
           trBody:
             one.type === "apply"
               ? `${one.body} ${res.__("sended_request")}`
-              : "test",
+              : `${one.body}, ${res.__("welcome_app")}`,
         };
       })
     );
