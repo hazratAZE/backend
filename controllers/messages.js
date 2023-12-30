@@ -39,7 +39,8 @@ const createMessage = async (req, res) => {
           `${newMessage.content}`,
           "message",
           myUser._id,
-          myUser.image
+          myUser.image,
+          myUser.email
         );
         res.status(200).json({
           error: false,

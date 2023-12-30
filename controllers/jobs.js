@@ -291,7 +291,8 @@ const createJob = async (req, res) => {
   `,
           "info",
           one._id,
-          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png"
+          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+          "noemail"
         );
       }
     });
@@ -911,7 +912,8 @@ const applyJob = async (req, res) => {
           `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
           "apply",
           myUser.email,
-          myUser.image
+          myUser.image,
+          myUser.email
         );
         const notification = await createNotification(
           "New apply",
@@ -1191,7 +1193,7 @@ const changeDate = (backendTime, newDate) => {
     return userFriendlyDate;
   }
 };
-const sendPushNotification = (to, title, body, type, id, image) => {
+const sendPushNotification = (to, title, body, type, id, image, email) => {
   var message = {
     to: to,
 
@@ -1203,6 +1205,7 @@ const sendPushNotification = (to, title, body, type, id, image) => {
       type: type,
       id: id,
       image: image,
+      email: email,
     },
   };
   fcm.send(message, function (err, response) {
