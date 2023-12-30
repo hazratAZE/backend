@@ -913,7 +913,8 @@ const applyJob = async (req, res) => {
           "apply",
           myUser.email,
           myUser.image,
-          myUser.email
+          myUser.email,
+          myUser.name + " " + myUser.surname
         );
         const notification = await createNotification(
           "New apply",
@@ -1193,7 +1194,16 @@ const changeDate = (backendTime, newDate) => {
     return userFriendlyDate;
   }
 };
-const sendPushNotification = (to, title, body, type, id, image, email) => {
+const sendPushNotification = (
+  to,
+  title,
+  body,
+  type,
+  id,
+  image,
+  email,
+  name
+) => {
   var message = {
     to: to,
 
@@ -1206,6 +1216,7 @@ const sendPushNotification = (to, title, body, type, id, image, email) => {
       id: id,
       image: image,
       email: email,
+      name: name,
     },
   };
   fcm.send(message, function (err, response) {
