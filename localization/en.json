@@ -47,5 +47,6 @@
   "reason_required": "The reason section is required",
   "report_sended": "The report has been sent successfully.",
   "user_blocked": "User has been blocked",
-  "user_unblocked": "User unblocked"
+  "user_unblocked": "User unblocked",
+  "you_have_new_apply": "There is a new application for your announcement"
 }

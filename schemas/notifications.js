@@ -8,15 +8,15 @@ const Notifications = new mongoose.Schema(
     },
     body: {
       type: String,
-      required: [true, "Titile is required"],
+      required: [true, "Body is required"],
     },
     image: {
       type: String,
-      required: [true, "Titile is required"],
+      required: [true, "Image is required"],
     },
     type: {
       type: String,
-      required: [true, "Titile is required"],
+      required: [true, "Type is required"],
     },
     status: {
       type: String,

@@ -907,15 +907,15 @@ const applyJob = async (req, res) => {
         myJob.applicants.push(myUser);
         sendPushNotification(
           owner.fcmToken,
-          "Yeni müraciətiniz var!",
-          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`,
+          res.__("you_have_new_apply"),
+          `${myUser.name} ${myUser.surname}`,
           "apply",
           myUser.email,
           myUser.image
         );
         const notification = await createNotification(
-          "Yeni müraciətiniz var!",
-          `${myUser.name} ${myUser.surname} sizin ${myJob.title} iş elanınıza ərizə göndərib.`,
+          "New apply",
+          `${myUser.name} ${myUser.surname}`,
           myUser.image,
           myJob._id,
           "apply"

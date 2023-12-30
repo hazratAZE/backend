@@ -51,6 +51,7 @@ const getAllMyNotifications = async (req, res) => {
         return {
           ...one._doc,
           trDate: changeDate(one.createdAt, res.__("today")),
+          trTitle: one.type === "apply" ? res.__("you_have_new_apply") : null,
         };
       })
     );
