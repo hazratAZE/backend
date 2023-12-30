@@ -908,7 +908,7 @@ const applyJob = async (req, res) => {
         sendPushNotification(
           owner.fcmToken,
           res.__("you_have_new_apply"),
-          `${myUser.name} ${myUser.surname}`,
+          `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
           "apply",
           myUser.email,
           myUser.image
