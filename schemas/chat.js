@@ -18,18 +18,6 @@ const Chat = new mongoose.Schema(
         },
       ],
     },
-    senderImage: {
-      type: String,
-    },
-    receiverImage: {
-      type: String,
-    },
-    senderName: {
-      type: String,
-    },
-    receiverName: {
-      type: String,
-    },
     status: {
       type: String,
       default: "active",

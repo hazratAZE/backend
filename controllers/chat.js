@@ -37,6 +37,8 @@ const createChat = async (req, res) => {
         receiverImage: newUser.image,
         senderName: myUser.name + " " + myUser.surname,
         receiverName: newUser.name + " " + newUser.surname,
+        receiverEmail: newUser.email,
+        senderEmail: myUser.email,
         status: "active",
       });
 
@@ -199,20 +201,28 @@ const getMyChats = async (req, res) => {
 
       return lastMessage.length > 0 ? lastMessage[0].createdAt : null;
     };
-    const allChats = await chat.find({ _id: { $in: chatIds } });
+    const allChats = await chat
+      .find({ _id: { $in: chatIds } })
+      .populate("receiver"); // Populate the receiver field
 
-    const newListPromises = allChats.map(async (oneChat) => ({
-      ...oneChat._doc,
-      newMessageCount: await allMessagesCount(oneChat.receiver),
-      newMessage: (await allMessagesCount(oneChat.receiver)) > 0,
-      lastMessage: await getLastMessage(oneChat.sender, oneChat.receiver),
-      lastMessageTime: await getLastMessageTime(
-        oneChat.sender,
-        oneChat.receiver
-      ),
-      id: oneChat.receiver._id,
-      trDate: changeDate(oneChat.createdAt, res.__("today")),
-    }));
+    const newListPromises = allChats.map(async (oneChat) => {
+      const receiver = oneChat.receiver[0]; // Assuming one receiver per chat for simplicity
+      return {
+        ...oneChat._doc,
+        receiverImage: receiver.image,
+        receiverEmail: receiver.email,
+        receiverName: receiver.name + " " + receiver.surname,
+        newMessageCount: await allMessagesCount(oneChat.receiver),
+        newMessage: (await allMessagesCount(oneChat.receiver)) > 0,
+        lastMessage: await getLastMessage(oneChat.sender, oneChat.receiver),
+        lastMessageTime: await getLastMessageTime(
+          oneChat.sender,
+          oneChat.receiver
+        ),
+        id: oneChat.receiver._id,
+        trDate: changeDate(oneChat.createdAt, res.__("today")),
+      };
+    });
 
     var newList = await Promise.all(newListPromises);
     if (typing) {
