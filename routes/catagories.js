@@ -27,6 +27,7 @@ routes.get("/jobCatagories", (req, res) => {
         "Management,İdarəetmə,Управление",
         "Science,Elm,Наука",
         "Non-Profit Organizations,Qeyri-Kömək Təşkilatları,Некоммерческие организации",
+        "Other,Digər,Другой",
       ],
     });
   } catch (error) {
