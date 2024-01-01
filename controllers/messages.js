@@ -81,7 +81,7 @@ const getMyNewMessageCount = async (req, res) => {
 const getMessages = async (req, res) => {
   try {
     const { email } = req.user;
-    const { id } = req.body;
+    const { id, limit } = req.body;
     const newUser = await user.findOne({ _id: id });
     const myUser = await user.findOne({ email: email });
 
@@ -92,17 +92,29 @@ const getMessages = async (req, res) => {
       });
     }
 
-    const allMessages = await messages.find({
+    const totalCount = await messages.countDocuments({
       $or: [
         { sender: myUser, receiver: newUser },
         { sender: newUser, receiver: myUser },
       ],
-      status: { $in: ["send", "read"] }, // Fetch messages with "send" or "read" status
-      status: { $ne: "deleted" }, // Exclude messages with status "deleted"
+      status: { $in: ["send", "read"], $ne: "deleted" },
     });
+
+    const skipCount = Math.max(0, totalCount - limit);
+
+    const lastMessages = await messages
+      .find({
+        $or: [
+          { sender: myUser, receiver: newUser },
+          { sender: newUser, receiver: myUser },
+        ],
+        status: { $in: ["send", "read"], $ne: "deleted" },
+      })
+      .skip(skipCount)
+      .limit(20); // Limit the result to 20 messages
     res.status(200).json({
       error: false,
-      data: allMessages,
+      data: lastMessages,
     });
   } catch (error) {
     res.status(500).json({
