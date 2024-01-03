@@ -352,6 +352,7 @@ const getAllMyJobs = async (req, res) => {
       likedJob: myUser.likedJobs.includes(oneJob._id),
       reportedJob: myUser.reportedJobs.includes(oneJob._id),
       myJob: myUser.addedJobs.includes(oneJob._id),
+      trDate: changeDate(oneJob.createdAt, res.__("today")),
     }));
     res.status(200).json({
       error: false,
