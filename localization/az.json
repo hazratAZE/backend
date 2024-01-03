@@ -51,5 +51,6 @@
   "you_have_new_apply": "Elanınız üçün yeni müraciət var",
   "success_register": "Hörmətli istifadəçi, Yolu mobil tətbiqinə xoş gəlmisiniz",
   "sended_request": "sizin elanınız üçün sorğu göndərib",
-  "welcome_app": "Yolu mobil platformasına xoş gəlmisiniz. İş tapmaq üçün bələdçiniz Yolu ilə geniş iş imkanlarından yararlanın."
+  "welcome_app": "Yolu mobil platformasına xoş gəlmisiniz. İş tapmaq üçün bələdçiniz Yolu ilə geniş iş imkanlarından yararlanın.",
+  "user_already_blocked": "İstifadəçi artıq bloklanıb"
 }

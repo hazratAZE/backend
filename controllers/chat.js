@@ -284,23 +284,37 @@ const blockUser = async (req, res) => {
     const { id, block } = req.body;
     const myUser = await user.findOne({ email: email });
     const newUser = await user.findOne({ _id: id });
-
-    if (!newUser || !newUser) {
+    let isUserBlocked = false;
+    for (const blockedUser of myUser.blockUsers) {
+      if (blockedUser._id.toString() === id._id) {
+        isUserBlocked = true;
+        break;
+      }
+    }
+    if (!newUser || !myUser) {
       res.status(419).json({
         error: true,
         message: res.__("user_not_found"),
       });
     } else {
       if (!block) {
-        myUser.blockUsers.push(newUser);
-        await myUser.save();
-        res.status(200).json({
-          error: false,
-          message: res.__("user_blocked"),
-        });
+        if (!isUserBlocked) {
+          myUser.blockUsers.push(newUser);
+          await myUser.save();
+          res.status(200).json({
+            error: false,
+            message: res.__("user_blocked"),
+          });
+        } else {
+          res.status(200).json({
+            error: false,
+            message: res.__("user_already_blocked"),
+          });
+        }
       } else {
-        const index = myUser.blockUsers.indexOf(newUser);
-        myUser.blockUsers.splice(index, 1); // Removing newUser from blockUsers list
+        myUser.blockUsers = myUser.blockUsers.filter(
+          (blockedUser) => blockedUser._id.toString() !== newUser._id.toString()
+        ); // Removing newUser from blockUsers list
         await myUser.save();
         res.status(200).json({
           error: false,
