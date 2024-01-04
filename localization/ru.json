@@ -22,7 +22,7 @@
   "description_field_is_required": "Описание должно содержать не менее 60 символов",
   "company_email_is_required": "Требуется электронная почта компании",
   "company_name_is_required": "Требуется название компании",
-  "user_successfully_updated": "Пользователь успешно обновлен",
+  "user_successfully_updated": "Информация о пользователе успешно обновлена",
   "your_device_location_not_active": "Местоположение вашего устройства не активно",
   "subcategory_field_is_required": "Требуется поле подкатегории",
   "age_field_is_required": "Требуется поле возраста",
