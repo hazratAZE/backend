@@ -670,6 +670,7 @@ const updateUser = async (req, res) => {
           experience: experience,
           driveLicense: driveLicense,
           about: about,
+          fullName: `${name} ${surname}`,
         }
       );
       const myUser = await User.findOne({ email: email });
