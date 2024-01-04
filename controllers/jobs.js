@@ -400,6 +400,7 @@ const getMySavedJobs = async (req, res) => {
             reportedJob: myUser.reportedJobs.includes(oneJob._id),
             myJob: myUser.addedJobs.includes(oneJob._id),
             appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+            trDate: changeDate(oneJob.createdAt, res.__("today")),
           };
         } catch (error) {
           console.error("Error fetching user details:", error);
@@ -497,6 +498,7 @@ const getMyReportedJobs = async (req, res) => {
             reportedJob: myUser.reportedJobs.includes(oneJob._id),
             myJob: myUser.addedJobs.includes(oneJob._id),
             appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+            trDate: changeDate(oneJob.createdAt, res.__("today")),
           };
         } catch (error) {
           console.error("Error fetching user details:", error);
@@ -558,6 +560,7 @@ const getMyAppledJobs = async (req, res) => {
             reportedJob: myUser.reportedJobs.includes(oneJob._id),
             myJob: myUser.addedJobs.includes(oneJob._id),
             appliedJobs: myUser.appliedJobs.includes(oneJob._id),
+            trDate: changeDate(oneJob.createdAt, res.__("today")),
           };
         } catch (error) {
           console.error("Error fetching user details:", error);
