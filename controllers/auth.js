@@ -146,7 +146,7 @@ const verifyEmail = async (req, res) => {
     if (!userId || !otp) {
       res.status(419).json({
         error: true,
-        message: "Empty details not allowed",
+        message: res.__("enter_the_code"),
       });
     } else {
       const UserOtpRecords = await UserOTPVerification.find({ userId: userId });
@@ -162,13 +162,13 @@ const verifyEmail = async (req, res) => {
           UserOTPVerification.deleteMany({ userId: userId });
           res.status(419).json({
             error: true,
-            message: "Code is expired",
+            message: res.__("code_is_expired"),
           });
         } else {
           if (password !== otp) {
             res.status(419).json({
               error: true,
-              message: "Code invalid",
+              message: res.__("code_is_incorrect"),
             });
           } else {
             await user.updateOne({ _id: userId }, { verified: true });
