@@ -92,26 +92,33 @@ const getMessages = async (req, res) => {
       });
     }
 
-    const totalCount = await messages.countDocuments({
+    var lastMessages = await messages.find({
       $or: [
         { sender: myUser, receiver: newUser },
         { sender: newUser, receiver: myUser },
       ],
       status: { $in: ["send", "read"], $ne: "deleted" },
     });
-
-    const skipCount = Math.max(0, totalCount - limit);
-
-    const lastMessages = await messages
-      .find({
-        $or: [
-          { sender: myUser, receiver: newUser },
-          { sender: newUser, receiver: myUser },
-        ],
-        status: { $in: ["send", "read"], $ne: "deleted" },
+    const page = parseInt(req.query.page) || 1;
+    const endIndex = page * limit;
+    lastMessages = lastMessages.reverse();
+    lastMessages = lastMessages.slice(0, endIndex);
+    lastMessages = lastMessages.reverse();
+    // Limit the result to 20 messages
+    lastMessages = await Promise.all(
+      lastMessages.map(async (oneJob) => {
+        try {
+          return {
+            ...oneJob._doc,
+            trDate: changeDate(oneJob.createdAt, res.__("today")),
+          };
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+          // Handle error if necessary, e.g., return the original job details
+          return oneJob._doc;
+        }
       })
-      .skip(skipCount)
-      .limit(20); // Limit the result to 20 messages
+    );
     res.status(200).json({
       error: false,
       data: lastMessages,
@@ -154,7 +161,33 @@ const deleteMessage = async (req, res) => {
     });
   }
 };
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
 
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
+  }
+};
 module.exports = {
   createMessage,
   getMessages,
