@@ -908,34 +908,41 @@ const applyJob = async (req, res) => {
           message: "Un apply successfully",
         });
       } else {
-        myUser.appliedJobs.push(myJob);
-        myJob.applicants.push(myUser);
-        sendPushNotification(
-          owner.fcmToken,
-          res.__("you_have_new_apply"),
-          `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
-          "apply",
-          myUser.email,
-          myUser.image,
-          myUser.email,
-          myUser.name + " " + myUser.surname
-        );
-        const notification = await createNotification(
-          "New apply",
-          `${myUser.name} ${myUser.surname}`,
-          myUser.image,
-          myJob._id,
-          "apply"
-        );
-        myJob.rating = myJob.rating + 1;
-        owner.notifications.push(notification);
-        await owner.save();
-        await myUser.save();
-        await myJob.save();
-        res.status(200).json({
-          error: false,
-          message: "Apply successfully",
-        });
+        if (owner.blockUsers.includes(myUser._id)) {
+          res.status(419).json({
+            error: true,
+            message: res.__("user_blocked_your_account"),
+          });
+        } else {
+          myUser.appliedJobs.push(myJob);
+          myJob.applicants.push(myUser);
+          sendPushNotification(
+            owner.fcmToken,
+            res.__("you_have_new_apply"),
+            `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
+            "apply",
+            myUser.email,
+            myUser.image,
+            myUser.email,
+            myUser.name + " " + myUser.surname
+          );
+          const notification = await createNotification(
+            "New apply",
+            `${myUser.name} ${myUser.surname}`,
+            myUser.image,
+            myJob._id,
+            "apply"
+          );
+          myJob.rating = myJob.rating + 1;
+          owner.notifications.push(notification);
+          await owner.save();
+          await myUser.save();
+          await myJob.save();
+          res.status(200).json({
+            error: false,
+            message: "Apply successfully",
+          });
+        }
       }
     } else {
       res.status(404).json({
