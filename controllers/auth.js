@@ -1091,10 +1091,8 @@ const reportUser = async (req, res) => {
 };
 const googleRegister = async (req, res) => {
   try {
-    const authorizationCode = req.query.code;
     res.status(200).json({
       error: false,
-      code: authorizationCode,
     });
   } catch (error) {
     res.status(500).json({
