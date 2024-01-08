@@ -9,6 +9,8 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { fromBase64 } = require("@aws-sdk/util-base64-node"); // You may need to install this package
 const { createNotification } = require("./notifications");
 const job = require("../schemas/job");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -17,6 +19,22 @@ let transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.clientID,
+      clientSecret: process.env.clientSecret,
+      callbackURL: "http://localhost:3001/auth/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // Use the profile info (e.g., profile.id, profile.emails, etc.) to create or find a user in your database
+      // This function will be called after a successful authentication
+      // You can perform DB operations here, and then call `done(null, user)` with the user object
+      console.log(profile);
+      return done(null, profile);
+    }
+  )
+);
 const getAllUsers = async (req, res) => {
   try {
     const { email, typing, limit } = req.query;
@@ -1071,6 +1089,20 @@ const reportUser = async (req, res) => {
     });
   }
 };
+const googleRegister = async (req, res) => {
+  try {
+    const authorizationCode = req.query.code;
+    res.status(200).json({
+      error: false,
+      code: authorizationCode,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      code: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -1093,4 +1125,5 @@ module.exports = {
   getUserInfo,
   changeCallPermission,
   changeMapPermission,
+  googleRegister,
 };

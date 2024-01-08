@@ -21,6 +21,7 @@ const {
   changeCallPermission,
   changeMapPermission,
   reportUser,
+  googleRegister,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -47,5 +48,6 @@ routes.post("/getUserInfo", getUserInfo);
 routes.post("/changePrivateMode", verifyJwt, changeCallPermission);
 routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
 routes.post("/reportUser", verifyJwt, reportUser);
+routes.post("/callback", googleRegister);
 
 module.exports = routes;
