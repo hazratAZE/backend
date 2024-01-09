@@ -1139,6 +1139,15 @@ const googleRegister = async (req, res) => {
         agreement: true,
       });
       await newUser.save();
+      const notification = await createNotification(
+        "Register",
+        `${newUser.name} ${newUser.surname}`,
+        newUser.image,
+        newUser._id,
+        "register"
+      );
+      newUser.notifications.push(notification);
+      await newUser.save();
       res.status(200).json({
         error: false,
         message: "User found",
