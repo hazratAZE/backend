@@ -581,7 +581,8 @@ const updateUser = async (req, res) => {
       about,
     } = req.body;
     const { email } = req.user;
-    if (!email) {
+    const myUser = await User.findOne({ email: email });
+    if (!email || !myUser) {
       res.status(419).json({
         error: true,
         message: "Authentication failed",
@@ -597,77 +598,77 @@ const updateUser = async (req, res) => {
           message: res.__("surname_section_is_required"),
         },
       });
-    } else if (!jobCategory) {
+    } else if (!jobCategory && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "jobCategory",
           message: res.__("job_category_is_required"),
         },
       });
-    } else if (!subCategory) {
+    } else if (!subCategory && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "subCategory",
           message: res.__("subcategory_field_is_required"),
         },
       });
-    } else if (!city) {
+    } else if (!city && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "city",
           message: res.__("city_field_is_required"),
         },
       });
-    } else if (!address) {
+    } else if (!address && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "address",
           message: res.__("address_field_is_required"),
         },
       });
-    } else if (!gender) {
+    } else if (!gender && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "gender",
           message: res.__("gender_field_is_required"),
         },
       });
-    } else if (!country) {
+    } else if (!country && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "country",
           message: res.__("country_field_is_required"),
         },
       });
-    } else if (!phoneNumberPattern.test(phone)) {
+    } else if (!phoneNumberPattern.test(phone) && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "phone",
           message: res.__("phone_field_is_required"),
         },
       });
-    } else if (!age) {
+    } else if (!age && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "age",
           message: res.__("age_field_is_required"),
         },
       });
-    } else if (!experience) {
+    } else if (!experience && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "experience",
           message: res.__("experiance_field_is_required"),
         },
       });
-    } else if (!driveLicense) {
+    } else if (!driveLicense && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "driveLicense",
           message: res.__("driver_license_field_is_required"),
         },
       });
-    } else if (about.length < 60) {
+    } else if (about && about.length < 60 && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "about",
