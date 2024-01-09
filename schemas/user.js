@@ -24,7 +24,6 @@ const User = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
     },
     verified: {
       type: Boolean,
@@ -137,6 +136,13 @@ const User = new mongoose.Schema(
     },
     fcmToken: {
       type: String,
+    },
+    googleId: {
+      type: String,
+    },
+    googleAuth: {
+      type: Boolean,
+      default: false,
     },
     call: {
       type: Boolean,

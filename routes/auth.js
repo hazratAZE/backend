@@ -48,6 +48,6 @@ routes.post("/getUserInfo", getUserInfo);
 routes.post("/changePrivateMode", verifyJwt, changeCallPermission);
 routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
 routes.post("/reportUser", verifyJwt, reportUser);
-routes.get("/callback", googleRegister);
+routes.post("/googleAuth", googleRegister);
 
 module.exports = routes;

@@ -6,11 +6,9 @@ const nodemailer = require("nodemailer");
 const user = require("../schemas/user");
 var validator = require("email-validator");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const { fromBase64 } = require("@aws-sdk/util-base64-node"); // You may need to install this package
+// You may need to install this package
 const { createNotification } = require("./notifications");
 const job = require("../schemas/job");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -19,22 +17,6 @@ let transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.clientID,
-      clientSecret: process.env.clientSecret,
-      callbackURL: "http://localhost:3001/auth/callback",
-    },
-    (accessToken, refreshToken, profile, done) => {
-      // Use the profile info (e.g., profile.id, profile.emails, etc.) to create or find a user in your database
-      // This function will be called after a successful authentication
-      // You can perform DB operations here, and then call `done(null, user)` with the user object
-      console.log(profile);
-      return done(null, profile);
-    }
-  )
-);
 const getAllUsers = async (req, res) => {
   try {
     const { email, typing, limit } = req.query;
@@ -302,33 +284,42 @@ const loginUser = async (req, res) => {
     } else {
       const user = await User.findOne({ email: email });
       if (user) {
-        if (!user.verified) {
-          resendOtpCode(user, res);
+        if (user.googleAuth) {
+          res.status(419).json({
+            error: {
+              type: "email",
+              message: res.__("google_auth"),
+            },
+          });
         } else {
-          const matchPassword = await bcrypt.compare(password, user.password);
-          if (matchPassword) {
-            const token = await jwt.sign(
-              { email: email, password: password },
-              process.env.JWT_SECRET,
-              {
-                expiresIn: "7d",
-              }
-            );
-            user.fcmToken = fcmtoken;
-            await user.save();
-            res.status(200).json({
-              error: false,
-              message: "User found",
-              user: user,
-              token: token,
-            });
+          if (!user.verified) {
+            resendOtpCode(user, res);
           } else {
-            res.status(419).json({
-              error: {
-                type: "password",
-                message: res.__("password_is_incorrect"),
-              },
-            });
+            const matchPassword = await bcrypt.compare(password, user.password);
+            if (matchPassword) {
+              const token = await jwt.sign(
+                { email: email, password: password },
+                process.env.JWT_SECRET,
+                {
+                  expiresIn: "7d",
+                }
+              );
+              user.fcmToken = fcmtoken;
+              await user.save();
+              res.status(200).json({
+                error: false,
+                message: "User found",
+                user: user,
+                token: token,
+              });
+            } else {
+              res.status(419).json({
+                error: {
+                  type: "password",
+                  message: res.__("password_is_incorrect"),
+                },
+              });
+            }
           }
         }
       } else {
@@ -474,7 +465,16 @@ const forgotPassword = async (req, res) => {
           },
         });
       } else {
-        resendOtpCode({ email: user.email, _id: user._id }, res);
+        if (user.googleAuth) {
+          res.status(419).json({
+            error: {
+              type: "email",
+              message: res.__("google_auth"),
+            },
+          });
+        } else {
+          resendOtpCode({ email: user.email, _id: user._id }, res);
+        }
       }
     }
   } catch (error) {
@@ -1091,13 +1091,65 @@ const reportUser = async (req, res) => {
 };
 const googleRegister = async (req, res) => {
   try {
-    res.status(200).json({
-      error: false,
-    });
+    const { name, surname, email, photo, googleId, fcmtoken } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      if (!user.googleAuth) {
+        res.status(419).json({
+          error: {
+            type: "email",
+            message: res.__("this_email_already_registered"),
+          },
+        });
+      } else {
+        const user = await User.findOne({ googleId: googleId });
+        const token = await jwt.sign(
+          { email: email, password: "123456" },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "7d",
+          }
+        );
+        user.fcmToken = fcmtoken;
+        await user.save();
+        res.status(200).json({
+          error: false,
+          message: "User found",
+          user: user,
+          token: token,
+        });
+      }
+    } else {
+      const token = await jwt.sign(
+        { email: email, password: "123456" },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "7d",
+        }
+      );
+      const newUser = new User({
+        name: name,
+        surname: surname,
+        email: email,
+        fullName: `${name} ${surname}`,
+        image: photo,
+        fcmToken: fcmtoken,
+        googleId: googleId,
+        googleAuth: true,
+        agreement: true,
+      });
+      await newUser.save();
+      res.status(200).json({
+        error: false,
+        message: "User found",
+        user: newUser,
+        token: token,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       error: true,
-      code: error.message,
+      message: error.message,
     });
   }
 };
