@@ -6,6 +6,7 @@ const { createNotification } = require("./notifications");
 var validator = require("email-validator");
 var serverKey = process.env.MY_SERVER_KEY; //put your server key here
 var fcm = new FCM(serverKey);
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
@@ -299,11 +300,7 @@ const createJob = async (req, res) => {
     const responseObject = {
       error: false,
       data: {
-        job: {
-          title: savedJob.title,
-          description: savedJob.description,
-          // Add other job fields as needed
-        },
+        job: newJob,
         user: {
           email: existingUser.email,
           // Add other user fields as needed
@@ -1238,6 +1235,63 @@ const sendPushNotification = (
     }
   });
 };
+const uploadImages = async (req, res) => {
+  const s3Client = new S3Client({
+    region: "eu-north-1",
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
+
+  try {
+    const { email } = req.user;
+    const { jobId } = req.body;
+    const thisJob = await job.findOne({ _id: jobId });
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    } else {
+      // Convert the base64 image data to a Buffer
+      const base64ImageData = req.files.data.data;
+      // Set the S3 bucket and object key
+      const params = {
+        Bucket: "worklytest",
+        Key: req.files.data.name, // Change the filename as needed
+        Body: base64ImageData,
+      };
+
+      // Upload the image to S3
+      const command = new PutObjectCommand(params);
+      await s3Client.send(command, async (err, data) => {
+        if (err) {
+          res.status(500).json({
+            error: true,
+            message: err.message,
+          });
+        } else {
+          thisJob.images.push(
+            `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`
+          );
+          await thisJob.save();
+          res.status(201).json({
+            error: false,
+            message: "Your image added successfully",
+            data: data,
+            location: `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`,
+          });
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Error uploading to S3:", error);
+    res.status(500).json({ error: "Error uploading image to S3" });
+  }
+};
+
 module.exports = {
   getAllJobs,
   createJob,
@@ -1256,4 +1310,5 @@ module.exports = {
   deleteJob,
   editJob,
   sendPushNotification,
+  uploadImages,
 };

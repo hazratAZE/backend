@@ -16,6 +16,7 @@ const {
   getMyAppledJobs,
   deleteJob,
   editJob,
+  uploadImages,
 } = require("../controllers/jobs");
 const { verifyJwt } = require("../middleware/jwt");
 const routes = express.Router();
@@ -35,5 +36,6 @@ routes.post("/applyJob", verifyJwt, applyJob);
 routes.get("/getMyAppliedJobs", verifyJwt, getMyAppledJobs);
 routes.post("/deleteJob", verifyJwt, deleteJob);
 routes.post("/editJob", verifyJwt, editJob);
+routes.post("/uploadImages", verifyJwt, uploadImages);
 
 module.exports = routes;
