@@ -1112,8 +1112,8 @@ const editJob = async (req, res) => {
             salary: salary,
             criterion: criterion,
             lauch: lauch,
-            description: description,
             images: images,
+            description: description,
           }
         );
         const myJob = await job.findOne({ _id: id });
