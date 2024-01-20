@@ -1002,6 +1002,7 @@ const editJob = async (req, res) => {
       criterion,
       lauch,
       description,
+      images,
       id,
     } = req.body;
     const { email } = req.user;
@@ -1112,6 +1113,7 @@ const editJob = async (req, res) => {
             criterion: criterion,
             lauch: lauch,
             description: description,
+            images: images,
           }
         );
         const myJob = await job.findOne({ _id: id });
