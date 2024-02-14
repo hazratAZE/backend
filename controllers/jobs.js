@@ -259,15 +259,16 @@ const createJob = async (req, res) => {
       addedUser: existingUser._id, // Assign the user's ID as the 'createdBy' value
     });
     let endDate = new Date();
+    const millisecondsInMinute = 1000 * 60;
     const millisecondsInDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
     const millisecondsInMonth = millisecondsInDay * 30; // Milliseconds in a month (approximate)
 
     if (newJob.type === "Daily") {
       // Add 3 days if the job type is "Daily"
-      endDate.setTime(endDate.getTime() + 3 * millisecondsInDay);
+      endDate.setTime(Date.now() + 5 * millisecondsInMinute);
     } else {
       // Add one month if the job type is not "Daily"
-      endDate.setTime(endDate.getTime() + millisecondsInMonth);
+      endDate.setTime(Date.now() + millisecondsInMonth);
     }
 
     // Save the new job to the database
