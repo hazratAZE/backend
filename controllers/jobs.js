@@ -259,7 +259,6 @@ const createJob = async (req, res) => {
       addedUser: existingUser._id, // Assign the user's ID as the 'createdBy' value
     });
     let endDate = new Date();
-    const millisecondsInMinute = 1000 * 60;
     const millisecondsInDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
     const millisecondsInMonth = millisecondsInDay * 30; // Milliseconds in a month (approximate)
 
@@ -276,7 +275,6 @@ const createJob = async (req, res) => {
     const savedJob = await newJob.save();
     // Schedule a job status update for 3 days in the future
     // Schedule the job status update
-    scheduleJobStatusUpdate(savedJob._id, endDate);
 
     // Add the job object to the 'addedJobs' array of the user
     existingUser.addedJobs.push(savedJob);
@@ -1132,22 +1130,34 @@ const editJob = async (req, res) => {
     });
   }
 };
-function scheduleJobStatusUpdate(jobId, date) {
-  console.log(jobId, date);
-  schedule.scheduleJob(date, async () => {
-    try {
-      // Find the job by ID
-      const jobToUpdate = await job.findOne({ _id: jobId });
-      if (jobToUpdate) {
-        // Update the job status to "closed"
-        jobToUpdate.status = "closed";
-        await jobToUpdate.save();
-      }
-    } catch (error) {
-      console.error("Error updating job status:", error);
-    }
-  });
+
+const jobUpdateSchedule = schedule.scheduleJob("*/5 * * * *", async () => {
+  console.log("Running job update...");
+  await updateJobStatusSchedule();
+});
+
+async function updateJobStatusSchedule() {
+  try {
+    const currentDate = new Date();
+
+    // End date'i geçmiş ve deleted statusu olmayan işleri bul ve güncelle
+    const result = await job.updateMany(
+      {
+        endDate: { $lt: currentDate },
+        status: { $ne: "closed", $ne: "deleted" },
+      }, // End date'i geçmiş, statusu "closed" olmayan ve deleted statusu olmayan işleri bul
+      { $set: { status: "closed" } } // Status'u "closed" olarak güncelle
+    );
+
+    console.log(`${result.modifiedCount} jobs updated.`);
+  } catch (error) {
+    console.error("Error updating job status:", error);
+  } finally {
+    // Veritabanı bağlantısını kapat
+    console.log("Disconnected from MongoDB");
+  }
 }
+
 function formatTimeRemaining(milliseconds, res) {
   const minutes = Math.floor(milliseconds / 1000 / 60);
   const hours = Math.floor(minutes / 60);
@@ -1176,8 +1186,14 @@ function formatTimeRemaining(milliseconds, res) {
     );
   }
 
+  // Eğer kalan süre bir saatden azsa "less than one hour" yaz
+  if (days === 0 && hours === 0 && minutes < 60) {
+    return res.__("less_than_one_hour");
+  }
+
   return timeParts.join(" ");
 }
+
 const changeDate = (backendTime, newDate) => {
   // Get today's date
   const today = new Date();

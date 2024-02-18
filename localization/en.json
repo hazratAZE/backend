@@ -54,5 +54,6 @@
   "welcome_app": "Welcome to the Yolu mobile platform. Take advantage of a wide range of job opportunities with Yolu, your guide to finding a job.",
   "user_already_blocked": "The user has already been blocked",
   "enter_the_code": "Please enter the code",
-  "google_auth": "This email address is already registered with Google. Please try to sign in using the 'Continue with Google' option"
+  "google_auth": "This email address is already registered with Google. Please try to sign in using the 'Continue with Google' option",
+  "less_than_one_hour": "Less than an hour"
 }
