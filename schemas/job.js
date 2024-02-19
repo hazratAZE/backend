@@ -26,6 +26,10 @@ const Job = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    see: {
+      type: Number,
+      default: 0,
+    },
     agreement: {
       type: Boolean,
       required: true,

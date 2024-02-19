@@ -674,7 +674,8 @@ const getOneJob = async (req, res) => {
                 : newJob.category.split(",")[0],
             trDate: changeDate(newJob.createdAt, res.__("today")),
           };
-
+          newJob.see = newJob.see + 1;
+          await newJob.save();
           res.status(200).json({
             error: false,
             data: jobWithMyStatus,
