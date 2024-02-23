@@ -55,5 +55,9 @@
   "user_already_blocked": "İstifadəçi artıq bloklanıb",
   "enter_the_code": "Zəhmət olmasa kodu daxil edin",
   "google_auth": "Bu e-poçt ünvanı artıq Google ilə daxil olub. Lütfən, 'Google ilə davam edin' seçimindən istifadə edərək daxil olmağa cəhd edin",
-  "less_than_one_hour": "Bir saatdan az"
+  "less_than_one_hour": "Bir saatdan az",
+  "job_added_successfully": "Hörmətli istifadəçi, elanınız uğurla yayımlandı",
+  "job_added_successfully_des": "Elanınız hazırda bütün istifadəçilər üçün əlçatandır",
+  "reject_announce": "Hörmətli istifadəçi, elanınız dərc olunmayıb",
+  "reject_announce_des": "Hörmətli istifadəçi, elanın formatı səhvdir. Təlimatları oxuyun və yenidən cəhd edin"
 }

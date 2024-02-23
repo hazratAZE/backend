@@ -44,7 +44,7 @@ const Job = new mongoose.Schema(
     },
     status: {
       type: Object,
-      default: "active",
+      default: "pending",
     },
     location: {
       type: String,

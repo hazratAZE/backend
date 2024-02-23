@@ -7,6 +7,100 @@ var validator = require("email-validator");
 var serverKey = process.env.MY_SERVER_KEY; //put your server key here
 var fcm = new FCM(serverKey);
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+
+const getAllJobsAdmin = async (req, res) => {
+  try {
+    let allJobsQuery = job.find().sort({ createdAt: -1 });
+    let allJobs = await allJobsQuery;
+
+    res.status(200).json({
+      error: false,
+      data: allJobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const checkJob = async (req, res) => {
+  try {
+    const { id, userId, status, category } = req.body;
+    const newJob = await job.findOne({ _id: id });
+    if (status == "accept") {
+      newJob.status = "active";
+      await newJob.save();
+      console.log(newJob);
+      const myUser = await user.findOne({ _id: userId });
+      sendPushNotification(
+        myUser.fcmToken,
+        "Hörmətli istifadəçi, elanınız uğurla yayımlandı",
+        `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
+    `,
+        "info",
+        myUser._id,
+        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "noemail"
+      );
+      const userList = await user.find({ jobCategory: category });
+      const notification = await createNotification(
+        "addedJob",
+        `${myUser.name} ${myUser.surname}`,
+        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        myUser._id,
+        "addedJob"
+      );
+      myUser.notifications.push(notification);
+      await myUser.save();
+      userList.forEach(async (one) => {
+        // Check if the user ID matches the ID of the user who created the job
+        if (one._id.toString() !== myUser._id.toString()) {
+          await sendPushNotification(
+            one.fcmToken,
+            "Sizin sahenize uygun yeni is elani!",
+            `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
+    `,
+            "info",
+            one._id,
+            "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+            "noemail"
+          );
+        }
+      });
+    } else {
+      newJob.status = "deleted";
+      await newJob.save();
+      const myUser = await user.findOne({ _id: userId });
+      console.log(myUser);
+      sendPushNotification(
+        myUser.fcmToken,
+        "Elanınız dərc edilmədi!",
+        `Hörmətli istifadəçi, təəssüf ki, elanınızı dərc edə bilmədik. Təlimatları diqqətlə oxuyun və yenidən cəhd edin
+      `,
+        "info",
+        myUser._id,
+        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "noemail"
+      );
+
+      const notification = await createNotification(
+        "rejectJob",
+        `${myUser.name} ${myUser.surname}`,
+        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        myUser._id,
+        "rejectJob"
+      );
+      myUser.notifications.push(notification);
+      await myUser.save();
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
@@ -280,22 +374,7 @@ const createJob = async (req, res) => {
     existingUser.addedJobs.push(savedJob);
     // Save the updated user document
     await existingUser.save();
-    const userList = await user.find({ jobCategory: category });
-    userList.forEach(async (one) => {
-      // Check if the user ID matches the ID of the user who created the job
-      if (one._id.toString() !== existingUser._id.toString()) {
-        await sendPushNotification(
-          one.fcmToken,
-          "Sizin sahenize uygun yeni is elani!",
-          `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
-  `,
-          "info",
-          one._id,
-          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
-          "noemail"
-        );
-      }
-    });
+
     const responseObject = {
       error: false,
       data: {
@@ -1145,7 +1224,7 @@ async function updateJobStatusSchedule() {
     const result = await job.updateMany(
       {
         endDate: { $lt: currentDate },
-        status: { $ne: "closed", $ne: "deleted" },
+        status: { $ne: "closed", $ne: "deleted", $ne: "pending" },
       }, // End date'i geçmiş, statusu "closed" olmayan ve deleted statusu olmayan işleri bul
       { $set: { status: "closed" } } // Status'u "closed" olarak güncelle
     );
@@ -1331,4 +1410,6 @@ module.exports = {
   editJob,
   sendPushNotification,
   uploadImages,
+  getAllJobsAdmin,
+  checkJob,
 };
