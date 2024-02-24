@@ -4,10 +4,18 @@ const schedule = require("node-schedule");
 var FCM = require("fcm-node");
 const { createNotification } = require("./notifications");
 var validator = require("email-validator");
+const nodemailer = require("nodemailer");
 var serverKey = process.env.MY_SERVER_KEY; //put your server key here
 var fcm = new FCM(serverKey);
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.AUTH_EMAIL,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 const getAllJobsAdmin = async (req, res) => {
   try {
     let allJobsQuery = job.find().sort({ createdAt: -1 });
@@ -17,6 +25,51 @@ const getAllJobsAdmin = async (req, res) => {
       error: false,
       data: allJobs,
     });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const reActiveJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.query;
+
+    if (!email) {
+      res.status(404).json({
+        error: true,
+        message: "Authentication failed",
+      });
+    } else {
+      const myUser = await user.findOne({ email: email });
+
+      if (!myUser) {
+        res.status(404).json({
+          error: true,
+          message: "Authentication failed",
+        });
+      } else {
+        const currentJob = await job.findOne({ _id: id });
+
+        if (!currentJob) {
+          res.status(404).json({
+            error: true,
+            message: "Job not found",
+          });
+        } else {
+          await job.updateOne({ _id: id }, { status: "pending" });
+          const myJob = await job.findOne({ _id: id });
+
+          res.status(200).json({
+            error: false,
+            data: myJob,
+            message: res.__("announce_status_updated"),
+          });
+        }
+      }
+    }
   } catch (error) {
     res.status(500).json({
       error: true,
@@ -69,7 +122,7 @@ const checkJob = async (req, res) => {
         }
       });
     } else {
-      newJob.status = "deleted";
+      newJob.status = "rejected";
       await newJob.save();
       const myUser = await user.findOne({ _id: userId });
       console.log(myUser);
@@ -385,6 +438,22 @@ const createJob = async (req, res) => {
         },
       },
     };
+    const mailOptions = {
+      from: process.env.AUTH_EMAIL,
+      to: "qafulovh@gmail.com",
+      subject: "Yeni elan",
+      html: `
+          <html>
+            <body>
+            <img src="https://worklytest.s3.eu-north-1.amazonaws.com/image23.png" alt="Image description" style="width: 200px; height: auto;" />
+              <h1 style="color: black; font-size: 28px;">Yeni elan elave edildi</h1>
+            
+              <p>Lutfen adminpaneli yoxlayin</p>
+            </body>
+          </html>
+        `,
+    };
+    await transporter.sendMail(mailOptions);
     res.status(201).json({
       error: false,
       data: responseObject,
@@ -615,7 +684,13 @@ const getMyAppledJobs = async (req, res) => {
 
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
     var allJobs = await job.find({ _id: { $in: jobIds } });
-    allJobs = await allJobs.filter((job) => job.status !== "deleted");
+    allJobs = allJobs.filter((job) => {
+      return (
+        job.status !== "deleted" &&
+        job.status !== "pending" &&
+        job.status !== "rejected"
+      );
+    });
     if (req.query.status === "active") {
       allJobs = await allJobs.filter((job) => job.status === "active");
     } else if (req.query.status === "closed") {
@@ -1224,7 +1299,12 @@ async function updateJobStatusSchedule() {
     const result = await job.updateMany(
       {
         endDate: { $lt: currentDate },
-        status: { $ne: "closed", $ne: "deleted", $ne: "pending" },
+        status: {
+          $ne: "closed",
+          $ne: "deleted",
+          $ne: "pending",
+          $ne: "rejected",
+        },
       }, // End date'i geçmiş, statusu "closed" olmayan ve deleted statusu olmayan işleri bul
       { $set: { status: "closed" } } // Status'u "closed" olarak güncelle
     );
@@ -1412,4 +1492,5 @@ module.exports = {
   uploadImages,
   getAllJobsAdmin,
   checkJob,
+  reActiveJob,
 };
