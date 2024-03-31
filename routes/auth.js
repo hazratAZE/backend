@@ -22,12 +22,14 @@ const {
   changeMapPermission,
   reportUser,
   googleRegister,
+  getAllUsersMap,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
 const routes = express.Router();
 
 routes.get("/users", getAllUsers);
+routes.get("/usersMap", getAllUsersMap);
 routes.post("/login", loginUser);
 routes.post("/register", registerUser);
 routes.post("/verifyOtp", verifyEmail);

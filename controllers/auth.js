@@ -59,6 +59,49 @@ const getAllUsers = async (req, res) => {
     });
   }
 };
+const getAllUsersMap = async (req, res) => {
+  try {
+    const { email, typing, limit } = req.query;
+    var users;
+    const filter = {
+      role: "master",
+      map: true,
+    };
+    if (req.query.category) {
+      filter.jobCategory = req.query.category;
+    }
+    if (req.query.city) {
+      filter.city = req.query.city;
+    }
+    if (email) {
+      users = await user
+        .find({
+          ...filter,
+          email: { $ne: email }, // Exclude the user with the specified email
+        })
+        .sort({ rating: -1 });
+    } else {
+      users = await user.find(filter).sort({ rating: -1 });
+    }
+    const page = parseInt(req.query.page) || 1;
+    const endIndex = page * limit;
+    users = users.slice(0, endIndex);
+    if (typing) {
+      users = users.filter((oneJob) =>
+        oneJob.fullName.toLocaleLowerCase().includes(typing)
+      );
+    }
+    res.status(200).json({
+      error: false,
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const registerUser = async (request, response) => {
   const { name, surname, email, password, confirmPassword, agreement } =
     request.body;
@@ -1182,6 +1225,7 @@ module.exports = {
   sendAgainOtp,
   uploadImage,
   getAllUsers,
+  getAllUsersMap,
   getUserInfo,
   changeCallPermission,
   changeMapPermission,
