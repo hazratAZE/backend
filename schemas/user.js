@@ -188,6 +188,10 @@ const User = new mongoose.Schema(
     fullName: {
       type: String,
     },
+    balance: {
+      type: Number,
+      default: 50,
+    },
   },
   {
     timestamps: true,
