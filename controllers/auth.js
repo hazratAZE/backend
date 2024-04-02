@@ -962,31 +962,48 @@ const getUserInfo = async (req, res) => {
     const myUser = await user.findOne({ email: email });
     const newUser = await user.findOne({ email: emailUser });
     var myUserTr;
-    if (!email) {
-      myUserTr = {
-        ...newUser._doc,
-        trCity:
-          lang == "az"
-            ? newUser.city.split(",")[0]
-            : lang == "ru"
-            ? newUser.city.split(",")[1]
-            : newUser.city.split(",")[2],
-        blockMe: false,
-        blockI: false,
-      };
+    if (newUser.role != "user") {
+      if (!email) {
+        myUserTr = {
+          ...newUser._doc,
+          trCity:
+            lang == "az"
+              ? newUser.city.split(",")[0]
+              : lang == "ru"
+              ? newUser.city.split(",")[1]
+              : newUser.city.split(",")[2],
+          blockMe: false,
+          blockI: false,
+        };
+      } else {
+        myUserTr = {
+          ...newUser._doc,
+          trCity:
+            lang == "az"
+              ? newUser.city.split(",")[0]
+              : lang == "ru"
+              ? newUser.city.split(",")[1]
+              : newUser.city.split(",")[2],
+          blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
+          blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
+        };
+      }
     } else {
-      myUserTr = {
-        ...newUser._doc,
-        trCity:
-          lang == "az"
-            ? newUser.city.split(",")[0]
-            : lang == "ru"
-            ? newUser.city.split(",")[1]
-            : newUser.city.split(",")[2],
-        blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
-        blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
-      };
+      if (!email) {
+        myUserTr = {
+          ...newUser._doc,
+          blockMe: false,
+          blockI: false,
+        };
+      } else {
+        myUserTr = {
+          ...newUser._doc,
+          blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
+          blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
+        };
+      }
     }
+
     res.status(200).json({
       error: false,
       data: myUserTr,
@@ -996,6 +1013,7 @@ const getUserInfo = async (req, res) => {
       error: true,
       data: error.message,
     });
+    console.log(error.message);
   }
 };
 const changeCallPermission = async (req, res) => {
