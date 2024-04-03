@@ -60,5 +60,6 @@
   "job_added_successfully_des": "Elanınız hazırda bütün istifadəçilər üçün əlçatandır",
   "reject_announce": "Hörmətli istifadəçi, elanınız dərc olunmayıb",
   "reject_announce_des": "Hörmətli istifadəçi, elanın formatı səhvdir. Təlimatları oxuyun və yenidən cəhd edin",
-  "balance_update_success": "Balans uğurla artırıldı!"
+  "balance_update_success": "Balans uğurla artırıldı!",
+  "balance_not_valid": "Bu əməliyyat üçün balansınız kifayət deyil"
 }

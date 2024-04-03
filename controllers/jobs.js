@@ -387,6 +387,7 @@ const createJob = async (req, res) => {
     }
 
     // Create a new job, assuming 'createdBy' is the user with the matching email
+
     const newJob = new job({
       title,
       description,
@@ -419,45 +420,56 @@ const createJob = async (req, res) => {
 
     // Save the new job to the database
     newJob.endDate = endDate;
-    const savedJob = await newJob.save();
-    // Schedule a job status update for 3 days in the future
-    // Schedule the job status update
+    if (existingUser.balance >= 40) {
+      existingUser.balance = existingUser.balance - 40;
+      const savedJob = await newJob.save();
+      // Schedule a job status update for 3 days in the future
+      // Schedule the job status update
 
-    // Add the job object to the 'addedJobs' array of the user
-    existingUser.addedJobs.push(savedJob);
-    // Save the updated user document
-    await existingUser.save();
+      // Add the job object to the 'addedJobs' array of the user
+      existingUser.addedJobs.push(savedJob);
 
-    const responseObject = {
-      error: false,
-      data: {
-        job: newJob,
-        user: {
-          email: existingUser.email,
-          // Add other user fields as needed
+      // Save the updated user document
+      await existingUser.save();
+
+      const responseObject = {
+        error: false,
+        data: {
+          job: newJob,
+          user: {
+            email: existingUser.email,
+            // Add other user fields as needed
+          },
         },
-      },
-    };
-    const mailOptions = {
-      from: process.env.AUTH_EMAIL,
-      to: "qafulovh@gmail.com",
-      subject: "Yeni elan",
-      html: `
-          <html>
-            <body>
-            <img src="https://worklytest.s3.eu-north-1.amazonaws.com/image23.png" alt="Image description" style="width: 200px; height: auto;" />
-              <h1 style="color: black; font-size: 28px;">Yeni elan elave edildi</h1>
-            
-              <p>Lutfen adminpaneli yoxlayin</p>
-            </body>
-          </html>
-        `,
-    };
-    await transporter.sendMail(mailOptions);
-    res.status(201).json({
-      error: false,
-      data: responseObject,
-    });
+      };
+      const mailOptions = {
+        from: process.env.AUTH_EMAIL,
+        to: "qafulovh@gmail.com",
+        subject: "Yeni elan",
+        html: `
+            <html>
+              <body>
+              <img src="https://worklytest.s3.eu-north-1.amazonaws.com/image23.png" alt="Image description" style="width: 200px; height: auto;" />
+                <h1 style="color: black; font-size: 28px;">Yeni elan elave edildi</h1>
+              
+                <p>Lutfen adminpaneli yoxlayin</p>
+              </body>
+            </html>
+          `,
+      };
+      await transporter.sendMail(mailOptions);
+      res.status(201).json({
+        error: false,
+        data: responseObject,
+      });
+    } else {
+      return res.status(419).json({
+        error: {
+          type: "agreement",
+          message: res.__("balance_not_valid"),
+        },
+      });
+    }
   } catch (error) {
     res.status(500).json({
       error: true,
