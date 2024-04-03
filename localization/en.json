@@ -59,5 +59,6 @@
   "job_added_successfully": "Dear user, Your announce has been successfully published",
   "job_added_successfully_des": "Your ad is currently available to all users",
   "reject_announce": "Dear user, your ad has not been published",
-  "reject_announce_des": "Dear user, the format of the announce is incorrect. Read the instructions and try again"
+  "reject_announce_des": "Dear user, the format of the announce is incorrect. Read the instructions and try again",
+  "balance_update_success": "The balance has been successfully increased!"
 }

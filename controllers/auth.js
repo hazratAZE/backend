@@ -1224,6 +1224,33 @@ const googleRegister = async (req, res) => {
     });
   }
 };
+const updateBalance = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { amount } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (!myUser) {
+      res.status(419).json({
+        error: {
+          type: "reason",
+          message: "User not found",
+        },
+      });
+    } else {
+      myUser.balance = myUser.balance + 5;
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: res.__("balance_update_success"),
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -1248,4 +1275,5 @@ module.exports = {
   changeCallPermission,
   changeMapPermission,
   googleRegister,
+  updateBalance,
 };
