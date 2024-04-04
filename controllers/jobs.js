@@ -1077,7 +1077,7 @@ const applyJob = async (req, res) => {
             message: res.__("user_blocked_your_account"),
           });
         } else {
-          if (myUser.balance > 10) {
+          if (myUser.balance >= 10) {
             myUser.appliedJobs.push(myJob);
             myJob.applicants.push(myUser);
             sendPushNotification(
