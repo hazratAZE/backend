@@ -146,11 +146,11 @@ const User = new mongoose.Schema(
     },
     call: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     map: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     phone: {
       type: String,
