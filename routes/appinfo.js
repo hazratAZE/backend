@@ -21,7 +21,7 @@ routes.get("/version", (req, res) => {
   try {
     res.status(200).json({
       error: false,
-      data: "1.0.1",
+      data: "1.0.2",
     });
   } catch (error) {
     res.status(500).json({
