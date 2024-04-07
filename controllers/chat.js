@@ -203,15 +203,21 @@ const getMyChats = async (req, res) => {
     };
     const allChats = await chat
       .find({ _id: { $in: chatIds } })
-      .populate("receiver"); // Populate the receiver field
-
+      .populate("receiver");
+    // Populate the receiver field
+    console.log(allChats);
     const newListPromises = allChats.map(async (oneChat) => {
-      const receiver = oneChat.receiver[0]; // Assuming one receiver per chat for simplicity
+      const receiver = oneChat.receiver[0];
+      // Assuming one receiver per chat for simplicity
       return {
         ...oneChat._doc,
-        receiverImage: receiver.image,
-        receiverEmail: receiver.email,
-        receiverName: receiver.name + " " + receiver.surname,
+        receiverImage: receiver
+          ? receiver.image
+          : "https://api-private.atlassian.com/users/4b3537aa0667e335931a7982526af3d9/avatar",
+        receiverEmail: receiver ? receiver.email : "",
+        receiverName: receiver
+          ? receiver.name + " " + receiver.surname
+          : "user",
         newMessageCount: await allMessagesCount(oneChat.receiver),
         newMessage: (await allMessagesCount(oneChat.receiver)) > 0,
         lastMessage: await getLastMessage(oneChat.sender, oneChat.receiver),
