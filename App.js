@@ -18,13 +18,19 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 const { I18n } = require("i18n");
-
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
 const i18n = new I18n({
   locales: ["en", "az", "ru"],
   directory: path.join(__dirname, "localization"),
   defaultLocale: "en",
 });
-
+const corsOptions = {
+  origin: "*", // Tüm kaynaklardan gelen isteklere izin verir, güvenlik gereksinimlerine göre güvenli bir şekilde yapılandırın
+  methods: "GET,PUT,POST,DELETE",
+};
 app.use(i18n.init);
 app.use((req, res, next) => {
   i18n.setLocale(req, req.query.lang);
@@ -32,7 +38,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(fileUpload());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/api/v1/auth/", auth);
 app.use("/api/v1/init/", init);
 app.use("/api/v1/catagories/", catagories);
@@ -45,11 +51,17 @@ app.use("/api/v1/messages", messages);
 app.use("/api/v1/master", master);
 app.use("/api/v1/info", appinfo);
 app.use("/api/v1/infopush", infopush);
+io.on("connection", (socket) => {
+  console.log("Kullanıcı bağlandı");
+  socket.on("disconnect", () => {
+    console.log("Kullanıcı ayrıldı");
+  });
+});
 
 mongoose
   .connect(process.env.DB_URL)
   .then(
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`App listening on port ${process.env.PORT}`);
     })
   )
