@@ -56,6 +56,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Kullanıcı ayrıldı");
   });
+  socket.on("sendMessage", ({ message }) => {
+    console.log("Client sent message:", message);
+    // Mesajı işleyin veya uygun bir şekilde kullanın
+  });
 });
 
 mongoose
