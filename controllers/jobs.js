@@ -1182,6 +1182,8 @@ const editJob = async (req, res) => {
       id,
     } = req.body;
     const { email } = req.user;
+    const myUser = await user.findOne({ email: email });
+
     if (!email) {
       res.status(403).json({
         error: true,
@@ -1272,6 +1274,13 @@ const editJob = async (req, res) => {
             message: res.__("description_field_is_required"),
           },
         });
+      } else if (myUser.balance < 20) {
+        return res.status(419).json({
+          error: {
+            type: "balance",
+            message: res.__("balance_not_valid"),
+          },
+        });
       } else {
         await job.updateOne(
           { _id: id },
@@ -1290,8 +1299,27 @@ const editJob = async (req, res) => {
             lauch: lauch,
             images: images,
             description: description,
+            status: "pending",
           }
         );
+        const mailOptions = {
+          from: process.env.AUTH_EMAIL,
+          to: "qafulovh@gmail.com",
+          subject: "Yeni elan",
+          html: `
+              <html>
+                <body>
+                <img src="https://worklytest.s3.eu-north-1.amazonaws.com/image23.png" alt="Image description" style="width: 200px; height: auto;" />
+                  <h1 style="color: black; font-size: 28px;">Yeni elan elave edildi</h1>
+                
+                  <p>Bir elan yenilendi</p>
+                </body>
+              </html>
+            `,
+        };
+        await transporter.sendMail(mailOptions);
+        myUser.balance = myUser.balance - 20;
+        await myUser.save();
         const myJob = await job.findOne({ _id: id });
         res.status(201).json({
           error: false,
