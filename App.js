@@ -12,6 +12,7 @@ const chat = require("./routes/chat");
 const master = require("./routes/master");
 const appinfo = require("./routes/appinfo");
 const infopush = require("./routes/infopush");
+const comment = require("./routes/comments");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
@@ -51,6 +52,7 @@ app.use("/api/v1/messages", messages);
 app.use("/api/v1/master", master);
 app.use("/api/v1/info", appinfo);
 app.use("/api/v1/infopush", infopush);
+app.use("/api/v1/comments", comment);
 io.on("connection", (socket) => {
   console.log("Kullanıcı bağlandı");
   socket.on("disconnect", () => {
