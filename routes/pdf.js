@@ -2,6 +2,7 @@ const express = require("express");
 const routes = express.Router();
 const PDFDocument = require("pdfkit");
 const https = require("https");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 routes.post("/generate-pdf", async (req, res) => {
   // PDF oluşturmak için yeni bir PDF belgesi oluştur
@@ -27,14 +28,13 @@ routes.post("/generate-pdf", async (req, res) => {
     awardList,
     ceritificates,
     about,
+    image,
   } = req.body;
 
   // PDF belgesini oluştururken hata olup olmadığını kontrol et
-  const imageURL =
-    "https://worklytest.s3.eu-north-1.amazonaws.com/1700435794488.jpg";
 
   https
-    .get(imageURL, (response) => {
+    .get(image, (response) => {
       // Resmi tutacak bir dizi oluşturun
       const chunks = [];
 
@@ -213,4 +213,46 @@ routes.post("/generate-pdf", async (req, res) => {
 
   // PDF belgesini oluşturmak için akışı bitirin
 });
+routes.post("/add_image", async (req, res) => {
+  const s3Client = new S3Client({
+    region: "eu-north-1",
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
+  try {
+    // Convert the base64 image data to a Buffer
+    const base64ImageData = req.files.data.data;
+    console.log(req.files.data);
+    // Set the S3 bucket and object key
+    const params = {
+      Bucket: "worklytest",
+      Key: req.files.data.name, // Change the filename as needed
+      Body: base64ImageData,
+    };
+
+    // Upload the image to S3
+    const command = new PutObjectCommand(params);
+    await s3Client.send(command, async (err, data) => {
+      if (err) {
+        res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      } else {
+        res.status(201).json({
+          error: false,
+          message: "Your image added successfully",
+          data: data,
+          location: `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`,
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error uploading to S3:", error);
+    res.status(500).json({ error: "Error uploading image to S3" });
+  }
+});
+
 module.exports = routes;
