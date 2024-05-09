@@ -56,13 +56,11 @@ routes.post("/generate-pdf", async (req, res) => {
 
         // Resmi PDF'ye ekleyin
         doc.fillAndStroke("#0e8cc3").lineWidth(20);
-        doc.image(imageData, 270, 40, {
-          fit: [80, 80], // Resmin boyutu
+        doc.image(imageData, doc.page.width - 170, 160, {
+          fit: [100, 100], // Resmin boyutu
           align: "center", // Ortalama
           valign: "top", // En üstte
         });
-        doc.moveDown(4);
-        // Başlık
         doc
           .fontSize(20)
           .fillColor("#333")
@@ -72,48 +70,58 @@ routes.post("/generate-pdf", async (req, res) => {
         doc.fillAndStroke("#75bfec");
         doc.strokeOpacity(0.2);
         doc
-          .moveTo(70, 190) // Başlangıç noktası
-          .lineTo(doc.page.width - 70, 190) // Bitiş noktası
+          .moveTo(70, 130) // Başlangıç noktası
+          .lineTo(doc.page.width - 70, 130) // Bitiş noktası
           .stroke();
-        doc.moveDown();
+        doc.moveDown(1);
         // Kişisel Bilgiler
         doc
-          .fontSize(14)
+          .fontSize(16)
           .fillColor("#75bfec")
           .text("Şəxsi məlumatlar", { wordSpacing: 2 });
 
         doc.moveDown(0.2);
-        doc
-          .fontSize(10)
-          .fillColor("#666")
-          .text(`Doğum tarixi: ${date_of_birth}`);
-
-        doc.fontSize(10).text(`Ünvan: ${address}`);
-        doc.fontSize(10).text(`Telefon: ${phone}`);
-        doc.fontSize(10).text(`E-mail: ${email.toLowerCase()}`);
+        doc.fontSize(8).fillColor("gray").text(`Doğum tarixi`);
+        doc.fontSize(10).fillColor("#000").text(date_of_birth);
+        doc.moveDown(0.1);
+        doc.fontSize(8).fillColor("gray").text(`Ünvan`);
+        doc.fontSize(10).fillColor("#000").text(address);
+        doc.moveDown(0.1);
+        doc.fontSize(8).fillColor("gray").text(`Telefon`);
+        doc.fontSize(10).fillColor("#000").text(phone);
+        doc.moveDown(0.1);
+        doc.fontSize(8).fillColor("gray").text(`E-mail`);
+        doc.fontSize(10).fillColor("#000").text(email.toLowerCase());
+        doc.moveDown(0.1);
         if (linkedin.length > 0) {
-          doc.fontSize(10).text(`LinkedIn: ${linkedin}`);
+          doc.fontSize(8).fillColor("gray").text(`LinkedIn`);
+          doc.fontSize(10).fillColor("#000").text(linkedin);
+          doc.moveDown(0.1);
         }
         if (website.length > 0) {
-          doc.fontSize(10).text(`Website: ${website.toLowerCase()}`);
+          doc.fontSize(8).fillColor("gray").text(`Website`);
+          doc.fontSize(10).fillColor("#000").text(website.toLowerCase());
+          doc.moveDown(0.1);
         }
+        doc.fontSize(8).fillColor("gray").text(`Sürücülük vəsiqəsi`);
         doc
           .fontSize(10)
-          .text(`Sürücülük vəsiqəsi: ${drive == "Yes" ? "Beli" : "Xeyir"}`);
+          .fillColor("#000")
+          .text(drive == "Yes" ? "Beli" : "Xeyr");
         doc.moveDown();
 
         // Eğitim Bilgileri
-        doc.fontSize(14).fillColor("#75bfec").text("Təhsil");
+        doc.fontSize(16).fillColor("#75bfec").text("Təhsil");
         doc.moveDown(0.2);
+        doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+        doc.fontSize(10).fillColor("#000").text(firstEdu.name);
+        doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+        doc.fontSize(10).fillColor("#000").text(firstEdu.position);
+        doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
         doc
           .fontSize(10)
-          .fillColor("#666")
-          .text(`Təhsil aldığı yer: ${firstEdu.name}`);
-        doc.fontSize(10).text(`Ixtisas: ${firstEdu.position}`);
-        doc
-          .fontSize(10)
-          .text(`Təhsil illəri: ${firstEdu.startDate} - ${firstEdu.endDate}`);
-
+          .fillColor("#000")
+          .text(`${firstEdu.startDate} - ${firstEdu.endDate}`);
         doc.moveDown(0.5);
         if (secondEdu.name) {
           doc
