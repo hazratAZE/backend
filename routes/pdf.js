@@ -63,7 +63,7 @@ routes.post("/generate-pdf", async (req, res) => {
         });
         doc
           .fontSize(20)
-          .fillColor("#333")
+          .fillColor("#000")
           .text(`${name} ${surname}`, { align: "center" });
         doc.fontSize(14).fillColor("#666").text(position, { align: "center" });
         doc.lineWidth(4);
@@ -108,7 +108,7 @@ routes.post("/generate-pdf", async (req, res) => {
           .fontSize(10)
           .fillColor("#000")
           .text(drive == "Yes" ? "Beli" : "Xeyr");
-        doc.moveDown();
+        doc.moveDown(0.5);
 
         // Eğitim Bilgileri
         doc.fontSize(16).fillColor("#75bfec").text("Təhsil");
@@ -124,90 +124,76 @@ routes.post("/generate-pdf", async (req, res) => {
           .text(`${firstEdu.startDate} - ${firstEdu.endDate}`);
         doc.moveDown(0.5);
         if (secondEdu.name) {
+          doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+          doc.fontSize(10).fillColor("#000").text(secondEdu.name);
+          doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+          doc.fontSize(10).fillColor("#000").text(secondEdu.position);
+          doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
           doc
             .fontSize(10)
-            .fillColor("#666")
-            .text(`Təhsil aldığı yer: ${secondEdu.name}`);
-          doc.fontSize(10).text(`Ixtisas: ${secondEdu.position}`);
-          doc
-            .fontSize(10)
-            .text(
-              `Təhsil illəri: ${secondEdu.startDate} - ${secondEdu.endDate}`
-            );
-          doc.moveDown(0.2);
+            .fillColor("#000")
+            .text(`${secondEdu.startDate} - ${secondEdu.endDate}`);
+          doc.moveDown(0.5);
         }
         if (thirdEdu.name) {
+          doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+          doc.fontSize(10).fillColor("#000").text(thirdEdu.name);
+          doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+          doc.fontSize(10).fillColor("#000").text(thirdEdu.position);
+          doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
           doc
             .fontSize(10)
-            .fillColor("#666")
-            .text(`Təhsil aldığı yer: ${thirdEdu.name}`);
-          doc.fontSize(10).text(`Ixtisas: ${thirdEdu.position}`);
-          doc
-            .fontSize(10)
-            .text(`Təhsil illəri: ${thirdEdu.startDate} - ${thirdEdu.endDate}`);
+            .fillColor("#000")
+            .text(`${thirdEdu.startDate} - ${thirdEdu.endDate}`);
           doc.moveDown(0.5);
         }
 
         // İş Deneyimleri
-        doc.fontSize(14).fillColor("#75bfec").text("İş təcrübəsi");
+        doc.fontSize(16).fillColor("#75bfec").text("İş təcrübəsi");
         doc.moveDown(0.2);
+        doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+        doc.fontSize(10).fillColor("#000").text(firstWork.company);
+        doc.fontSize(8).fillColor("gray").text(`Vezife`);
+        doc.fontSize(10).fillColor("#000").text(firstWork.companyName);
+        doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
         doc
           .fontSize(10)
-          .fillColor("#666")
-          .text(`İş Yeri: ${firstWork.company}`);
-        doc
-          .fontSize(10)
-          .fillColor("#666")
-          .text(`Vezife: ${firstWork.companyName}`);
-        doc
-          .fontSize(10)
-          .text(`İş Yılları: ${firstWork.startDate} - ${firstWork.endDate}`);
-        doc
-          .fontSize(10)
-          .fillColor("#666")
-          .text(`Is haqqinda: ${firstWork.aboutJob}`);
-        doc.moveDown();
+          .fillColor("#000")
+          .text(`${firstWork.startDate} - ${firstWork.endDate}`);
+        doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+        doc.fontSize(10).fillColor("#000").text(firstWork.aboutJob);
+        doc.moveDown(0.5);
         if (secondWork.company) {
+          doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+          doc.fontSize(10).fillColor("#000").text(secondWork.company);
+          doc.fontSize(8).fillColor("gray").text(`Vezife`);
+          doc.fontSize(10).fillColor("#000").text(secondWork.companyName);
+          doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
           doc
             .fontSize(10)
-            .fillColor("#666")
-            .text(`İş Yeri: ${secondWork.company}`);
-          doc
-            .fontSize(10)
-            .fillColor("#666")
-            .text(`Vezife: ${secondWork.companyName}`);
-          doc
-            .fontSize(10)
-            .text(
-              `İş Yılları: ${secondWork.startDate} - ${secondWork.endDate}`
-            );
-          doc
-            .fontSize(10)
-            .fillColor("#666")
-            .text(`Is haqqinda: ${secondWork.aboutJob}`);
-          doc.moveDown();
+            .fillColor("#000")
+            .text(`${secondWork.startDate} - ${secondWork.endDate}`);
+          doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+          doc.fontSize(10).fillColor("#000").text(secondWork.aboutJob);
+          doc.moveDown(0.5);
         }
         if (thirdWork.company) {
+          doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+          doc.fontSize(10).fillColor("#000").text(thirdWork.company);
+          doc.fontSize(8).fillColor("gray").text(`Vezife`);
+          doc.fontSize(10).fillColor("#000").text(thirdWork.companyName);
+          doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
           doc
             .fontSize(10)
-            .fillColor("#666")
-            .text(`İş Yeri: ${thirdWork.company}`);
-          doc
-            .fontSize(10)
-            .fillColor("#666")
-            .text(`Vezife: ${thirdWork.companyName}`);
-          doc
-            .fontSize(10)
-            .text(`İş Yılları: ${thirdWork.startDate} - ${thirdWork.endDate}`);
-          doc
-            .fontSize(10)
-            .fillColor("#666")
-            .text(`Is haqqinda: ${thirdWork.aboutJob}`);
-          doc.moveDown();
+            .fillColor("#000")
+            .text(`${thirdWork.startDate} - ${thirdWork.endDate}`);
+          doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+          doc.fontSize(10).fillColor("#000").text(thirdWork.aboutJob);
+          doc.moveDown(0.5);
         }
 
         // Beceriler
-        doc.fontSize(14).fillColor("#75bfec").text("Bacarıqlar");
+        doc.fontSize(16).fillColor("#75bfec").text("Bacarıqlar");
         doc.moveDown(0.2);
         let newSkillList = "";
 
@@ -224,49 +210,49 @@ routes.post("/generate-pdf", async (req, res) => {
 
         // Becerileri yazdırın
         doc.fillColor("#000").fontSize(12).text(newSkillList);
-        doc.moveDown(0.2);
+        doc.moveDown(0.5);
 
         // Diller
-        doc.fontSize(14).fillColor("#75bfec").text("Dillər");
+        doc.fontSize(16).fillColor("#75bfec").text("Dillər");
         doc.moveDown(0.2);
         langList.forEach((lang) => {
           doc
-            .fillColor("#666")
+            .fillColor("#000")
             .fontSize(10)
             .text(`${lang.name} - ${lang.level}`);
         });
-        doc.moveDown();
+        doc.moveDown(0.5);
 
         // Ödüller
         if (awardList.length > 0) {
-          doc.fontSize(14).fillColor("#75bfec").text("Mükafatlar");
+          doc.fontSize(16).fillColor("#75bfec").text("Mükafatlar");
           doc.moveDown(0.2);
           awardList.forEach((award) => {
             doc
-              .fillColor("#666")
+              .fillColor("#000")
               .fontSize(10)
               .text(`${award.name} - ${award.date}`);
           });
-          doc.moveDown();
+          doc.moveDown(0.5);
         }
 
         // Sertifikalar
         if (ceritificates.length > 0) {
-          doc.fontSize(14).fillColor("#75bfec").text("Sertifikatlar");
+          doc.fontSize(16).fillColor("#75bfec").text("Sertifikatlar");
           doc.moveDown(0.2);
           ceritificates.forEach((cert) => {
             doc
-              .fillColor("#666")
+              .fillColor("#000")
               .fontSize(10)
               .text(`${cert.name} - ${cert.date}`);
           });
-          doc.moveDown();
+          doc.moveDown(0.5);
         }
 
         // Ek Bilgi
-        doc.fontSize(14).fillColor("#75bfec").text("Əlavə");
+        doc.fontSize(16).fillColor("#75bfec").text("Əlavə");
         doc.moveDown(0.2);
-        doc.fillColor("#666").fontSize(10).text(about);
+        doc.fillColor("#000").fontSize(10).text(about);
 
         // PDF belgesini oluşturmak için akışı bitirin
 
