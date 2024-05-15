@@ -78,19 +78,19 @@ routes.post("/generate-pdf", async (req, res) => {
         doc
           .fontSize(16)
           .fillColor("#75bfec")
-          .text("Şəxsi məlumatlar", { wordSpacing: 2 });
+          .text(res.__("personal_information"), { wordSpacing: 2 });
 
         doc.moveDown(0.2);
-        doc.fontSize(8).fillColor("gray").text(`Doğum tarixi`);
+        doc.fontSize(8).fillColor("gray").text(res.__("date_of_birth"));
         doc.fontSize(10).fillColor("#000").text(date_of_birth);
         doc.moveDown(0.1);
-        doc.fontSize(8).fillColor("gray").text(`Ünvan`);
+        doc.fontSize(8).fillColor("gray").text(res.__("address"));
         doc.fontSize(10).fillColor("#000").text(address);
         doc.moveDown(0.1);
-        doc.fontSize(8).fillColor("gray").text(`Telefon`);
+        doc.fontSize(8).fillColor("gray").text(res.__("telephone"));
         doc.fontSize(10).fillColor("#000").text(phone);
         doc.moveDown(0.1);
-        doc.fontSize(8).fillColor("gray").text(`E-mail`);
+        doc.fontSize(8).fillColor("gray").text(res.__("email"));
         doc.fontSize(10).fillColor("#000").text(email.toLowerCase());
         doc.moveDown(0.1);
         if (linkedin.length > 0) {
@@ -103,32 +103,32 @@ routes.post("/generate-pdf", async (req, res) => {
           doc.fontSize(10).fillColor("#000").text(website.toLowerCase());
           doc.moveDown(0.1);
         }
-        doc.fontSize(8).fillColor("gray").text(`Sürücülük vəsiqəsi`);
+        doc.fontSize(8).fillColor("gray").text(res.__("driver_license"));
         doc
           .fontSize(10)
           .fillColor("#000")
-          .text(drive == "Yes" ? "Beli" : "Xeyr");
+          .text(drive == "Yes" ? res.__("yes") : res.__("no"));
         doc.moveDown(0.5);
 
         // Eğitim Bilgileri
-        doc.fontSize(16).fillColor("#75bfec").text("Təhsil");
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("education"));
         doc.moveDown(0.2);
-        doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+        doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
         doc.fontSize(10).fillColor("#000").text(firstEdu.name);
-        doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+        doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
         doc.fontSize(10).fillColor("#000").text(firstEdu.position);
-        doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
+        doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
         doc
           .fontSize(10)
           .fillColor("#000")
           .text(`${firstEdu.startDate} - ${firstEdu.endDate}`);
         doc.moveDown(0.5);
         if (secondEdu.name) {
-          doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+          doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
           doc.fontSize(10).fillColor("#000").text(secondEdu.name);
-          doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+          doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
           doc.fontSize(10).fillColor("#000").text(secondEdu.position);
-          doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
+          doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
           doc
             .fontSize(10)
             .fillColor("#000")
@@ -136,11 +136,11 @@ routes.post("/generate-pdf", async (req, res) => {
           doc.moveDown(0.5);
         }
         if (thirdEdu.name) {
-          doc.fontSize(8).fillColor("gray").text(`Təhsil aldığı yer`);
+          doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
           doc.fontSize(10).fillColor("#000").text(thirdEdu.name);
-          doc.fontSize(8).fillColor("gray").text(`Ixtisas`);
+          doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
           doc.fontSize(10).fillColor("#000").text(thirdEdu.position);
-          doc.fontSize(8).fillColor("gray").text(`Təhsil illəri`);
+          doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
           doc
             .fontSize(10)
             .fillColor("#000")
@@ -149,51 +149,51 @@ routes.post("/generate-pdf", async (req, res) => {
         }
 
         // İş Deneyimleri
-        doc.fontSize(16).fillColor("#75bfec").text("İş təcrübəsi");
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("work_experience"));
         doc.moveDown(0.2);
-        doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+        doc.fontSize(8).fillColor("gray").text(res.__("company"));
         doc.fontSize(10).fillColor("#000").text(firstWork.company);
-        doc.fontSize(8).fillColor("gray").text(`Vezife`);
+        doc.fontSize(8).fillColor("gray").text(res.__("position"));
         doc.fontSize(10).fillColor("#000").text(firstWork.companyName);
-        doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
+        doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
         doc
           .fontSize(10)
           .fillColor("#000")
           .text(`${firstWork.startDate} - ${firstWork.endDate}`);
-        doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+        doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
         doc.fontSize(10).fillColor("#000").text(firstWork.aboutJob);
         doc.moveDown(0.5);
         if (secondWork.company) {
-          doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+          doc.fontSize(8).fillColor("gray").text(res.__("company"));
           doc.fontSize(10).fillColor("#000").text(secondWork.company);
-          doc.fontSize(8).fillColor("gray").text(`Vezife`);
+          doc.fontSize(8).fillColor("gray").text(res.__("position"));
           doc.fontSize(10).fillColor("#000").text(secondWork.companyName);
-          doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
+          doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
           doc
             .fontSize(10)
             .fillColor("#000")
             .text(`${secondWork.startDate} - ${secondWork.endDate}`);
-          doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+          doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
           doc.fontSize(10).fillColor("#000").text(secondWork.aboutJob);
           doc.moveDown(0.5);
         }
         if (thirdWork.company) {
-          doc.fontSize(8).fillColor("gray").text(`İş yeri`);
+          doc.fontSize(8).fillColor("gray").text(res.__("company"));
           doc.fontSize(10).fillColor("#000").text(thirdWork.company);
-          doc.fontSize(8).fillColor("gray").text(`Vezife`);
+          doc.fontSize(8).fillColor("gray").text(res.__("position"));
           doc.fontSize(10).fillColor("#000").text(thirdWork.companyName);
-          doc.fontSize(8).fillColor("gray").text(`İş Yılları`);
+          doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
           doc
             .fontSize(10)
             .fillColor("#000")
             .text(`${thirdWork.startDate} - ${thirdWork.endDate}`);
-          doc.fontSize(8).fillColor("gray").text(`Is haqqinda`);
+          doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
           doc.fontSize(10).fillColor("#000").text(thirdWork.aboutJob);
           doc.moveDown(0.5);
         }
 
         // Beceriler
-        doc.fontSize(16).fillColor("#75bfec").text("Bacarıqlar");
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("skills"));
         doc.moveDown(0.2);
         let newSkillList = "";
 
@@ -213,7 +213,7 @@ routes.post("/generate-pdf", async (req, res) => {
         doc.moveDown(0.5);
 
         // Diller
-        doc.fontSize(16).fillColor("#75bfec").text("Dillər");
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("languages"));
         doc.moveDown(0.2);
         langList.forEach((lang) => {
           doc
@@ -225,7 +225,7 @@ routes.post("/generate-pdf", async (req, res) => {
 
         // Ödüller
         if (awardList.length > 0) {
-          doc.fontSize(16).fillColor("#75bfec").text("Mükafatlar");
+          doc.fontSize(16).fillColor("#75bfec").text(res.__("awards"));
           doc.moveDown(0.2);
           awardList.forEach((award) => {
             doc
@@ -238,7 +238,7 @@ routes.post("/generate-pdf", async (req, res) => {
 
         // Sertifikalar
         if (ceritificates.length > 0) {
-          doc.fontSize(16).fillColor("#75bfec").text("Sertifikatlar");
+          doc.fontSize(16).fillColor("#75bfec").text(res.__("certificates"));
           doc.moveDown(0.2);
           ceritificates.forEach((cert) => {
             doc
@@ -250,7 +250,7 @@ routes.post("/generate-pdf", async (req, res) => {
         }
 
         // Ek Bilgi
-        doc.fontSize(16).fillColor("#75bfec").text("Əlavə");
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("additional"));
         doc.moveDown(0.2);
         doc.fillColor("#000").fontSize(10).text(about);
 
