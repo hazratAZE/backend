@@ -3,8 +3,10 @@ const routes = express.Router();
 const PDFDocument = require("pdfkit");
 const https = require("https");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { verifyJwt } = require("../middleware/jwt");
+const user = require("../schemas/user");
 
-routes.post("/generate-pdf", async (req, res) => {
+routes.post("/generate-pdf", verifyJwt, async (req, res) => {
   // PDF oluşturmak için yeni bir PDF belgesi oluştur
   const {
     name,
@@ -13,7 +15,7 @@ routes.post("/generate-pdf", async (req, res) => {
     date_of_birth,
     address,
     phone,
-    email,
+    myEmail,
     drive,
     linkedin,
     website,
@@ -32,9 +34,10 @@ routes.post("/generate-pdf", async (req, res) => {
   } = req.body;
 
   // PDF belgesini oluştururken hata olup olmadığını kontrol et
-
+  const { email } = req.user;
+  const myUser = await user.findOne({ email: email });
   https
-    .get(image, (response) => {
+    .get(image, async (response) => {
       // Resmi tutacak bir dizi oluşturun
       const chunks = [];
 
@@ -91,7 +94,7 @@ routes.post("/generate-pdf", async (req, res) => {
         doc.fontSize(10).fillColor("#000").text(phone);
         doc.moveDown(0.1);
         doc.fontSize(8).fillColor("gray").text(res.__("email"));
-        doc.fontSize(10).fillColor("#000").text(email.toLowerCase());
+        doc.fontSize(10).fillColor("#000").text(myEmail.toLowerCase());
         doc.moveDown(0.1);
         if (linkedin.length > 0) {
           doc.fontSize(8).fillColor("gray").text(`LinkedIn`);
@@ -267,6 +270,8 @@ routes.post("/generate-pdf", async (req, res) => {
         );
         doc.pipe(res);
       });
+      myUser.balance = myUser.balance - 200;
+      await myUser.save();
     })
     .on("error", (error) => {
       console.error("Resim indirme hatası:", error);
@@ -278,7 +283,7 @@ routes.post("/generate-pdf", async (req, res) => {
 
   // PDF belgesini oluşturmak için akışı bitirin
 });
-routes.post("/add_image", async (req, res) => {
+routes.post("/add_image", verifyJwt, async (req, res) => {
   const s3Client = new S3Client({
     region: "eu-north-1",
     credentials: {
@@ -287,6 +292,16 @@ routes.post("/add_image", async (req, res) => {
     },
   });
   try {
+    const { email } = req.user;
+    const myUser = await user.findOne({ email: email });
+    if (myUser.balance < 200) {
+      return res.status(419).json({
+        error: {
+          type: "balance",
+          message: res.__("balance_not_valid"),
+        },
+      });
+    }
     // Convert the base64 image data to a Buffer
     const base64ImageData = req.files.data.data;
     console.log(req.files.data);

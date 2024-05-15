@@ -412,7 +412,7 @@ const createJob = async (req, res) => {
 
     if (newJob.type === "Daily") {
       // Add 3 days if the job type is "Daily"
-      endDate.setTime(Date.now() + 3 * millisecondsInDay);
+      endDate.setTime(Date.now() + 10 * millisecondsInDay);
     } else {
       // Add one month if the job type is not "Daily"
       endDate.setTime(Date.now() + millisecondsInMonth);
