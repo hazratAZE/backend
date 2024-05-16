@@ -85,5 +85,9 @@
   "languages": "Языки",
   "awards": "Награды",
   "certificates": "Сертификаты",
-  "additional": "Дополнительно"
+  "additional": "Дополнительно",
+  "beginner": "Начинающий",
+  "intermediate": "Средний",
+  "advanced": "Продвинутый",
+  "superior": "В совершенстве"
 }

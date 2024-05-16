@@ -85,5 +85,9 @@
   "languages": "Languages",
   "awards": "Awards",
   "certificates": "Certificates",
-  "additional": "Additional"
+  "additional": "Additional",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
+  "advanced": "Advanced",
+  "superior": "Proficient"
 }

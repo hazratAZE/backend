@@ -50,8 +50,9 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
       // Tüm resim verisi geldiğinde
       response.on("end", () => {
         // Resmi PDF'ye ekleyin
-        const imageData = Buffer.concat(chunks); // Diziyi birleştirerek tam resim verisini elde edin
+        const imageData = Buffer.concat(chunks);
 
+        // Diziyi birleştirerek tam resim verisini elde edin
         // PDF belgesi oluşturun
         const doc = new PDFDocument();
         doc.font("./assets/fonts/arial-unicode-ms.ttf");
@@ -69,12 +70,12 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           .fillColor("#000")
           .text(`${name} ${surname}`, { align: "center" });
         doc.fontSize(14).fillColor("#666").text(position, { align: "center" });
-        doc.lineWidth(4);
+        doc.lineWidth(68);
         doc.fillAndStroke("#75bfec");
         doc.strokeOpacity(0.2);
         doc
-          .moveTo(70, 130) // Başlangıç noktası
-          .lineTo(doc.page.width - 70, 130) // Bitiş noktası
+          .moveTo(70, 96) // Başlangıç noktası
+          .lineTo(doc.page.width - 70, 96) // Bitiş noktası
           .stroke();
         doc.moveDown(1);
         // Kişisel Bilgiler
@@ -222,7 +223,18 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           doc
             .fillColor("#000")
             .fontSize(10)
-            .text(`${lang.name} - ${lang.level}`);
+            .text(
+              `${lang.name}  -  ${
+                lang.level == "1"
+                  ? res.__("beginner")
+                  : lang.level == "2"
+                  ? res.__("intermediate")
+                  : lang.level == "3"
+                  ? res.__("advanced")
+                  : res.__("superior")
+              }`
+            );
+          doc.moveDown(0.2);
         });
         doc.moveDown(0.5);
 

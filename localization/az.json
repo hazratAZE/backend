@@ -85,5 +85,9 @@
   "languages": "Dillər",
   "awards": "Mükafatlar",
   "certificates": "Sertifikatlar",
-  "additional": "Əlavə"
+  "additional": "Əlavə",
+  "beginner": "Başlanğıc",
+  "intermediate": "Orta",
+  "advanced": "Yaxşı",
+  "superior": "Əla"
 }
