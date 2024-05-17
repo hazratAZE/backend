@@ -59,7 +59,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         // Resmi PDF'ye ekleyin
         doc.fillAndStroke("#0e8cc3").lineWidth(20);
         doc.image(imageData, doc.page.width - 170, 160, {
-          fit: [100, 100], // Resmin boyutu
+          fit: [90, 90], // Resmin boyutu
           align: "center", // Ortalama
           valign: "top", // En üstte
         });
