@@ -19,12 +19,8 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
     drive,
     linkedin,
     website,
-    firstEdu,
-    secondEdu,
-    thirdEdu,
-    firstWork,
-    secondWork,
-    thirdWork,
+    eduList,
+    workList,
     skillList,
     langList,
     awardList,
@@ -36,6 +32,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
   // PDF belgesini oluştururken hata olup olmadığını kontrol et
   const { email } = req.user;
   const myUser = await user.findOne({ email: email });
+  console.log(eduList);
   https
     .get(image, async (response) => {
       // Resmi tutacak bir dizi oluşturun
@@ -117,84 +114,35 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         // Eğitim Bilgileri
         doc.fontSize(16).fillColor("#75bfec").text(res.__("education"));
         doc.moveDown(0.2);
-        doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
-        doc.fontSize(10).fillColor("#000").text(firstEdu.name);
-        doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
-        doc.fontSize(10).fillColor("#000").text(firstEdu.position);
-        doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
-        doc
-          .fontSize(10)
-          .fillColor("#000")
-          .text(`${firstEdu.startDate} - ${firstEdu.endDate}`);
-        doc.moveDown(0.5);
-        if (secondEdu.name) {
+        eduList.forEach((edu) => {
           doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
-          doc.fontSize(10).fillColor("#000").text(secondEdu.name);
+          doc.fontSize(10).fillColor("#000").text(edu.name);
           doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
-          doc.fontSize(10).fillColor("#000").text(secondEdu.position);
+          doc.fontSize(10).fillColor("#000").text(edu.specialty);
           doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
-          doc
-            .fontSize(10)
-            .fillColor("#000")
-            .text(`${secondEdu.startDate} - ${secondEdu.endDate}`);
-          doc.moveDown(0.5);
-        }
-        if (thirdEdu.name) {
-          doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
-          doc.fontSize(10).fillColor("#000").text(thirdEdu.name);
-          doc.fontSize(8).fillColor("gray").text(res.__("specialty"));
-          doc.fontSize(10).fillColor("#000").text(thirdEdu.position);
-          doc.fontSize(8).fillColor("gray").text(res.__("years_of_education"));
-          doc
-            .fontSize(10)
-            .fillColor("#000")
-            .text(`${thirdEdu.startDate} - ${thirdEdu.endDate}`);
-          doc.moveDown(0.5);
-        }
+          doc.fontSize(10).fillColor("#000").text(`${edu.date}`);
+          doc.moveDown(0.2);
+        });
 
-        // İş Deneyimleri
+        doc.moveDown(0.5);
+
+        // // İş Deneyimleri
+
         doc.fontSize(16).fillColor("#75bfec").text(res.__("work_experience"));
         doc.moveDown(0.2);
-        doc.fontSize(8).fillColor("gray").text(res.__("company"));
-        doc.fontSize(10).fillColor("#000").text(firstWork.company);
-        doc.fontSize(8).fillColor("gray").text(res.__("position"));
-        doc.fontSize(10).fillColor("#000").text(firstWork.companyName);
-        doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
-        doc
-          .fontSize(10)
-          .fillColor("#000")
-          .text(`${firstWork.startDate} - ${firstWork.endDate}`);
-        doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
-        doc.fontSize(10).fillColor("#000").text(firstWork.aboutJob);
+        workList.forEach((work) => {
+          doc.fontSize(8).fillColor("gray").text(res.__("company"));
+          doc.fontSize(10).fillColor("#000").text(work.company);
+          doc.fontSize(8).fillColor("gray").text(res.__("position"));
+          doc.fontSize(10).fillColor("#000").text(work.companyName);
+          doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
+          doc.fontSize(10).fillColor("#000").text(`${work.date}`);
+          doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
+          doc.fontSize(10).fillColor("#000").text(work.aboutJob);
+          doc.moveDown(0.2);
+        });
+
         doc.moveDown(0.5);
-        if (secondWork.company) {
-          doc.fontSize(8).fillColor("gray").text(res.__("company"));
-          doc.fontSize(10).fillColor("#000").text(secondWork.company);
-          doc.fontSize(8).fillColor("gray").text(res.__("position"));
-          doc.fontSize(10).fillColor("#000").text(secondWork.companyName);
-          doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
-          doc
-            .fontSize(10)
-            .fillColor("#000")
-            .text(`${secondWork.startDate} - ${secondWork.endDate}`);
-          doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
-          doc.fontSize(10).fillColor("#000").text(secondWork.aboutJob);
-          doc.moveDown(0.5);
-        }
-        if (thirdWork.company) {
-          doc.fontSize(8).fillColor("gray").text(res.__("company"));
-          doc.fontSize(10).fillColor("#000").text(thirdWork.company);
-          doc.fontSize(8).fillColor("gray").text(res.__("position"));
-          doc.fontSize(10).fillColor("#000").text(thirdWork.companyName);
-          doc.fontSize(8).fillColor("gray").text(res.__("years_of_work"));
-          doc
-            .fontSize(10)
-            .fillColor("#000")
-            .text(`${thirdWork.startDate} - ${thirdWork.endDate}`);
-          doc.fontSize(8).fillColor("gray").text(res.__("about_work"));
-          doc.fontSize(10).fillColor("#000").text(thirdWork.aboutJob);
-          doc.moveDown(0.5);
-        }
 
         // Beceriler
         doc.fontSize(16).fillColor("#75bfec").text(res.__("skills"));
