@@ -17,6 +17,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
     phone,
     myEmail,
     drive,
+    military,
     linkedin,
     website,
     eduList,
@@ -63,7 +64,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           valign: "top", // En üstte
         });
         doc
-          .fontSize(20)
+          .fontSize(22)
           .fillColor("#000")
           .text(`${name} ${surname}`, { align: "center" });
         doc.fontSize(14).fillColor("#666").text(position, { align: "center" });
@@ -108,9 +109,18 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         doc
           .fontSize(10)
           .fillColor("#000")
-          .text(drive == "Yes" ? res.__("yes") : res.__("no"));
+          .text(drive == "yes" ? res.__("yes") : res.__("no"));
+        doc.moveDown(0.1);
+        doc.fontSize(8).fillColor("gray").text(res.__("military"));
+        doc
+          .fontSize(10)
+          .fillColor("#000")
+          .text(military == "yes" ? res.__("yes") : res.__("no"));
         doc.moveDown(0.5);
-
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("summary"));
+        doc.moveDown(0.2);
+        doc.fillColor("#000").fontSize(10).text(about);
+        doc.moveDown(0.5);
         // Eğitim Bilgileri
         doc.fontSize(16).fillColor("#75bfec").text(res.__("education"));
         doc.moveDown(0.2);
@@ -213,9 +223,6 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         }
 
         // Ek Bilgi
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("additional"));
-        doc.moveDown(0.2);
-        doc.fillColor("#000").fontSize(10).text(about);
 
         // PDF belgesini oluşturmak için akışı bitirin
 

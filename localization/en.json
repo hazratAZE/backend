@@ -89,5 +89,7 @@
   "beginner": "Beginner",
   "intermediate": "Intermediate",
   "advanced": "Advanced",
-  "superior": "Proficient"
+  "superior": "Proficient",
+  "summary": "Professional Summary",
+  "military": "Military service"
 }
