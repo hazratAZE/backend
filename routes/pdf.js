@@ -58,11 +58,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
 
         // Resmi PDF'ye ekleyin
         doc.fillAndStroke("#0e8cc3").lineWidth(20);
-        doc.image(imageData, doc.page.width - 170, 160, {
-          fit: [90, 90], // Resmin boyutu
-          align: "center", // Ortalama
-          valign: "top", // En üstte
-        });
+
         doc
           .fontSize(22)
           .fillColor("#000")
@@ -75,6 +71,11 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           .moveTo(70, 96) // Başlangıç noktası
           .lineTo(doc.page.width - 70, 96) // Bitiş noktası
           .stroke();
+        doc.image(imageData, doc.page.width - 170, 70, {
+          fit: [90, 90], // Resmin boyutu
+          align: "center", // Ortalama
+          valign: "top", // En üstte
+        });
         doc.moveDown(1);
         // Kişisel Bilgiler
         doc
