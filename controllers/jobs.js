@@ -834,10 +834,10 @@ const getOneJob = async (req, res) => {
                 : newJob.city.split(",")[2],
             trCategory:
               lang == "az"
-                ? newJob.category.split(",")[1]
+                ? newJob.category.split(",")[0]
                 : lang == "ru"
-                ? newJob.category.split(",")[2]
-                : newJob.category.split(",")[0],
+                ? newJob.category.split(",")[1]
+                : newJob.category.split(",")[2],
             trDate: changeDate(newJob.createdAt, res.__("today")),
           };
           newJob.see = newJob.see + 1;
