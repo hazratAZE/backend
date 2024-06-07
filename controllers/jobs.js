@@ -201,10 +201,10 @@ const getAllJobs = async (req, res) => {
                   : oneJob.city.split(",")[2],
               trCategory:
                 lang == "az"
-                  ? oneJob.category.split(",")[1]
+                  ? oneJob.category.split(",")[0]
                   : lang == "ru"
-                  ? oneJob.category.split(",")[2]
-                  : oneJob.category.split(",")[0],
+                  ? oneJob.category.split(",")[1]
+                  : oneJob.category.split(",")[2],
               trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
@@ -233,10 +233,10 @@ const getAllJobs = async (req, res) => {
                   : oneJob.city.split(",")[2],
               trCategory:
                 lang == "az"
-                  ? oneJob.category.split(",")[1]
+                  ? oneJob.category.split(",")[0]
                   : lang == "ru"
-                  ? oneJob.category.split(",")[2]
-                  : oneJob.category.split(",")[0],
+                  ? oneJob.category.split(",")[1]
+                  : oneJob.category.split(",")[2],
               trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
