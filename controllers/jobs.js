@@ -1183,7 +1183,7 @@ const editJob = async (req, res) => {
     } = req.body;
     const { email } = req.user;
     const myUser = await user.findOne({ email: email });
-
+    const myJob = await job.findOne({ _id: id });
     if (!email) {
       res.status(403).json({
         error: true,
@@ -1272,6 +1272,13 @@ const editJob = async (req, res) => {
           error: {
             type: "description",
             message: res.__("description_field_is_required"),
+          },
+        });
+      } else if (myJob.endDate < Date.now()) {
+        return res.status(419).json({
+          error: {
+            type: "balance",
+            message: res.__("end_date_has_already_passed"),
           },
         });
       } else if (myUser.balance < 20) {
