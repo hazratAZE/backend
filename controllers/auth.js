@@ -966,6 +966,12 @@ const getUserInfo = async (req, res) => {
       if (!email) {
         myUserTr = {
           ...newUser._doc,
+          trCategory:
+            lang == "az"
+              ? newUser.jobCategory.split(",")[0]
+              : lang == "ru"
+              ? newUser.jobCategory.split(",")[1]
+              : newUser.jobCategory.split(",")[2],
           trCity:
             lang == "az"
               ? newUser.city.split(",")[0]
@@ -978,6 +984,12 @@ const getUserInfo = async (req, res) => {
       } else {
         myUserTr = {
           ...newUser._doc,
+          trCategory:
+            lang == "az"
+              ? newUser.jobCategory.split(",")[0]
+              : lang == "ru"
+              ? newUser.jobCategory.split(",")[1]
+              : newUser.jobCategory.split(",")[2],
           trCity:
             lang == "az"
               ? newUser.city.split(",")[0]
