@@ -106,17 +106,6 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           doc.fontSize(10).fillColor("#000").text(website.toLowerCase());
           doc.moveDown(0.1);
         }
-        doc.fontSize(8).fillColor("gray").text(res.__("driver_license"));
-        doc
-          .fontSize(10)
-          .fillColor("#000")
-          .text(drive == "yes" ? res.__("yes") : res.__("no"));
-        doc.moveDown(0.1);
-        doc.fontSize(8).fillColor("gray").text(res.__("military"));
-        doc
-          .fontSize(10)
-          .fillColor("#000")
-          .text(military == "yes" ? res.__("yes") : res.__("no"));
         doc.moveDown(0.5);
         doc.fontSize(16).fillColor("#75bfec").text(res.__("summary"));
         doc.moveDown(0.2);
@@ -222,7 +211,19 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           });
           doc.moveDown(0.5);
         }
-
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("driver_license"));
+        doc.moveDown(0.2);
+        doc
+          .fontSize(10)
+          .fillColor("#000")
+          .text(drive == "yes" ? res.__("yes") : res.__("no"));
+        doc.moveDown(0.5);
+        doc.fontSize(16).fillColor("#75bfec").text(res.__("military"));
+        doc.moveDown(0.2);
+        doc
+          .fontSize(10)
+          .fillColor("#000")
+          .text(military == "yes" ? res.__("yes") : res.__("no"));
         // Ek Bilgi
 
         // PDF belgesini oluşturmak için akışı bitirin
