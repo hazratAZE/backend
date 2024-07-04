@@ -1263,6 +1263,36 @@ const updateBalance = async (req, res) => {
     });
   }
 };
+const sendToken = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { amount, userEmail } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const otherUser = await user.findOne({ email: userEmail });
+    if (myUser.balance >= amount) {
+      myUser.balance = myUser.balance - amount;
+      otherUser.balance = otherUser.balance + amount;
+      await myUser.save();
+      await otherUser.save();
+      res.status(200).json({
+        error: false,
+        message: res.__("gift_sended_successfully"),
+      });
+    } else {
+      res.status(419).json({
+        error: {
+          type: "balance",
+          message: res.__("balance_not_valid"),
+        },
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -1288,4 +1318,5 @@ module.exports = {
   changeMapPermission,
   googleRegister,
   updateBalance,
+  sendToken,
 };
