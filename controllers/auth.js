@@ -1270,8 +1270,8 @@ const sendToken = async (req, res) => {
     const myUser = await user.findOne({ email: email });
     const otherUser = await user.findOne({ email: userEmail });
     if (myUser.balance >= amount) {
-      myUser.balance = myUser.balance - amount;
-      otherUser.balance = otherUser.balance + amount;
+      myUser.balance = myUser.balance - Number(amount);
+      otherUser.balance = otherUser.balance + Number(amount);
       await myUser.save();
       await otherUser.save();
       res.status(200).json({
