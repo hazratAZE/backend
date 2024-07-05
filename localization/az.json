@@ -92,5 +92,7 @@
   "superior": "Əla",
   "summary": "Peşəkar Xülasə",
   "military": "Hərbi xidmət",
-  "gift_sended_successfully": "Hədiyyə uğurla göndərildi"
+  "gift_sended_successfully": "Hədiyyə uğurla göndərildi",
+  "you_have_new_gift": "Yeni hədiyyəniz var",
+  "user_sent_you_a_gift": "sizə hədiyyə göndərdi"
 }

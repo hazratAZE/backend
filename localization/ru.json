@@ -92,5 +92,7 @@
   "superior": "В совершенстве",
   "summary": "Краткое содержание",
   "military": "Военная служба",
-  "gift_sended_successfully": "Подарок успешно отправлен"
+  "gift_sended_successfully": "Подарок успешно отправлен",
+  "you_have_new_gift": "У тебя новый подарок",
+  "user_sent_you_a_gift": "отправил вам подарок"
 }

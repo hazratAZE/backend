@@ -58,6 +58,8 @@ const getAllMyNotifications = async (req, res) => {
               ? res.__("success_register")
               : one.type === "rejectJob"
               ? res.__("reject_announce")
+              : one.type === "gift"
+              ? res.__("you_have_new_gift")
               : res.__("job_added_successfully"),
           trBody:
             one.type === "apply"
@@ -66,6 +68,8 @@ const getAllMyNotifications = async (req, res) => {
               ? `${one.body}, ${res.__("welcome_app")}`
               : one.type === "rejectJob"
               ? `${one.body}, ${res.__("reject_announce_des")}`
+              : one.type === "gift"
+              ? `${one.body}, ${res.__("user_sent_you_a_gift")}`
               : `${one.body}, ${res.__("job_added_successfully_des")}`,
         };
       })

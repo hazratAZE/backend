@@ -9,6 +9,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 // You may need to install this package
 const { createNotification } = require("./notifications");
 const job = require("../schemas/job");
+const { sendPushNotification } = require("./jobs");
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -1273,6 +1274,28 @@ const sendToken = async (req, res) => {
       myUser.balance = myUser.balance - Number(amount);
       otherUser.balance = otherUser.balance + Number(amount);
       await myUser.save();
+      await otherUser.save();
+      console.log(otherUser.fcmToken);
+      sendPushNotification(
+        otherUser.fcmToken,
+        res.__("you_have_new_gift"),
+        `${myUser.name} ${myUser.surname} ${res.__(
+          "user_sent_you_a_gift"
+        )}, ${amount} token`,
+        "gift",
+        myUser.email,
+        myUser.image,
+        myUser.email,
+        myUser.name + " " + myUser.surname
+      );
+      const notification = await createNotification(
+        "New gift",
+        `${myUser.name} ${myUser.surname}`,
+        myUser.image,
+        myUser._id,
+        "gift"
+      );
+      otherUser.notifications.push(notification);
       await otherUser.save();
       res.status(200).json({
         error: false,

@@ -92,5 +92,7 @@
   "superior": "Proficient",
   "summary": "Professional Summary",
   "military": "Military service",
-  "gift_sended_successfully": "Gift sent successfully"
+  "gift_sended_successfully": "Gift sent successfully",
+  "you_have_new_gift": "You have a new gift",
+  "user_sent_you_a_gift": "sent you a gift"
 }
