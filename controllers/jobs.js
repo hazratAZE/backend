@@ -1528,7 +1528,43 @@ const uploadImages = async (req, res) => {
     res.status(500).json({ error: "Error uploading image to S3" });
   }
 };
-
+const raiseJob = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
+    if (myUser && myJob) {
+      if (myUser.balance >= 20) {
+        myJob.rating = myJob.rating + 10;
+        myUser.balance = myUser.balance - 20;
+        await myJob.save();
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("job_raised_successfully"),
+        });
+      } else {
+        return res.status(419).json({
+          error: {
+            type: "balance",
+            message: res.__("balance_not_valid"),
+          },
+        });
+      }
+    } else {
+      res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   getAllJobs,
   createJob,
@@ -1551,4 +1587,5 @@ module.exports = {
   getAllJobsAdmin,
   checkJob,
   reActiveJob,
+  raiseJob,
 };
