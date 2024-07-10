@@ -1535,22 +1535,31 @@ const raiseJob = async (req, res) => {
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
     if (myUser && myJob) {
-      if (myUser.balance >= 20) {
-        myJob.rating = myJob.rating + 10;
-        myUser.balance = myUser.balance - 20;
-        await myJob.save();
-        await myUser.save();
-        res.status(200).json({
-          error: false,
-          message: res.__("job_raised_successfully"),
-        });
-      } else {
+      if (myJob.endDate < Date.now()) {
         return res.status(419).json({
           error: {
-            type: "balance",
-            message: res.__("balance_not_valid"),
+            type: "date",
+            message: res.__("end_date_has_already_passed"),
           },
         });
+      } else {
+        if (myUser.balance >= 20) {
+          myJob.rating = myJob.rating + 10;
+          myUser.balance = myUser.balance - 20;
+          await myJob.save();
+          await myUser.save();
+          res.status(200).json({
+            error: false,
+            message: res.__("job_raised_successfully"),
+          });
+        } else {
+          return res.status(419).json({
+            error: {
+              type: "balance",
+              message: res.__("balance_not_valid"),
+            },
+          });
+        }
       }
     } else {
       res.status(404).json({
