@@ -28,12 +28,14 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
     ceritificates,
     about,
     image,
+    color,
   } = req.body;
 
   // PDF belgesini oluştururken hata olup olmadığını kontrol et
   const { email } = req.user;
   const myUser = await user.findOne({ email: email });
-  console.log(eduList);
+
+  console.log(color);
   https
     .get(image, async (response) => {
       // Resmi tutacak bir dizi oluşturun
@@ -57,7 +59,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         // Diğer içerikler...
 
         // Resmi PDF'ye ekleyin
-        doc.fillAndStroke("#0e8cc3").lineWidth(20);
+        doc.fillAndStroke(color).lineWidth(20);
 
         doc
           .fontSize(22)
@@ -65,7 +67,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           .text(`${name} ${surname}`, { align: "center" });
         doc.fontSize(14).fillColor("#666").text(position, { align: "center" });
         doc.lineWidth(68);
-        doc.fillAndStroke("#75bfec");
+        doc.fillAndStroke(color);
         doc.strokeOpacity(0.2);
         doc
           .moveTo(70, 96) // Başlangıç noktası
@@ -80,7 +82,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         // Kişisel Bilgiler
         doc
           .fontSize(16)
-          .fillColor("#75bfec")
+          .fillColor(color)
           .text(res.__("personal_information"), { wordSpacing: 2 });
 
         doc.moveDown(0.2);
@@ -107,12 +109,12 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           doc.moveDown(0.1);
         }
         doc.moveDown(0.5);
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("summary"));
+        doc.fontSize(16).fillColor(color).text(res.__("summary"));
         doc.moveDown(0.2);
         doc.fillColor("#000").fontSize(10).text(about);
         doc.moveDown(0.5);
         // Eğitim Bilgileri
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("education"));
+        doc.fontSize(16).fillColor(color).text(res.__("education"));
         doc.moveDown(0.2);
         eduList.forEach((edu) => {
           doc.fontSize(8).fillColor("gray").text(res.__("place_of_study"));
@@ -128,7 +130,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
 
         // // İş Deneyimleri
 
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("work_experience"));
+        doc.fontSize(16).fillColor(color).text(res.__("work_experience"));
         doc.moveDown(0.2);
         workList.forEach((work) => {
           doc.fontSize(8).fillColor("gray").text(res.__("company"));
@@ -145,7 +147,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         doc.moveDown(0.5);
 
         // Beceriler
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("skills"));
+        doc.fontSize(16).fillColor(color).text(res.__("skills"));
         doc.moveDown(0.2);
         let newSkillList = "";
 
@@ -165,7 +167,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
         doc.moveDown(0.5);
 
         // Diller
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("languages"));
+        doc.fontSize(16).fillColor(color).text(res.__("languages"));
         doc.moveDown(0.2);
         langList.forEach((lang) => {
           doc
@@ -188,7 +190,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
 
         // Ödüller
         if (awardList.length > 0) {
-          doc.fontSize(16).fillColor("#75bfec").text(res.__("awards"));
+          doc.fontSize(16).fillColor(color).text(res.__("awards"));
           doc.moveDown(0.2);
           awardList.forEach((award) => {
             doc
@@ -201,7 +203,7 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
 
         // Sertifikalar
         if (ceritificates.length > 0) {
-          doc.fontSize(16).fillColor("#75bfec").text(res.__("certificates"));
+          doc.fontSize(16).fillColor(color).text(res.__("certificates"));
           doc.moveDown(0.2);
           ceritificates.forEach((cert) => {
             doc
@@ -211,14 +213,14 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           });
           doc.moveDown(0.5);
         }
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("driver_license"));
+        doc.fontSize(16).fillColor(color).text(res.__("driver_license"));
         doc.moveDown(0.2);
         doc
           .fontSize(10)
           .fillColor("#000")
           .text(drive == "yes" ? res.__("yes") : res.__("no"));
         doc.moveDown(0.5);
-        doc.fontSize(16).fillColor("#75bfec").text(res.__("military"));
+        doc.fontSize(16).fillColor(color).text(res.__("military"));
         doc.moveDown(0.2);
         doc
           .fontSize(10)
