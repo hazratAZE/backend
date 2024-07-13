@@ -85,7 +85,7 @@ const getOneNews = async (req, res) => {
 };
 const createNews = async (req, res) => {
   try {
-    const { title, body, image, lang } = req.body;
+    const { title, body, image, lang, source } = req.body;
     if (!title) {
       res.status(419).json({
         error: true,
@@ -106,12 +106,18 @@ const createNews = async (req, res) => {
         error: true,
         message: "Lang is required",
       });
+    } else if (!source) {
+      res.status(419).json({
+        error: true,
+        message: "Source is required",
+      });
     } else {
       const newNews = new news({
         title: title,
         body: body,
         image: image,
         lang: lang,
+        source: source,
       });
       await newNews.save();
       res.status(201).json({
