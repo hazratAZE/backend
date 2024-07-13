@@ -18,6 +18,10 @@ const News = new mongoose.Schema(
       type: String,
       default: "az",
     },
+    source: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true,
