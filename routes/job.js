@@ -21,6 +21,7 @@ const {
   checkJob,
   reActiveJob,
   raiseJob,
+  applyFullStackJobs,
 } = require("../controllers/jobs");
 const { verifyJwt } = require("../middleware/jwt");
 const routes = express.Router();
@@ -45,5 +46,6 @@ routes.post("/editJob", verifyJwt, editJob);
 routes.post("/uploadImages", verifyJwt, uploadImages);
 routes.post("/reactive", verifyJwt, reActiveJob);
 routes.post("/raiseJob", verifyJwt, raiseJob);
+routes.post("/applyFullStackJobs", verifyJwt, applyFullStackJobs);
 
 module.exports = routes;

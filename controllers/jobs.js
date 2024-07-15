@@ -52,7 +52,6 @@ const reActiveJob = async (req, res) => {
         });
       } else {
         const currentJob = await job.findOne({ _id: id });
-
         if (!currentJob) {
           res.status(404).json({
             error: true,
@@ -1049,6 +1048,37 @@ const reportJob = async (req, res) => {
     });
   }
 };
+const applyFullStackJobs = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { id } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const myJob = await job.findOne({ _id: id });
+    if (myUser.balance >= 10) {
+      myUser.appliedJobs.push(myJob);
+      myJob.rating = myJob.rating + 1;
+      myUser.balance = myUser.balance - 10;
+      await myUser.save();
+      await myJob.save();
+      res.status(200).json({
+        error: false,
+        message: "Apply successfully",
+      });
+    } else {
+      return res.status(419).json({
+        error: {
+          type: "balance",
+          message: res.__("balance_not_valid"),
+        },
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const applyJob = async (req, res) => {
   try {
     const { email } = req.user;
@@ -1599,4 +1629,5 @@ module.exports = {
   checkJob,
   reActiveJob,
   raiseJob,
+  applyFullStackJobs,
 };
