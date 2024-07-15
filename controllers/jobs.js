@@ -540,7 +540,9 @@ const getMySavedJobs = async (req, res) => {
 
     const jobIds = myUser.savedJobs;
     // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const allJobsList = await job.find({ _id: { $in: jobIds } });
+    const allJobsList = await job
+      .find({ _id: { $in: jobIds } })
+      .sort({ createdAt: -1 });
     const allJobs = allJobsList.filter((job) => job.status !== "deleted");
     jobList = await Promise.all(
       allJobs.map(async (oneJob) => {
