@@ -42,7 +42,7 @@ routes.post("/create", async function (req, res) {
           body,
           "info",
           one._id,
-          "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+          "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
           "noemail",
           "Yolu Mobile"
         );
