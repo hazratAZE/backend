@@ -87,7 +87,7 @@ const checkJob = async (req, res) => {
       const myUser = await user.findOne({ _id: userId });
       sendPushNotification(
         myUser.fcmToken,
-        "Hörmətli istifadəçi, elanınız uğurla yayımlandı",
+        "Hörmətli istifadəçi, elanınız uğurla yayımlandı 🎉",
         `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
     `,
         "info",
@@ -110,7 +110,7 @@ const checkJob = async (req, res) => {
         if (one._id.toString() !== myUser._id.toString()) {
           await sendPushNotification(
             one.fcmToken,
-            "Sizin sahenize uygun yeni is elani!",
+            "Sizin sahenize uygun yeni is elani! ✅",
             `${newJob.title}, ${newJob.salary}, ${newJob.type}, ${newJob.location}, ${newJob.description}
     `,
             "info",
@@ -127,7 +127,7 @@ const checkJob = async (req, res) => {
       console.log(myUser);
       sendPushNotification(
         myUser.fcmToken,
-        "Elanınız dərc edilmədi!",
+        "Elanınız dərc edilmədi! ❌",
         `Hörmətli istifadəçi, təəssüf ki, elanınızı dərc edə bilmədik. Təlimatları diqqətlə oxuyun və yenidən cəhd edin
       `,
         "info",
@@ -1114,7 +1114,7 @@ const applyJob = async (req, res) => {
             myJob.applicants.push(myUser);
             sendPushNotification(
               owner.fcmToken,
-              res.__("you_have_new_apply"),
+              `${res.__("you_have_new_apply")} ✅`,
               `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
               "apply",
               myUser.email,

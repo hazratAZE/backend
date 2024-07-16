@@ -1278,7 +1278,7 @@ const sendToken = async (req, res) => {
       console.log(otherUser.fcmToken);
       sendPushNotification(
         otherUser.fcmToken,
-        res.__("you_have_new_gift"),
+        `${res.__("you_have_new_gift")} 🎁`,
         `${myUser.name} ${myUser.surname} ${res.__(
           "user_sent_you_a_gift"
         )}, ${amount} token`,

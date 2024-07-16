@@ -35,7 +35,7 @@ const createMessage = async (req, res) => {
         await newMessage.save();
         sendPushNotification(
           newUser.fcmToken,
-          `${myUser.name} ${myUser.surname}`,
+          `${myUser.name} ${myUser.surname} ✉️`,
           `${newMessage.content}`,
           "message",
           myUser._id,

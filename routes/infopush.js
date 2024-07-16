@@ -38,7 +38,7 @@ routes.post("/create", async function (req, res) {
       allFcmTokens.forEach(async (one) => {
         await sendPushNotification(
           one.fcmToken,
-          title,
+          `${title} 📢`,
           body,
           "info",
           one._id,
