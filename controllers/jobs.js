@@ -92,14 +92,14 @@ const checkJob = async (req, res) => {
     `,
         "info",
         myUser._id,
-        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
         "noemail"
       );
       const userList = await user.find({ jobCategory: category });
       const notification = await createNotification(
         "addedJob",
         `${myUser.name} ${myUser.surname}`,
-        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
         myUser._id,
         "addedJob"
       );
@@ -115,7 +115,7 @@ const checkJob = async (req, res) => {
     `,
             "info",
             one._id,
-            "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+            "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
             "noemail"
           );
         }
@@ -132,14 +132,14 @@ const checkJob = async (req, res) => {
       `,
         "info",
         myUser._id,
-        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
         "noemail"
       );
 
       const notification = await createNotification(
         "rejectJob",
         `${myUser.name} ${myUser.surname}`,
-        "https://worklytest.s3.eu-north-1.amazonaws.com/image23.png",
+        "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
         myUser._id,
         "rejectJob"
       );
