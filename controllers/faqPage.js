@@ -6,20 +6,21 @@ const faqPage = (req, res) => {
       data = [
         {
           id: 1,
-          question: "Are there any fees for posting an announce?",
-          answer: "No. Placing an announce on Yolu program is free.",
+          question: "Are there any fees for posting an announcement?",
+          answer:
+            "You can use the tokens on the platform to place an announcement on the Yolu platform.",
         },
         {
           id: 2,
           question: "What types of jobs are available on Yolu?",
           answer:
-            "To reset your password, go to the 'Forgot Password' page and follow the instructions.",
+            "Yolu has four types of job postings. Daily, Full-time, Part-Time, Remote.",
         },
         {
           id: 3,
           question: "Is registration required to apply for announcements?",
           answer:
-            "Registration is required to apply for daily announcements on the Yolu platform. However, there is no registration requirement for other announcements.",
+            "You must register to apply for a job advertisement on the Yolu platform.",
         },
         {
           id: 4,
@@ -63,20 +64,21 @@ const faqPage = (req, res) => {
         {
           id: 1,
           question: "Взимается ли плата за размещение объявления?",
-          answer: "Нет. Размещение объявления в программе Yolu бесплатное.",
+          answer:
+            "Вы можете использовать токены на платформе для размещения объявлений на платформе Yolu.",
         },
         {
           id: 2,
           question: "Какие типы вакансий доступны на Yolu?",
           answer:
-            "На дороге есть четыре типа объявлений о вакансиях. Ежедневно, полная занятость, частичная занятость, удаленно.",
+            "В Yolu есть четыре типа объявлений о вакансиях. Ежедневно, Полная занятость, Частичная занятость, Удаленно.",
         },
         {
           id: 3,
           question:
             "Требуется ли регистрация для подачи заявки на размещение объявления?",
           answer:
-            "Регистрация необходима для подачи заявки на ежедневные объявления на платформе Yolu. Однако для других объявлений регистрация не требуется.",
+            "Вы должны зарегистрироваться, чтобы подать заявку на объявление о работе на платформе Yolu.",
         },
         {
           id: 4,
@@ -121,19 +123,20 @@ const faqPage = (req, res) => {
         {
           id: 1,
           question: "Elan yerləşdirmək üçün hər hansı ödəniş varmı?",
-          answer: "Xeyr. Yolu proqramında elan yerləşdirmək pulsuzdur.",
+          answer:
+            "Yolu platformasında elan yerləşdirmək üçün platformada istifadə olunan tokenlərdən istifadə edə bilərsiniz.",
         },
         {
           id: 2,
           question: "Yolu-da hansı iş növləri mövcuddur?",
           answer:
-            "Yolda dörd növ iş elanı var. Gündəlik, Tam iş günü, Part-Time, Uzaqdan.",
+            "Yolu-da dörd növ iş elanı var. Gündəlik, Tam iş günü, Part-Time, Uzaqdan.",
         },
         {
           id: 3,
           question: "Elana müraciət etmək üçün qeydiyyat tələb olunurmu?",
           answer:
-            "Yolu platformasında gündəlik elanlara müraciət etmək üçün qeydiyyat tələb olunur. Lakin digər elanlar üçün qeydiyyat tələbi yoxdur.",
+            "Yolu platformasında iş elanına müraciət etmək üçün qeydiyyatdan keçməlisiniz.",
         },
         {
           id: 4,
