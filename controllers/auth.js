@@ -106,6 +106,19 @@ const getAllUsersMap = async (req, res) => {
 const registerUser = async (request, response) => {
   const { name, surname, email, password, confirmPassword, agreement } =
     request.body;
+  // Function to generate an 8-digit unique card ID
+  const generateUniqueCardId = async () => {
+    let cardId;
+    let cardIdExists = true;
+    while (cardIdExists) {
+      cardId = Math.floor(10000000 + Math.random() * 90000000); // Generate 8-digit number
+      const existingUser = await User.findOne({ card_id: cardId });
+      if (!existingUser) {
+        cardIdExists = false;
+      }
+    }
+    return cardId;
+  };
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -160,6 +173,7 @@ const registerUser = async (request, response) => {
     } else {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
+      const cardId = await generateUniqueCardId();
       const newUser = new User({
         name: name,
         surname: surname,
@@ -167,6 +181,7 @@ const registerUser = async (request, response) => {
         fullName: `${name} ${surname}`,
         agreement: agreement,
         password: hashPassword,
+        card_id: cardId.toString(),
       });
       newUser
         .save()
