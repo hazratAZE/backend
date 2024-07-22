@@ -1087,6 +1087,11 @@ const applyJob = async (req, res) => {
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
     const owner = await user.findOne({ _id: myJob.createdBy });
+    const contain = myJob.applicants.filter(
+      (one) => one._id.toString() == myUser._id.toString()
+    );
+    console.log(contain);
+
     if (myUser && myJob) {
       if (apply) {
         myUser.appliedJobs = myUser.appliedJobs.filter(
@@ -1103,49 +1108,78 @@ const applyJob = async (req, res) => {
           message: "Un apply successfully",
         });
       } else {
-        if (owner.blockUsers.includes(myUser._id)) {
-          res.status(419).json({
-            error: true,
-            message: res.__("user_blocked_your_account"),
+        if (myJob.status !== "active") {
+          return res.status(419).json({
+            error: {
+              type: "your_ad",
+              message: res.__("ad_exipired_or_closed"),
+            },
           });
         } else {
-          if (myUser.balance >= 10) {
-            myUser.appliedJobs.push(myJob);
-            myJob.applicants.push(myUser);
-            sendPushNotification(
-              owner.fcmToken,
-              `${res.__("you_have_new_apply")} ✅`,
-              `${myUser.name} ${myUser.surname} ${res.__("sended_request")}`,
-              "apply",
-              myUser.email,
-              myUser.image,
-              myUser.email,
-              myUser.name + " " + myUser.surname
-            );
-            const notification = await createNotification(
-              "New apply",
-              `${myUser.name} ${myUser.surname}`,
-              myUser.image,
-              myJob._id,
-              "apply"
-            );
-            myJob.rating = myJob.rating + 1;
-            owner.notifications.push(notification);
-            myUser.balance = myUser.balance - 10;
-            await owner.save();
-            await myUser.save();
-            await myJob.save();
-            res.status(200).json({
-              error: false,
-              message: "Apply successfully",
+          if (owner.blockUsers.includes(myUser._id)) {
+            res.status(419).json({
+              error: true,
+              message: res.__("user_blocked_your_account"),
             });
           } else {
-            return res.status(419).json({
-              error: {
-                type: "balance",
-                message: res.__("balance_not_valid"),
-              },
-            });
+            if (myUser.balance >= 10) {
+              if (myUser._id.toString() == myJob.addedUser._id.toString()) {
+                return res.status(419).json({
+                  error: {
+                    type: "your_ad",
+                    message: res.__("your_ad_error"),
+                  },
+                });
+              } else {
+                if (contain.length > 0) {
+                  return res.status(419).json({
+                    error: {
+                      type: "your_ad",
+                      message: res.__("you_already_applied"),
+                    },
+                  });
+                } else {
+                  myUser.appliedJobs.push(myJob);
+                  myJob.applicants.push(myUser);
+                  sendPushNotification(
+                    owner.fcmToken,
+                    `${res.__("you_have_new_apply")} ✅`,
+                    `${myUser.name} ${myUser.surname} ${res.__(
+                      "sended_request"
+                    )}`,
+                    "apply",
+                    myUser.email,
+                    myUser.image,
+                    myUser.email,
+                    myUser.name + " " + myUser.surname
+                  );
+                  const notification = await createNotification(
+                    "New apply",
+                    `${myUser.name} ${myUser.surname}`,
+                    myUser.image,
+                    myJob._id,
+                    "apply"
+                  );
+                  myJob.rating = myJob.rating + 1;
+                  owner.notifications.push(notification);
+                  myUser.balance = myUser.balance - 10;
+                  await owner.save();
+                  await myUser.save();
+                  await myJob.save();
+                  res.status(200).json({
+                    error: false,
+                    message: "Apply successfully",
+                  });
+                }
+              }
+            } else {
+              return res.status(419).json({
+                error: {
+                  type: "balance",
+                  message: res.__("balance_not_valid"),
+                },
+              });
+            }
           }
         }
       }

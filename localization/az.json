@@ -95,5 +95,8 @@
   "gift_sended_successfully": "Hədiyyə uğurla göndərildi",
   "you_have_new_gift": "Yeni hədiyyəniz var",
   "user_sent_you_a_gift": "sizə hədiyyə göndərdi",
-  "job_raised_successfully": "Elan reytinqi uğurla yüksəldilib"
+  "job_raised_successfully": "Elan reytinqi uğurla yüksəldilib",
+  "your_ad_error": "Hörmətli istifadəçi, bu elanı siz əlavə etmisiniz",
+  "you_already_applied": "Siz artıq bu elan üçün müraciət etmisiniz",
+  "ad_exipired_or_closed": "Bu elan bağlanıb və ya müddəti bitib"
 }

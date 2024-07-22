@@ -95,5 +95,8 @@
   "gift_sended_successfully": "Gift sent successfully",
   "you_have_new_gift": "You have a new gift",
   "user_sent_you_a_gift": "sent you a gift",
-  "job_raised_successfully": "Ad rating has been successfully increased"
+  "job_raised_successfully": "Ad rating has been successfully increased",
+  "your_ad_error": "Dear user, you have added this announcement",
+  "you_already_applied": "You have already applied for this advert",
+  "ad_exipired_or_closed": "This announcement has been closed or expired"
 }
