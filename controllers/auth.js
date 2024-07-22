@@ -1282,47 +1282,56 @@ const updateBalance = async (req, res) => {
 const sendToken = async (req, res) => {
   try {
     const { email } = req.user;
-    const { amount, userEmail } = req.body;
+    const { amount, userId } = req.body;
     const myUser = await user.findOne({ email: email });
-    const otherUser = await user.findOne({ email: userEmail });
-    if (myUser.balance >= amount) {
-      myUser.balance = myUser.balance - Number(amount);
-      otherUser.balance = otherUser.balance + Number(amount);
-      await myUser.save();
-      await otherUser.save();
-      console.log(otherUser.fcmToken);
-      sendPushNotification(
-        otherUser.fcmToken,
-        `${res.__("you_have_new_gift")} 🎁`,
-        `${myUser.name} ${myUser.surname} ${res.__(
-          "user_sent_you_a_gift"
-        )}, ${amount} token`,
-        "gift",
-        myUser.email,
-        myUser.image,
-        myUser.email,
-        myUser.name + " " + myUser.surname
-      );
-      const notification = await createNotification(
-        "New gift",
-        `${myUser.name} ${myUser.surname}`,
-        myUser.image,
-        myUser._id,
-        "gift"
-      );
-      otherUser.notifications.push(notification);
-      await otherUser.save();
-      res.status(200).json({
-        error: false,
-        message: res.__("gift_sended_successfully"),
-      });
-    } else {
+    const otherUser = await user.findOne({ _id: userId });
+    if (otherUser._id.toString() == myUser._id.toString()) {
       res.status(419).json({
         error: {
           type: "balance",
-          message: res.__("balance_not_valid"),
+          message: res.__("card_belongs_to_you"),
         },
       });
+    } else {
+      if (myUser.balance >= amount) {
+        myUser.balance = myUser.balance - Number(amount);
+        otherUser.balance = otherUser.balance + Number(amount);
+        await myUser.save();
+        await otherUser.save();
+        console.log(otherUser.fcmToken);
+        sendPushNotification(
+          otherUser.fcmToken,
+          `${res.__("you_have_new_gift")} 🎁`,
+          `${myUser.name} ${myUser.surname} ${res.__(
+            "user_sent_you_a_gift"
+          )}, ${amount} token`,
+          "gift",
+          myUser.email,
+          myUser.image,
+          myUser.email,
+          myUser.name + " " + myUser.surname
+        );
+        const notification = await createNotification(
+          "New gift",
+          `${myUser.name} ${myUser.surname}`,
+          myUser.image,
+          myUser._id,
+          "gift"
+        );
+        otherUser.notifications.push(notification);
+        await otherUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("gift_sended_successfully"),
+        });
+      } else {
+        res.status(419).json({
+          error: {
+            type: "balance",
+            message: res.__("balance_not_valid"),
+          },
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
