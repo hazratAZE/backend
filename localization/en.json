@@ -98,5 +98,6 @@
   "job_raised_successfully": "Ad rating has been successfully increased",
   "your_ad_error": "Dear user, you have added this announcement",
   "you_already_applied": "You have already applied for this advert",
-  "ad_exipired_or_closed": "This announcement has been closed or expired"
+  "ad_exipired_or_closed": "This announcement has been closed or expired",
+  "change_account": "Your account information is incomplete"
 }

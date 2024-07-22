@@ -1090,8 +1090,6 @@ const applyJob = async (req, res) => {
     const contain = myJob.applicants.filter(
       (one) => one._id.toString() == myUser._id.toString()
     );
-    console.log(contain);
-
     if (myUser && myJob) {
       if (apply) {
         myUser.appliedJobs = myUser.appliedJobs.filter(
@@ -1108,85 +1106,96 @@ const applyJob = async (req, res) => {
           message: "Un apply successfully",
         });
       } else {
-        if (myJob.status !== "active") {
+        if (myUser.role == "user") {
           return res.status(419).json({
             error: {
               type: "your_ad",
-              message: res.__("ad_exipired_or_closed"),
+              message: res.__("change_account"),
             },
           });
         } else {
-          if (owner.blockUsers.includes(myUser._id)) {
-            res.status(419).json({
-              error: true,
-              message: res.__("user_blocked_your_account"),
+          if (myJob.status !== "active") {
+            return res.status(419).json({
+              error: {
+                type: "your_ad",
+                message: res.__("ad_exipired_or_closed"),
+              },
             });
           } else {
-            if (myUser.balance >= 10) {
-              if (myUser._id.toString() == myJob.addedUser._id.toString()) {
-                return res.status(419).json({
-                  error: {
-                    type: "your_ad",
-                    message: res.__("your_ad_error"),
-                  },
-                });
-              } else {
-                if (contain.length > 0) {
+            if (owner.blockUsers.includes(myUser._id)) {
+              res.status(419).json({
+                error: true,
+                message: res.__("user_blocked_your_account"),
+              });
+            } else {
+              if (myUser.balance >= 10) {
+                if (myUser._id.toString() == myJob.addedUser._id.toString()) {
                   return res.status(419).json({
                     error: {
                       type: "your_ad",
-                      message: res.__("you_already_applied"),
+                      message: res.__("your_ad_error"),
                     },
                   });
                 } else {
-                  myUser.appliedJobs.push(myJob);
-                  myJob.applicants.push(myUser);
-                  sendPushNotification(
-                    owner.fcmToken,
-                    `${res.__("you_have_new_apply")} ✅`,
-                    `${myUser.name} ${myUser.surname} ${res.__(
-                      "sended_request"
-                    )}`,
-                    "apply",
-                    myUser.email,
-                    myUser.image,
-                    myUser.email,
-                    myUser.name + " " + myUser.surname
-                  );
-                  const notification = await createNotification(
-                    "New apply",
-                    `${myUser.name} ${myUser.surname}`,
-                    myUser.image,
-                    myJob._id,
-                    "apply"
-                  );
-                  myJob.rating = myJob.rating + 1;
-                  owner.notifications.push(notification);
-                  myUser.balance = myUser.balance - 10;
-                  await owner.save();
-                  await myUser.save();
-                  await myJob.save();
-                  res.status(200).json({
-                    error: false,
-                    message: "Apply successfully",
-                  });
+                  if (contain.length > 0) {
+                    return res.status(419).json({
+                      error: {
+                        type: "your_ad",
+                        message: res.__("you_already_applied"),
+                      },
+                    });
+                  } else {
+                    myUser.appliedJobs.push(myJob);
+                    myJob.applicants.push(myUser);
+                    sendPushNotification(
+                      owner.fcmToken,
+                      `${res.__("you_have_new_apply")} ✅`,
+                      `${myUser.name} ${myUser.surname} ${res.__(
+                        "sended_request"
+                      )}`,
+                      "apply",
+                      myUser.email,
+                      myUser.image,
+                      myUser.email,
+                      myUser.name + " " + myUser.surname
+                    );
+                    const notification = await createNotification(
+                      "New apply",
+                      `${myUser.name} ${myUser.surname}`,
+                      myUser.image,
+                      myJob._id,
+                      "apply"
+                    );
+                    myJob.rating = myJob.rating + 1;
+                    owner.notifications.push(notification);
+                    myUser.balance = myUser.balance - 10;
+                    await owner.save();
+                    await myUser.save();
+                    await myJob.save();
+                    res.status(200).json({
+                      error: false,
+                      message: "Apply successfully",
+                    });
+                  }
                 }
+              } else {
+                return res.status(419).json({
+                  error: {
+                    type: "balance",
+                    message: res.__("balance_not_valid"),
+                  },
+                });
               }
-            } else {
-              return res.status(419).json({
-                error: {
-                  type: "balance",
-                  message: res.__("balance_not_valid"),
-                },
-              });
             }
           }
         }
       }
     } else {
-      res.status(404).json({
-        error: true,
-        message: "User not found",
+      return res.status(419).json({
+        error: {
+          type: "your_ad",
+          message: "Job not found",
+        },
       });
     }
   } catch (error) {
