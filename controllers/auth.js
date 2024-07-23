@@ -996,6 +996,9 @@ const getUserInfo = async (req, res) => {
               : newUser.city.split(",")[2],
           blockMe: false,
           blockI: false,
+          applies: newUser.appliedJobs.length,
+          jobs: newUser.addedJobs.length,
+          see: newUser.see,
         };
       } else {
         myUserTr = {
@@ -1014,6 +1017,9 @@ const getUserInfo = async (req, res) => {
               : newUser.city.split(",")[2],
           blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
           blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
+          applies: newUser.appliedJobs.length,
+          jobs: newUser.addedJobs.length,
+          see: newUser.see,
         };
       }
     } else {
@@ -1031,7 +1037,8 @@ const getUserInfo = async (req, res) => {
         };
       }
     }
-
+    newUser.see = newUser.see + 1;
+    await newUser.save();
     res.status(200).json({
       error: false,
       data: myUserTr,

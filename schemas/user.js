@@ -192,6 +192,10 @@ const User = new mongoose.Schema(
       type: Number,
       default: 250,
     },
+    see: {
+      type: Number,
+      default: 0,
+    },
     card_id: {
       type: String,
       required: true,
