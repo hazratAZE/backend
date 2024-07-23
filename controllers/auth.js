@@ -1183,6 +1183,18 @@ const googleRegister = async (req, res) => {
   try {
     const { name, surname, email, photo, googleId, fcmtoken } = req.body;
     const user = await User.findOne({ email });
+    const generateUniqueCardId = async () => {
+      let cardId;
+      let cardIdExists = true;
+      while (cardIdExists) {
+        cardId = Math.floor(10000000 + Math.random() * 90000000); // Generate 8-digit number
+        const existingUser = await User.findOne({ card_id: cardId });
+        if (!existingUser) {
+          cardIdExists = false;
+        }
+      }
+      return cardId;
+    };
     if (user) {
       if (!user.googleAuth) {
         res.status(419).json({
@@ -1217,6 +1229,7 @@ const googleRegister = async (req, res) => {
           expiresIn: "7d",
         }
       );
+      const cardId = await generateUniqueCardId();
       const newUser = new User({
         name: name,
         surname: surname,
@@ -1225,6 +1238,7 @@ const googleRegister = async (req, res) => {
         image: photo,
         fcmToken: fcmtoken,
         googleId: googleId,
+        cart_id: cardId,
         googleAuth: true,
         agreement: true,
       });
