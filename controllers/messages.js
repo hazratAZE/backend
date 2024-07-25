@@ -15,37 +15,44 @@ const createMessage = async (req, res) => {
     } else {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
-      if (newUser.blockUsers.includes(myUser._id)) {
-        res.status(419).json({
-          error: true,
-          message: res.__("user_blocked_your_account"),
-        });
-      } else if (myUser.blockUsers.includes(newUser._id)) {
-        res.status(419).json({
-          error: true,
-          message: res.__("you_blocked_this_account"),
-        });
+      if (!myUser || !newUser) {
+        if (newUser.blockUsers.includes(myUser._id)) {
+          res.status(419).json({
+            error: true,
+            message: res.__("user_blocked_your_account"),
+          });
+        } else if (myUser.blockUsers.includes(newUser._id)) {
+          res.status(419).json({
+            error: true,
+            message: res.__("you_blocked_this_account"),
+          });
+        } else {
+          const newMessage = new messages({
+            sender: myUser._id,
+            receiver: newUser._id,
+            content: content,
+            image: myUser.image,
+          });
+          await newMessage.save();
+          sendPushNotification(
+            newUser.fcmToken,
+            `${myUser.name} ${myUser.surname} ✉️`,
+            `${newMessage.content}`,
+            "message",
+            myUser._id,
+            myUser.image,
+            myUser.email,
+            myUser.name + " " + myUser.surname
+          );
+          res.status(200).json({
+            error: false,
+            message: "Message seded!",
+          });
+        }
       } else {
-        const newMessage = new messages({
-          sender: myUser._id,
-          receiver: newUser._id,
-          content: content,
-          image: myUser.image,
-        });
-        await newMessage.save();
-        sendPushNotification(
-          newUser.fcmToken,
-          `${myUser.name} ${myUser.surname} ✉️`,
-          `${newMessage.content}`,
-          "message",
-          myUser._id,
-          myUser.image,
-          myUser.email,
-          myUser.name + " " + myUser.surname
-        );
-        res.status(200).json({
-          error: false,
-          message: "Message seded!",
+        res.status(419).json({
+          error: true,
+          message: "User deleted!",
         });
       }
     }

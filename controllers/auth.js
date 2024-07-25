@@ -1245,7 +1245,7 @@ const googleRegister = async (req, res) => {
         image: photo,
         fcmToken: fcmtoken,
         googleId: googleId,
-        cart_id: cardId,
+        card_id: cardId,
         googleAuth: true,
         agreement: true,
       });
