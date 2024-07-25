@@ -16,6 +16,11 @@ const createMessage = async (req, res) => {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
       if (!myUser || !newUser) {
+        res.status(419).json({
+          error: true,
+          message: "User deleted!",
+        });
+      } else {
         if (newUser.blockUsers.includes(myUser._id)) {
           res.status(419).json({
             error: true,
@@ -49,11 +54,6 @@ const createMessage = async (req, res) => {
             message: "Message seded!",
           });
         }
-      } else {
-        res.status(419).json({
-          error: true,
-          message: "User deleted!",
-        });
       }
     }
   } catch (error) {
