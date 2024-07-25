@@ -15,7 +15,7 @@ const createMessage = async (req, res) => {
     } else {
       const myUser = await user.findOne({ email: email });
       const newUser = await user.findOne({ _id: id });
-      if (!myUser || !newUser) {
+      if (!newUser || newUser.status == "deleted") {
         res.status(419).json({
           error: true,
           message: "User deleted!",
