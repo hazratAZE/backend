@@ -1286,7 +1286,7 @@ const updateBalance = async (req, res) => {
         },
       });
     } else {
-      myUser.balance = myUser.balance + 5;
+      myUser.balance = myUser.balance + 10;
       await myUser.save();
       res.status(200).json({
         error: false,
