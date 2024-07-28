@@ -100,5 +100,12 @@
   "you_already_applied": "Siz artıq bu elan üçün müraciət etmisiniz",
   "ad_exipired_or_closed": "Bu elan bağlanıb və ya müddəti bitib",
   "change_account": "Hesab məlumatınız natamamdır",
-  "card_belongs_to_you": "Bu kart sizə məxsusdur"
+  "card_belongs_to_you": "Bu kart sizə məxsusdur",
+  "military_section_is_required": "Hərbi xidmət bölməsi tələb olunur",
+  "edu_level_is_required": "Təhsil səviyyəsi bölməsi tələb olunur",
+  "edu_info_is_required": "Təhsil haqqında məlumat bölməsi tələb olunur",
+  "work_info_is_required": "İş məlumatı bölməsi tələb olunur",
+  "skills_section_is_required": "Bacarıqlar haqqında məlumat bölməsi tələb olunur",
+  "language_skills_section_is_required": "Dil bilikləri bölməsi tələb olunur",
+  "awards_section_is_required": "Mükafatlar və sertifikatlaşdırma bölməsi tələb olunur"
 }

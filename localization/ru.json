@@ -100,5 +100,12 @@
   "you_already_applied": "Вы уже подали заявку на это объявление",
   "ad_exipired_or_closed": "Это объявление закрыто или срок его действия истек",
   "change_account": "Измените свою учетную запись на профессиональную учетную запись",
-  "card_belongs_to_you": "Эта карта принадлежит вам"
+  "card_belongs_to_you": "Эта карта принадлежит вам",
+  "military_section_is_required": "Требуется воинская часть",
+  "edu_level_is_required": "Раздел уровня образования обязателен",
+  "edu_info_is_required": "Раздел информации об образовании обязателен",
+  "work_info_is_required": "Раздел информации о работе обязателен",
+  "skills_section_is_required": "Раздел навыков обязателен",
+  "language_skills_section_is_required": "Раздел языковых навыков обязателен",
+  "awards_section_is_required": "Раздел наград и сертификации обязателен"
 }

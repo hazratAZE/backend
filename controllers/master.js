@@ -15,6 +15,17 @@ const changeRoleUser = async (req, res) => {
       phone,
       city,
       address,
+      military,
+      education_level,
+      education_info,
+      work_info,
+      language_skills,
+      skills_info,
+      awards_info,
+      github,
+      linkedin,
+      website,
+      behance,
       about,
       country,
       longitude,
@@ -63,18 +74,18 @@ const changeRoleUser = async (req, res) => {
             message: res.__("gender_field_is_required"),
           },
         });
-      } else if (!experience) {
+      } else if (!city) {
         res.status(419).json({
           error: {
-            type: "experience",
-            message: res.__("experiance_field_is_required"),
+            type: "city",
+            message: res.__("city_field_is_required"),
           },
         });
-      } else if (!driveLicense) {
+      } else if (!address) {
         res.status(419).json({
           error: {
-            type: "drivelicense",
-            message: res.__("driver_license_field_is_required"),
+            type: "address",
+            message: res.__("address_field_is_required"),
           },
         });
       } else if (!country) {
@@ -91,18 +102,67 @@ const changeRoleUser = async (req, res) => {
             message: res.__("phone_field_is_required"),
           },
         });
-      } else if (!city) {
+      } else if (!driveLicense) {
         res.status(419).json({
           error: {
-            type: "city",
-            message: res.__("city_field_is_required"),
+            type: "drivelicense",
+            message: res.__("driver_license_field_is_required"),
           },
         });
-      } else if (!address) {
+      } else if (!military) {
         res.status(419).json({
           error: {
-            type: "address",
-            message: res.__("address_field_is_required"),
+            type: "military",
+            message: res.__("military_section_is_required"),
+          },
+        });
+      } else if (!education_level) {
+        res.status(419).json({
+          error: {
+            type: "edu_level",
+            message: res.__("edu_level_is_required"),
+          },
+        });
+      } else if (!education_info) {
+        res.status(419).json({
+          error: {
+            type: "edu_info",
+            message: res.__("edu_info_is_required"),
+          },
+        });
+      } else if (!experience) {
+        res.status(419).json({
+          error: {
+            type: "experience",
+            message: res.__("experience_field_is_required"),
+          },
+        });
+      } else if (!work_info) {
+        res.status(419).json({
+          error: {
+            type: "work_info",
+            message: res.__("work_info_is_required"),
+          },
+        });
+      } else if (!skills_info) {
+        res.status(419).json({
+          error: {
+            type: "skills",
+            message: res.__("skills_section_is_required"),
+          },
+        });
+      } else if (!language_skills) {
+        res.status(419).json({
+          error: {
+            type: "language_skills",
+            message: res.__("language_skills_section_is_required"),
+          },
+        });
+      } else if (!awards_info) {
+        res.status(419).json({
+          error: {
+            type: "awards_info",
+            message: res.__("awards_section_is_required"),
           },
         });
       } else if (about.length < 60) {
@@ -136,6 +196,17 @@ const changeRoleUser = async (req, res) => {
             experience: experience,
             jobCategory: category,
             country: country,
+            military: military,
+            github: github,
+            linkedin: linkedin,
+            website: website,
+            behance: behance,
+            education_level: education_level,
+            education_info: education_info,
+            work_info: work_info,
+            skills: skills_info,
+            awards_certificate: awards_info,
+            language_info: language_skills,
             role: "master",
           }
         );

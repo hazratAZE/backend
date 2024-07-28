@@ -173,6 +173,50 @@ const User = new mongoose.Schema(
     driveLicense: {
       type: String,
     },
+    military: {
+      type: String,
+      default: "yes",
+    },
+    github: {
+      type: String,
+      default: "",
+    },
+    linkedin: {
+      type: String,
+      default: "",
+    },
+    website: {
+      type: String,
+      default: "",
+    },
+    behance: {
+      type: String,
+      default: "",
+    },
+    education_level: {
+      type: String,
+      default: "Orta təhsil,Среднее образование,Secondary Education",
+    },
+    education_info: {
+      type: String,
+      default: "",
+    },
+    work_info: {
+      type: String,
+      default: "",
+    },
+    skills: {
+      type: String,
+      default: "",
+    },
+    awards_certificate: {
+      type: String,
+      default: "",
+    },
+    language_info: {
+      type: String,
+      default: "",
+    },
     categorySpecific: {
       type: String,
     },

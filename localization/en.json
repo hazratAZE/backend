@@ -27,7 +27,7 @@
   "subcategory_field_is_required": "Subcategory field is required",
   "age_field_is_required": "Age field is required",
   "gender_field_is_required": "Gender field is required",
-  "experiance_field_is_required": "Field of experience required",
+  "experience_field_is_required": "Field of experience required",
   "driver_license_field_is_required": "Driver's license field is required",
   "country_field_is_required": "Country field is required",
   "phone_field_is_required": "The phone is not correct",
@@ -100,5 +100,12 @@
   "you_already_applied": "You have already applied for this advert",
   "ad_exipired_or_closed": "This announcement has been closed or expired",
   "change_account": "Your account information is incomplete",
-  "card_belongs_to_you": "This card belongs to you"
+  "card_belongs_to_you": "This card belongs to you",
+  "military_section_is_required": "Military service unit required",
+  "edu_level_is_required": "Education level section is required",
+  "edu_info_is_required": "Education information section is required",
+  "work_info_is_required": "Work information section is required",
+  "skills_section_is_required": "Skills section is required",
+  "language_skills_section_is_required": "Language skills section is required",
+  "awards_section_is_required": "Awards and certification section is required"
 }
