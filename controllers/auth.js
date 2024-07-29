@@ -635,6 +635,13 @@ const updateUser = async (req, res) => {
       country,
       phone,
       age,
+      military,
+      github,
+      linkedin,
+      website,
+      behance,
+      education_level,
+      education_info,
       experience,
       driveLicense,
       about,
@@ -727,6 +734,27 @@ const updateUser = async (req, res) => {
           message: res.__("driver_license_field_is_required"),
         },
       });
+    } else if (!military && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "military",
+          message: res.__("military_section_is_required"),
+        },
+      });
+    } else if (!education_level && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "edu_level",
+          message: res.__("edu_level_is_required"),
+        },
+      });
+    } else if (!education_info && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "edu_info",
+          message: res.__("edu_info_is_required"),
+        },
+      });
     } else if (about && about.length < 60 && myUser.role === "master") {
       res.status(419).json({
         error: {
@@ -750,6 +778,13 @@ const updateUser = async (req, res) => {
           age: age,
           experience: experience,
           driveLicense: driveLicense,
+          military: military,
+          github: github,
+          behance: behance,
+          linkedin: linkedin,
+          website: website,
+          education_level: education_level,
+          education_info: education_info,
           about: about,
           fullName: `${name} ${surname}`,
         }
