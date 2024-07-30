@@ -642,8 +642,12 @@ const updateUser = async (req, res) => {
       behance,
       education_level,
       education_info,
+      work_info,
+      skills,
+      language_info,
       experience,
       driveLicense,
+      awards_certificate,
       about,
     } = req.body;
     const { email } = req.user;
@@ -755,6 +759,34 @@ const updateUser = async (req, res) => {
           message: res.__("edu_info_is_required"),
         },
       });
+    } else if (!work_info && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "work_info",
+          message: res.__("work_info_is_required"),
+        },
+      });
+    } else if (!skills && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "skills",
+          message: res.__("skills_section_is_required"),
+        },
+      });
+    } else if (!language_info && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "language_info",
+          message: res.__("language_skills_section_is_required"),
+        },
+      });
+    } else if (!awards_certificate && myUser.role === "master") {
+      res.status(419).json({
+        error: {
+          type: "awards_certificate",
+          message: res.__("awards_section_is_required"),
+        },
+      });
     } else if (about && about.length < 60 && myUser.role === "master") {
       res.status(419).json({
         error: {
@@ -785,6 +817,10 @@ const updateUser = async (req, res) => {
           website: website,
           education_level: education_level,
           education_info: education_info,
+          work_info: work_info,
+          skills: skills,
+          language_info: language_info,
+          awards_certificate: awards_certificate,
           about: about,
           fullName: `${name} ${surname}`,
         }
