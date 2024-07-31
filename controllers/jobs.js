@@ -1171,6 +1171,7 @@ const applyJob = async (req, res) => {
                     myJob.rating = myJob.rating + 1;
                     owner.notifications.push(notification);
                     myUser.balance = myUser.balance - 10;
+                    myUser.apply_count = myUser.apply_count + 1;
                     await owner.save();
                     await myUser.save();
                     await myJob.save();
