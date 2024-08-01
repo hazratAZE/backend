@@ -249,6 +249,10 @@ const User = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    ad_watch_time: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
