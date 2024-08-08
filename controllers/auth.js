@@ -1041,6 +1041,33 @@ const sendAgainOtp = async (req, res) => {
     });
   }
 };
+const changeDate = (backendTime, newDate) => {
+  // Get today's date
+  const today = new Date();
+  const backendDate = new Date(backendTime);
+  // Check if the parsed date is today
+  if (
+    backendDate.getDate() === today.getDate() &&
+    backendDate.getMonth() === today.getMonth() &&
+    backendDate.getFullYear() === today.getFullYear()
+  ) {
+    // Format the time as "hh:mm"
+    const formattedTime =
+      backendDate.getHours().toString().padStart(2, "0") +
+      ":" +
+      backendDate.getMinutes().toString().padStart(2, "0");
+
+    // Create the user-friendly time format
+    const userFriendlyTime = `${newDate} ${formattedTime}`;
+
+    // userFriendlyTime now contains the desired format, e.g., "today 09:26"
+    return userFriendlyTime;
+  } else {
+    // If the date is not today, you can handle it accordingly, e.g., display the full date.
+    const userFriendlyDate = backendDate.toLocaleDateString();
+    return userFriendlyDate;
+  }
+};
 const getUserInfo = async (req, res) => {
   try {
     const { emailUser } = req.body;
@@ -1070,6 +1097,7 @@ const getUserInfo = async (req, res) => {
           applies: newUser.appliedJobs.length,
           jobs: newUser.addedJobs.length,
           see: newUser.see,
+          joined_time: changeDate(newUser.createdAt, res.__("today")),
         };
       } else {
         myUserTr = {
@@ -1091,6 +1119,7 @@ const getUserInfo = async (req, res) => {
           applies: newUser.appliedJobs.length,
           jobs: newUser.addedJobs.length,
           see: newUser.see,
+          joined_time: changeDate(newUser.createdAt, res.__("today")),
         };
       }
     } else {
