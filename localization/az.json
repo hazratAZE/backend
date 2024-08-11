@@ -107,5 +107,10 @@
   "work_info_is_required": "İş məlumatı bölməsi tələb olunur",
   "skills_section_is_required": "Bacarıqlar haqqında məlumat bölməsi tələb olunur",
   "language_skills_section_is_required": "Dil bilikləri bölməsi tələb olunur",
-  "awards_section_is_required": "Mükafatlar və sertifikatlaşdırma bölməsi tələb olunur"
+  "awards_section_is_required": "Mükafatlar və sertifikatlaşdırma bölməsi tələb olunur",
+  "age": "Yaş",
+  "education_level": "Təhsil səviyyəsi",
+  "education_info": "Təhsil məlumatları",
+  "experience_year": "Təcrübə (il)",
+  "about_work_experience": "İş təcrübələri haqqında"
 }

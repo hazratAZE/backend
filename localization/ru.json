@@ -107,5 +107,10 @@
   "work_info_is_required": "Раздел информации о работе обязателен",
   "skills_section_is_required": "Раздел навыков обязателен",
   "language_skills_section_is_required": "Раздел языковых навыков обязателен",
-  "awards_section_is_required": "Раздел наград и сертификации обязателен"
+  "awards_section_is_required": "Раздел наград и сертификации обязателен",
+  "age": "Возраст",
+  "education_level": "Уровень образования",
+  "education_info": "Информация об образовании",
+  "experience_year": "Опыт (лет)",
+  "about_work_experience": "Об опыте работы"
 }

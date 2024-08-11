@@ -107,5 +107,10 @@
   "work_info_is_required": "Work information section is required",
   "skills_section_is_required": "Skills section is required",
   "language_skills_section_is_required": "Language skills section is required",
-  "awards_section_is_required": "Awards and certification section is required"
+  "awards_section_is_required": "Awards and certification section is required",
+  "age": "Age",
+  "education_level": "Education level",
+  "education_info": "Education Information",
+  "experience_year": "Experience (years)",
+  "about_work_experience": "About work experiences"
 }
