@@ -26,6 +26,10 @@ const Story = new mongoose.Schema(
       type: String,
       default: null,
     },
+    type: {
+      type: String,
+      default: "image",
+    },
   },
   {
     timestamps: true,
