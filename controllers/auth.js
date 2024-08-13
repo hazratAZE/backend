@@ -1077,14 +1077,19 @@ const getUserInfo = async (req, res) => {
     const myUser = await user.findOne({ email: email });
     const newUser = await user.findOne({ email: emailUser }).populate({
       path: "feedbacks",
-      select: "user feedback date",
+      select: "user feedback createdAt",
       options: { sort: { createdAt: -1 } }, // En yeni tarih ilk sırada olacak şekilde sıralama
     });
+    const formattedFeedbacks = newUser.feedbacks.map((feedback) => ({
+      ...feedback._doc,
+      createdAt: changeDate(feedback.createdAt, res.__("today")), // Burada tarih formatını belirliyorsunuz
+    }));
     var myUserTr;
     if (newUser.role != "user") {
       if (!email) {
         myUserTr = {
           ...newUser._doc,
+          feedbacks: formattedFeedbacks,
           trCategory:
             lang == "az"
               ? newUser.jobCategory.split(",")[0]
@@ -1107,6 +1112,7 @@ const getUserInfo = async (req, res) => {
       } else {
         myUserTr = {
           ...newUser._doc,
+          feedbacks: formattedFeedbacks,
           trCategory:
             lang == "az"
               ? newUser.jobCategory.split(",")[0]
