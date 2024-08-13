@@ -253,6 +253,15 @@ const User = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    feedbacks: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Feedback",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: true,

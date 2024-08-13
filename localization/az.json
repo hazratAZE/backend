@@ -112,5 +112,10 @@
   "education_level": "Təhsil səviyyəsi",
   "education_info": "Təhsil məlumatları",
   "experience_year": "Təcrübə (il)",
-  "about_work_experience": "İş təcrübələri haqqında"
+  "about_work_experience": "İş təcrübələri haqqında",
+  "feedback_is_empty": "Rəy bölməsi boşdur",
+  "feedback_sended_successfully": "Rəy uğurla göndərildi",
+  "you_have_new_feedback": "Sizin üçün yeni rəy var",
+  "send_your_feedback": "sizə rəy göndərib",
+  "feedbacks_is_important": "Hörmətli istifadəçi, sizə göndərilən rəy mesajları işinizin keyfiyyəti və gələcək iş təklifləri üçün mühüm amildir"
 }

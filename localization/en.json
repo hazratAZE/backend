@@ -112,5 +112,10 @@
   "education_level": "Education level",
   "education_info": "Education Information",
   "experience_year": "Experience (years)",
-  "about_work_experience": "About work experiences"
+  "about_work_experience": "About work experiences",
+  "feedback_is_empty": "The feedback section is empty",
+  "feedback_sended_successfully": "Feedback sent successfully",
+  "you_have_new_feedback": "There is a new feedback for you",
+  "send_your_feedback": "sent you feedback",
+  "feedbacks_is_important": "Dear user, feedback messages sent to you are an important factor for the quality of your work and future job offers"
 }

@@ -1,4 +1,5 @@
 const User = require("../schemas/user");
+const Feedback = require("../schemas/feedback");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const UserOTPVerification = require("../schemas/UserOTPVerification");
@@ -1074,7 +1075,9 @@ const getUserInfo = async (req, res) => {
     const { email } = req.query;
     const { lang } = req.query;
     const myUser = await user.findOne({ email: email });
-    const newUser = await user.findOne({ email: emailUser });
+    const newUser = await user
+      .findOne({ email: emailUser })
+      .populate("feedbacks", "user feedback date");
     var myUserTr;
     if (newUser.role != "user") {
       if (!email) {
@@ -1462,6 +1465,60 @@ const sendToken = async (req, res) => {
     });
   }
 };
+const addFeedback = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { userId, feedback } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const otherUser = await user.findOne({ _id: userId });
+    if (!feedback) {
+      res.status(419).json({
+        error: {
+          type: "feedback",
+          message: res.__("feedback_is_empty"),
+        },
+      });
+    } else {
+      const newFeedback = new Feedback({
+        user: myUser.name + " " + myUser.surname,
+        feedback: feedback,
+      });
+      otherUser.feedbacks.push(newFeedback);
+      sendPushNotification(
+        otherUser.fcmToken,
+        `${res.__("you_have_new_feedback")} 💬`,
+        `${myUser.name} ${myUser.surname} ${res.__(
+          "send_your_feedback"
+        )}, ${feedback}`,
+        "feedback",
+        myUser.email,
+        myUser.image,
+        myUser.email,
+        myUser.name + " " + myUser.surname
+      );
+      const notification = await createNotification(
+        "New feedback",
+        `${myUser.name} ${myUser.surname}`,
+        myUser.image,
+        myUser._id,
+        "feedback"
+      );
+      otherUser.notifications.push(notification);
+      await otherUser.save();
+      await newFeedback.save();
+
+      res.status(200).json({
+        error: false,
+        message: res.__("feedback_sended_successfully"),
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -1488,4 +1545,5 @@ module.exports = {
   googleRegister,
   updateBalance,
   sendToken,
+  addFeedback,
 };
