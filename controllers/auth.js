@@ -1075,9 +1075,11 @@ const getUserInfo = async (req, res) => {
     const { email } = req.query;
     const { lang } = req.query;
     const myUser = await user.findOne({ email: email });
-    const newUser = await user
-      .findOne({ email: emailUser })
-      .populate("feedbacks", "user feedback date");
+    const newUser = await user.findOne({ email: emailUser }).populate({
+      path: "feedbacks",
+      select: "user feedback date",
+      options: { sort: { createdAt: -1 } }, // En yeni tarih ilk sırada olacak şekilde sıralama
+    });
     var myUserTr;
     if (newUser.role != "user") {
       if (!email) {
@@ -1471,7 +1473,8 @@ const addFeedback = async (req, res) => {
     const { userId, feedback } = req.body;
     const myUser = await user.findOne({ email: email });
     const otherUser = await user.findOne({ _id: userId });
-    if (!feedback) {
+
+    if (!feedback.trim()) {
       res.status(419).json({
         error: {
           type: "feedback",
@@ -1481,7 +1484,7 @@ const addFeedback = async (req, res) => {
     } else {
       const newFeedback = new Feedback({
         user: myUser.name + " " + myUser.surname,
-        feedback: feedback,
+        feedback: feedback.trim(),
       });
       otherUser.feedbacks.push(newFeedback);
       sendPushNotification(
@@ -1489,7 +1492,7 @@ const addFeedback = async (req, res) => {
         `${res.__("you_have_new_feedback")} 💬`,
         `${myUser.name} ${myUser.surname} ${res.__(
           "send_your_feedback"
-        )}, ${feedback}`,
+        )}, ${feedback.trim()}`,
         "feedback",
         myUser.email,
         myUser.image,
