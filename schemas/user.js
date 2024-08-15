@@ -64,6 +64,10 @@ const User = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    busyDays: {
+      type: Array,
+      default: [],
+    },
     likedJobs: {
       type: [
         {

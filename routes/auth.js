@@ -26,6 +26,7 @@ const {
   updateBalance,
   sendToken,
   addFeedback,
+  changeCalendar,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -57,5 +58,6 @@ routes.post("/updateBalance", verifyJwt, updateBalance);
 routes.post("/sendGift", verifyJwt, sendToken);
 routes.post("/googleAuth", googleRegister);
 routes.post("/addFeedback", verifyJwt, addFeedback);
+routes.post("/changeCalendar", verifyJwt, changeCalendar);
 
 module.exports = routes;

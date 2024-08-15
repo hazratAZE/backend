@@ -1528,6 +1528,31 @@ const addFeedback = async (req, res) => {
     });
   }
 };
+const changeCalendar = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { dateList } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (myUser.role == "master") {
+      myUser.busyDays = dateList;
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        message: res.__("days_updated"),
+      });
+    } else {
+      res.status(419).json({
+        error: true,
+        message: "Master account only can be updated",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -1555,4 +1580,5 @@ module.exports = {
   updateBalance,
   sendToken,
   addFeedback,
+  changeCalendar,
 };

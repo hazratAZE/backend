@@ -117,5 +117,6 @@
   "feedback_sended_successfully": "Feedback sent successfully",
   "you_have_new_feedback": "There is a new feedback for you",
   "send_your_feedback": "sent you feedback",
-  "feedbacks_is_important": "Dear user, feedback messages sent to you are an important factor for the quality of your work and future job offers"
+  "feedbacks_is_important": "Dear user, feedback messages sent to you are an important factor for the quality of your work and future job offers",
+  "days_updated": "Days updated successfully"
 }
