@@ -118,5 +118,8 @@
   "you_have_new_feedback": "Sizin üçün yeni rəy var",
   "send_your_feedback": "sizə rəy göndərib",
   "feedbacks_is_important": "Hörmətli istifadəçi, sizə göndərilən rəy mesajları işinizin keyfiyyəti və gələcək iş təklifləri üçün mühüm amildir",
-  "days_updated": "Günlər uğurla yeniləndi"
+  "days_updated": "Günlər uğurla yeniləndi",
+  "user_already_added": "İstifadəçi artıq müsahibə siyahısına əlavə edilib",
+  "user_added_successfully": "İstifadəçi uğurla müsahibəyə əlavə edildi",
+  "user_removed_successfully": "İstifadəçi uğurla müsahibədən çıxarıldı"
 }

@@ -1657,16 +1657,76 @@ const raiseJob = async (req, res) => {
 const addInterview = async (req, res) => {
   try {
     const { email } = req.user;
-    const { userId, jobId } = req.body;
+    const { userId, jobId, addToInterview } = req.body;
+
+    // İşveren kullanıcıyı bul
     const myUser = await user.findOne({ email: email });
-    const otherUser = await user.fintOne({ _id: userId });
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "Employer not found",
+      });
+    }
+
+    // Aday kullanıcıyı bul
+    const otherUser = await user.findOne({ _id: userId });
+    if (!otherUser) {
+      return res.status(404).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+
+    // İlgili işi bul
     const myJob = await job.findOne({ _id: jobId });
-    myJob.interview.push(otherUser);
-    await myJob.save();
-    res.status(200).json({
-      error: false,
-      message: "User added to interview successfully",
-    });
+    if (!myJob) {
+      return res.status(404).json({
+        error: true,
+        message: "Job not found",
+      });
+    }
+
+    // Kullanıcının zaten interview listesinde olup olmadığını kontrol et
+    const isAlreadyAdded = myJob.interview.some(
+      (interviewUserId) => interviewUserId.toString() === userId
+    );
+
+    if (addToInterview) {
+      // Kullanıcı zaten eklendiyse hata döndür
+      if (isAlreadyAdded) {
+        return res.status(419).json({
+          error: true,
+          message: res.__("user_already_added"),
+        });
+      }
+
+      // Kullanıcıyı interview listesine ekle
+      myJob.interview.push(otherUser._id);
+      await myJob.save();
+
+      res.status(200).json({
+        error: false,
+        message: res.__("user_added_successfully"),
+      });
+    } else {
+      // Kullanıcıyı interview listesinden çıkar
+      if (!isAlreadyAdded) {
+        return res.status(419).json({
+          error: true,
+          message: res.__("user_already_added"),
+        });
+      }
+
+      myJob.interview = myJob.interview.filter(
+        (interviewUserId) => interviewUserId.toString() !== userId
+      );
+      await myJob.save();
+
+      res.status(200).json({
+        error: false,
+        message: res.__("user_removed_successfully"),
+      });
+    }
   } catch (error) {
     res.status(500).json({
       error: true,
@@ -1674,6 +1734,7 @@ const addInterview = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   getAllJobs,
   createJob,
@@ -1698,4 +1759,5 @@ module.exports = {
   reActiveJob,
   raiseJob,
   applyFullStackJobs,
+  addInterview,
 };
