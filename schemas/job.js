@@ -93,6 +93,15 @@ const Job = new mongoose.Schema(
       ],
       default: [],
     },
+    interview: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
     applicants: {
       type: [
         {

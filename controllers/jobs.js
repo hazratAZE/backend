@@ -786,7 +786,8 @@ const getOneJob = async (req, res) => {
       const newJob = await job
         .findOne({ _id: id })
         .populate("applicants", "name email surname image role")
-        .populate("addedUser", "name surname email role image");
+        .populate("addedUser", "name surname email role image")
+        .populate("interview", "name surname eamil image role");
       const userFromId = await user.findOne(newJob.createdBy);
       var addedJob = false;
       var savedJob = false;
@@ -1646,6 +1647,26 @@ const raiseJob = async (req, res) => {
         message: "User not found",
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const addInterview = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { userId, jobId } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const otherUser = await user.fintOne({ _id: userId });
+    const myJob = await job.findOne({ _id: jobId });
+    myJob.interview.push(otherUser);
+    await myJob.save();
+    res.status(200).json({
+      error: false,
+      message: "User added to interview successfully",
+    });
   } catch (error) {
     res.status(500).json({
       error: true,
