@@ -909,7 +909,10 @@ const updateJobStatus = async (req, res) => {
           } else {
             await job.updateOne({ _id: id }, { status });
             const myJob = await job.findOne({ _id: id });
-
+            if (status === "active") {
+              myJob.interview = [];
+              await myJob.save();
+            }
             res.status(200).json({
               error: false,
               data: myJob,
@@ -1685,7 +1688,12 @@ const addInterview = async (req, res) => {
         message: "Job not found",
       });
     }
-
+    if (myJob.status == "active") {
+      return res.status(419).json({
+        error: true,
+        message: res.__("can_add_interviewlist_on_after_close"),
+      });
+    }
     // Kullanıcının zaten interview listesinde olup olmadığını kontrol et
     const isAlreadyAdded = myJob.interview.some(
       (interviewUserId) => interviewUserId.toString() === userId

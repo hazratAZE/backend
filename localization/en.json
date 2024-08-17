@@ -123,5 +123,6 @@
   "user_added_successfully": "User successfully added to interview",
   "user_removed_successfully": "User successfully removed from interview",
   "card_id_length": "CARD ID must be 8 characters long",
-  "card_not_found": "Card not found"
+  "card_not_found": "Card not found",
+  "can_add_interviewlist_on_after_close": "You can add candidates to the interview only after the advertisement period has expired or the advertisement has been closed"
 }
