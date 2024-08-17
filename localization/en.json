@@ -121,5 +121,7 @@
   "days_updated": "Days updated successfully",
   "user_already_added": "The user has already been added to the interview list",
   "user_added_successfully": "User successfully added to interview",
-  "user_removed_successfully": "User successfully removed from interview"
+  "user_removed_successfully": "User successfully removed from interview",
+  "card_id_length": "CARD ID must be 8 characters long",
+  "card_not_found": "Card not found"
 }

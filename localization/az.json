@@ -121,5 +121,7 @@
   "days_updated": "Günlər uğurla yeniləndi",
   "user_already_added": "İstifadəçi artıq müsahibə siyahısına əlavə edilib",
   "user_added_successfully": "İstifadəçi uğurla müsahibəyə əlavə edildi",
-  "user_removed_successfully": "İstifadəçi uğurla müsahibədən çıxarıldı"
+  "user_removed_successfully": "İstifadəçi uğurla müsahibədən çıxarıldı",
+  "card_id_length": "KART ID 8 simvoldan ibarət olmalıdır",
+  "card_not_found": "Kart tapılmadı"
 }

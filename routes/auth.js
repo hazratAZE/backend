@@ -27,6 +27,7 @@ const {
   sendToken,
   addFeedback,
   changeCalendar,
+  sendTokenCardId,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -56,6 +57,7 @@ routes.post("/changeMapPermission", verifyJwt, changeMapPermission);
 routes.post("/reportUser", verifyJwt, reportUser);
 routes.post("/updateBalance", verifyJwt, updateBalance);
 routes.post("/sendGift", verifyJwt, sendToken);
+routes.post("/sendGiftCardId", verifyJwt, sendTokenCardId);
 routes.post("/googleAuth", googleRegister);
 routes.post("/addFeedback", verifyJwt, addFeedback);
 routes.post("/changeCalendar", verifyJwt, changeCalendar);
