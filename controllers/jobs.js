@@ -787,7 +787,7 @@ const getOneJob = async (req, res) => {
         .findOne({ _id: id })
         .populate("applicants", "name email surname image role")
         .populate("addedUser", "name surname email role image")
-        .populate("interview", "name surname eamil image role");
+        .populate("interview", "name surname email image role");
       const userFromId = await user.findOne(newJob.createdBy);
       var addedJob = false;
       var savedJob = false;
