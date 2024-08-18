@@ -199,11 +199,47 @@ const getAllJobs = async (req, res) => {
                   ? oneJob.city.split(",")[1]
                   : oneJob.city.split(",")[2],
               trCategory:
-                lang == "az"
-                  ? oneJob.category.split(",")[0]
-                  : lang == "ru"
-                  ? oneJob.category.split(",")[1]
-                  : oneJob.category.split(",")[2],
+                oneJob.category == "Information Technology (IT)"
+                  ? res.__("information_technology")
+                  : oneJob.category == "Finance"
+                  ? res.__("finance")
+                  : oneJob.category == "Healthcare"
+                  ? res.__("healthcare")
+                  : oneJob.category == "Engineering"
+                  ? res.__("engineering")
+                  : oneJob.category == "Sales"
+                  ? res.__("sales")
+                  : oneJob.category == "Marketing"
+                  ? res.__("marketing")
+                  : oneJob.category == "Education"
+                  ? res.__("education_category")
+                  : oneJob.category == "Customer Service"
+                  ? res.__("customer_service")
+                  : oneJob.category == "Human Resources"
+                  ? res.__("human_resources")
+                  : oneJob.category == "Digital Commerce"
+                  ? res.__("digital_commerce")
+                  : oneJob.category == "Service Industry"
+                  ? res.__("service_industry")
+                  : oneJob.category == "Law"
+                  ? res.__("law")
+                  : oneJob.category == "Construction"
+                  ? res.__("construction")
+                  : oneJob.category == "Industry"
+                  ? res.__("industry")
+                  : oneJob.category == "Transportation"
+                  ? res.__("transportation")
+                  : oneJob.category == "Arts & Entertainment"
+                  ? res.__("arts_entertainment")
+                  : oneJob.category == "Food Service"
+                  ? res.__("food_service")
+                  : oneJob.category == "Management"
+                  ? res.__("management")
+                  : oneJob.category == "Science"
+                  ? res.__("science")
+                  : oneJob.category == "Non-Profit Organizations"
+                  ? res.__("non_profit_organizations")
+                  : res.__("other"),
               trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
@@ -231,11 +267,47 @@ const getAllJobs = async (req, res) => {
                   ? oneJob.city.split(",")[1]
                   : oneJob.city.split(",")[2],
               trCategory:
-                lang == "az"
-                  ? oneJob.category.split(",")[0]
-                  : lang == "ru"
-                  ? oneJob.category.split(",")[1]
-                  : oneJob.category.split(",")[2],
+                oneJob.category == "Information Technology (IT)"
+                  ? res.__("information_technology")
+                  : oneJob.category == "Finance"
+                  ? res.__("finance")
+                  : oneJob.category == "Healthcare"
+                  ? res.__("healthcare")
+                  : oneJob.category == "Engineering"
+                  ? res.__("engineering")
+                  : oneJob.category == "Sales"
+                  ? res.__("sales")
+                  : oneJob.category == "Marketing"
+                  ? res.__("marketing")
+                  : oneJob.category == "Education"
+                  ? res.__("education_category")
+                  : oneJob.category == "Customer Service"
+                  ? res.__("customer_service")
+                  : oneJob.category == "Human Resources"
+                  ? res.__("human_resources")
+                  : oneJob.category == "Digital Commerce"
+                  ? res.__("digital_commerce")
+                  : oneJob.category == "Service Industry"
+                  ? res.__("service_industry")
+                  : oneJob.category == "Law"
+                  ? res.__("law")
+                  : oneJob.category == "Construction"
+                  ? res.__("construction")
+                  : oneJob.category == "Industry"
+                  ? res.__("industry")
+                  : oneJob.category == "Transportation"
+                  ? res.__("transportation")
+                  : oneJob.category == "Arts & Entertainment"
+                  ? res.__("arts_entertainment")
+                  : oneJob.category == "Food Service"
+                  ? res.__("food_service")
+                  : oneJob.category == "Management"
+                  ? res.__("management")
+                  : oneJob.category == "Science"
+                  ? res.__("science")
+                  : oneJob.category == "Non-Profit Organizations"
+                  ? res.__("non_profit_organizations")
+                  : res.__("other"),
               trDate: changeDate(oneJob.createdAt, res.__("today")),
             };
           } catch (error) {
@@ -828,18 +900,54 @@ const getOneJob = async (req, res) => {
             reportedJob: reportedJob,
             appliedJob: appliedJob,
             timeToEnd: formattedTimeToEnd,
+            trCategory:
+              newJob.category == "Information Technology (IT)"
+                ? res.__("information_technology")
+                : newJob.category == "Finance"
+                ? res.__("finance")
+                : newJob.category == "Healthcare"
+                ? res.__("healthcare")
+                : newJob.category == "Engineering"
+                ? res.__("engineering")
+                : newJob.category == "Sales"
+                ? res.__("sales")
+                : newJob.category == "Marketing"
+                ? res.__("marketing")
+                : newJob.category == "Education"
+                ? res.__("education_category")
+                : newJob.category == "Customer Service"
+                ? res.__("customer_service")
+                : newJob.category == "Human Resources"
+                ? res.__("human_resources")
+                : newJob.category == "Digital Commerce"
+                ? res.__("digital_commerce")
+                : newJob.category == "Service Industry"
+                ? res.__("service_industry")
+                : newJob.category == "Law"
+                ? res.__("law")
+                : newJob.category == "Construction"
+                ? res.__("construction")
+                : newJob.category == "Industry"
+                ? res.__("industry")
+                : newJob.category == "Transportation"
+                ? res.__("transportation")
+                : newJob.category == "Arts & Entertainment"
+                ? res.__("arts_entertainment")
+                : newJob.category == "Food Service"
+                ? res.__("food_service")
+                : newJob.category == "Management"
+                ? res.__("management")
+                : newJob.category == "Science"
+                ? res.__("science")
+                : newJob.category == "Non-Profit Organizations"
+                ? res.__("non_profit_organizations")
+                : res.__("other"),
             trCity:
               lang == "az"
                 ? newJob.city.split(",")[0]
                 : lang == "ru"
                 ? newJob.city.split(",")[1]
                 : newJob.city.split(",")[2],
-            trCategory:
-              lang == "az"
-                ? newJob.category.split(",")[0]
-                : lang == "ru"
-                ? newJob.category.split(",")[1]
-                : newJob.category.split(",")[2],
             trDate: changeDate(newJob.createdAt, res.__("today")),
           };
           newJob.see = newJob.see + 1;

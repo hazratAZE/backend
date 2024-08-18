@@ -1091,11 +1091,47 @@ const getUserInfo = async (req, res) => {
           ...newUser._doc,
           feedbacks: formattedFeedbacks,
           trCategory:
-            lang == "az"
-              ? newUser.jobCategory.split(",")[0]
-              : lang == "ru"
-              ? newUser.jobCategory.split(",")[1]
-              : newUser.jobCategory.split(",")[2],
+            newUser.jobCategory == "Information Technology (IT)"
+              ? res.__("information_technology")
+              : newUser.jobCategory == "Finance"
+              ? res.__("finance")
+              : newUser.jobCategory == "Healthcare"
+              ? res.__("healthcare")
+              : newUser.jobCategory == "Engineering"
+              ? res.__("engineering")
+              : newUser.jobCategory == "Sales"
+              ? res.__("sales")
+              : newUser.jobCategory == "Marketing"
+              ? res.__("marketing")
+              : newUser.jobCategory == "Education"
+              ? res.__("education_category")
+              : newUser.jobCategory == "Customer Service"
+              ? res.__("customer_service")
+              : newUser.jobCategory == "Human Resources"
+              ? res.__("human_resources")
+              : newUser.jobCategory == "Digital Commerce"
+              ? res.__("digital_commerce")
+              : newUser.jobCategory == "Service Industry"
+              ? res.__("service_industry")
+              : newUser.jobCategory == "Law"
+              ? res.__("law")
+              : newUser.jobCategory == "Construction"
+              ? res.__("construction")
+              : newUser.jobCategory == "Industry"
+              ? res.__("industry")
+              : newUser.jobCategory == "Transportation"
+              ? res.__("transportation")
+              : newUser.jobCategory == "Arts & Entertainment"
+              ? res.__("arts_entertainment")
+              : newUser.jobCategory == "Food Service"
+              ? res.__("food_service")
+              : newUser.jobCategory == "Management"
+              ? res.__("management")
+              : newUser.jobCategory == "Science"
+              ? res.__("science")
+              : newUser.jobCategory == "Non-Profit Organizations"
+              ? res.__("non_profit_organizations")
+              : res.__("other"),
           trCity:
             lang == "az"
               ? newUser.city.split(",")[0]
@@ -1114,11 +1150,47 @@ const getUserInfo = async (req, res) => {
           ...newUser._doc,
           feedbacks: formattedFeedbacks,
           trCategory:
-            lang == "az"
-              ? newUser.jobCategory.split(",")[0]
-              : lang == "ru"
-              ? newUser.jobCategory.split(",")[1]
-              : newUser.jobCategory.split(",")[2],
+            newUser.jobCategory == "Information Technology (IT)"
+              ? res.__("information_technology")
+              : newUser.jobCategory == "Finance"
+              ? res.__("finance")
+              : newUser.jobCategory == "Healthcare"
+              ? res.__("healthcare")
+              : newUser.jobCategory == "Engineering"
+              ? res.__("engineering")
+              : newUser.jobCategory == "Sales"
+              ? res.__("sales")
+              : newUser.jobCategory == "Marketing"
+              ? res.__("marketing")
+              : newUser.jobCategory == "Education"
+              ? res.__("education_category")
+              : newUser.jobCategory == "Customer Service"
+              ? res.__("customer_service")
+              : newUser.jobCategory == "Human Resources"
+              ? res.__("human_resources")
+              : newUser.jobCategory == "Digital Commerce"
+              ? res.__("digital_commerce")
+              : newUser.jobCategory == "Service Industry"
+              ? res.__("service_industry")
+              : newUser.jobCategory == "Law"
+              ? res.__("law")
+              : newUser.jobCategory == "Construction"
+              ? res.__("construction")
+              : newUser.jobCategory == "Industry"
+              ? res.__("industry")
+              : newUser.jobCategory == "Transportation"
+              ? res.__("transportation")
+              : newUser.jobCategory == "Arts & Entertainment"
+              ? res.__("arts_entertainment")
+              : newUser.jobCategory == "Food Service"
+              ? res.__("food_service")
+              : newUser.jobCategory == "Management"
+              ? res.__("management")
+              : newUser.jobCategory == "Science"
+              ? res.__("science")
+              : newUser.jobCategory == "Non-Profit Organizations"
+              ? res.__("non_profit_organizations")
+              : res.__("other"),
           trCity:
             lang == "az"
               ? newUser.city.split(",")[0]
