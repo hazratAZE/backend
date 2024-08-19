@@ -1133,11 +1133,137 @@ const getUserInfo = async (req, res) => {
               ? res.__("non_profit_organizations")
               : res.__("other"),
           trCity:
-            lang == "az"
-              ? newUser.city.split(",")[0]
-              : lang == "ru"
-              ? newUser.city.split(",")[1]
-              : newUser.city.split(",")[2],
+            newUser.city == "Absheron"
+              ? res.__("absheron")
+              : newUser.city == "Aghjabadi"
+              ? res.__("aghjabadi")
+              : newUser.city == "Aghdam"
+              ? res.__("aghdam")
+              : newUser.city == "Aghdash"
+              ? res.__("aghdash")
+              : newUser.city == "Aghstafa"
+              ? res.__("aghstafa")
+              : newUser.city == "Aghsu"
+              ? res.__("aghsu")
+              : newUser.city == "Astara"
+              ? res.__("astara")
+              : newUser.city == "Babek"
+              ? res.__("babek")
+              : newUser.city == "Baku"
+              ? res.__("baku")
+              : newUser.city == "Balakan"
+              ? res.__("balakan")
+              : newUser.city == "Barda"
+              ? res.__("barda")
+              : newUser.city == "Beylagan"
+              ? res.__("beylagan")
+              : newUser.city == "Bilasuvar"
+              ? res.__("bilasuvar")
+              : newUser.city == "Jabrayil"
+              ? res.__("jabrayil")
+              : newUser.city == "Jalilabad"
+              ? res.__("jalilabad")
+              : newUser.city == "Julfar"
+              ? res.__("julfar")
+              : newUser.city == "Dashkesan"
+              ? res.__("dashkesan")
+              : newUser.city == "Gedabek"
+              ? res.__("gedabek")
+              : newUser.city == "Ganja"
+              ? res.__("ganja")
+              : newUser.city == "Goranboy"
+              ? res.__("goranboy")
+              : newUser.city == "Goychay"
+              ? res.__("goychay")
+              : newUser.city == "Goygol"
+              ? res.__("goygol")
+              : newUser.city == "Khachmaz"
+              ? res.__("khachmaz")
+              : newUser.city == "Imishli"
+              ? res.__("imishli")
+              : newUser.city == "Ismayilli"
+              ? res.__("ismayilli")
+              : newUser.city == "Kelbajar"
+              ? res.__("kelbajar")
+              : newUser.city == "Lachin"
+              ? res.__("lachin")
+              : newUser.city == "Lankaran"
+              ? res.__("lankaran")
+              : newUser.city == "Lerik"
+              ? res.__("lerik")
+              : newUser.city == "Masalli"
+              ? res.__("masalli")
+              : newUser.city == "Mingachevir"
+              ? res.__("mingachevir")
+              : newUser.city == "Naftalan"
+              ? res.__("naftalan")
+              : newUser.city == "Nakhchivan"
+              ? res.__("nakhchivan")
+              : newUser.city == "Neftchala"
+              ? res.__("neftchala")
+              : newUser.city == "Oguz"
+              ? res.__("oguz")
+              : newUser.city == "Ordubad"
+              ? res.__("ordubad")
+              : newUser.city == "Kabala"
+              ? res.__("kabala")
+              : newUser.city == "Kakh"
+              ? res.__("kakh")
+              : newUser.city == "Gazakh"
+              ? res.__("gazakh")
+              : newUser.city == "Gobustan"
+              ? res.__("gobustan")
+              : newUser.city == "Kuba"
+              ? res.__("kuba")
+              : newUser.city == "Kubadly"
+              ? res.__("kubadly")
+              : newUser.city == "Qusar"
+              ? res.__("qusar")
+              : newUser.city == "Saatly"
+              ? res.__("saatly")
+              : newUser.city == "Sabirabad"
+              ? res.__("sabirabad")
+              : newUser.city == "Salyan"
+              ? res.__("salyan")
+              : newUser.city == "Shamakhi"
+              ? res.__("shamakhi")
+              : newUser.city == "Sheki"
+              ? res.__("sheki")
+              : newUser.city == "Shamkir"
+              ? res.__("shamkir")
+              : newUser.city == "Sharur"
+              ? res.__("sharur")
+              : newUser.city == "Shusha"
+              ? res.__("shusha")
+              : newUser.city == "Siyazan"
+              ? res.__("siyazan")
+              : newUser.city == "Sumgait"
+              ? res.__("sumgait")
+              : newUser.city == "Terter"
+              ? res.__("terter")
+              : newUser.city == "Tovuz"
+              ? res.__("tovuz")
+              : newUser.city == "Ujar"
+              ? res.__("ujar")
+              : newUser.city == "Yardymly"
+              ? res.__("yardymly")
+              : newUser.city == "Yevlakh"
+              ? res.__("yevlakh")
+              : newUser.city == "Zaqatala"
+              ? res.__("zaqatala")
+              : newUser.city == "Zangilan"
+              ? res.__("zangilan")
+              : newUser.city == "Zardab"
+              ? res.__("zardab")
+              : newUser.city == "Samukh"
+              ? res.__("samukh")
+              : newUser.city == "Shahbuz"
+              ? res.__("shahbuz")
+              : newUser.city == "Shirvan"
+              ? res.__("shirvan")
+              : newUser.city == "Khankendi"
+              ? res.__("khankendi")
+              : null,
           blockMe: false,
           blockI: false,
           applies: newUser.appliedJobs.length,
@@ -1192,11 +1318,137 @@ const getUserInfo = async (req, res) => {
               ? res.__("non_profit_organizations")
               : res.__("other"),
           trCity:
-            lang == "az"
-              ? newUser.city.split(",")[0]
-              : lang == "ru"
-              ? newUser.city.split(",")[1]
-              : newUser.city.split(",")[2],
+            newUser.city == "Absheron"
+              ? res.__("absheron")
+              : newUser.city == "Aghjabadi"
+              ? res.__("aghjabadi")
+              : newUser.city == "Aghdam"
+              ? res.__("aghdam")
+              : newUser.city == "Aghdash"
+              ? res.__("aghdash")
+              : newUser.city == "Aghstafa"
+              ? res.__("aghstafa")
+              : newUser.city == "Aghsu"
+              ? res.__("aghsu")
+              : newUser.city == "Astara"
+              ? res.__("astara")
+              : newUser.city == "Babek"
+              ? res.__("babek")
+              : newUser.city == "Baku"
+              ? res.__("baku")
+              : newUser.city == "Balakan"
+              ? res.__("balakan")
+              : newUser.city == "Barda"
+              ? res.__("barda")
+              : newUser.city == "Beylagan"
+              ? res.__("beylagan")
+              : newUser.city == "Bilasuvar"
+              ? res.__("bilasuvar")
+              : newUser.city == "Jabrayil"
+              ? res.__("jabrayil")
+              : newUser.city == "Jalilabad"
+              ? res.__("jalilabad")
+              : newUser.city == "Julfar"
+              ? res.__("julfar")
+              : newUser.city == "Dashkesan"
+              ? res.__("dashkesan")
+              : newUser.city == "Gedabek"
+              ? res.__("gedabek")
+              : newUser.city == "Ganja"
+              ? res.__("ganja")
+              : newUser.city == "Goranboy"
+              ? res.__("goranboy")
+              : newUser.city == "Goychay"
+              ? res.__("goychay")
+              : newUser.city == "Goygol"
+              ? res.__("goygol")
+              : newUser.city == "Khachmaz"
+              ? res.__("khachmaz")
+              : newUser.city == "Imishli"
+              ? res.__("imishli")
+              : newUser.city == "Ismayilli"
+              ? res.__("ismayilli")
+              : newUser.city == "Kelbajar"
+              ? res.__("kelbajar")
+              : newUser.city == "Lachin"
+              ? res.__("lachin")
+              : newUser.city == "Lankaran"
+              ? res.__("lankaran")
+              : newUser.city == "Lerik"
+              ? res.__("lerik")
+              : newUser.city == "Masalli"
+              ? res.__("masalli")
+              : newUser.city == "Mingachevir"
+              ? res.__("mingachevir")
+              : newUser.city == "Naftalan"
+              ? res.__("naftalan")
+              : newUser.city == "Nakhchivan"
+              ? res.__("nakhchivan")
+              : newUser.city == "Neftchala"
+              ? res.__("neftchala")
+              : newUser.city == "Oguz"
+              ? res.__("oguz")
+              : newUser.city == "Ordubad"
+              ? res.__("ordubad")
+              : newUser.city == "Kabala"
+              ? res.__("kabala")
+              : newUser.city == "Kakh"
+              ? res.__("kakh")
+              : newUser.city == "Gazakh"
+              ? res.__("gazakh")
+              : newUser.city == "Gobustan"
+              ? res.__("gobustan")
+              : newUser.city == "Kuba"
+              ? res.__("kuba")
+              : newUser.city == "Kubadly"
+              ? res.__("kubadly")
+              : newUser.city == "Qusar"
+              ? res.__("qusar")
+              : newUser.city == "Saatly"
+              ? res.__("saatly")
+              : newUser.city == "Sabirabad"
+              ? res.__("sabirabad")
+              : newUser.city == "Salyan"
+              ? res.__("salyan")
+              : newUser.city == "Shamakhi"
+              ? res.__("shamakhi")
+              : newUser.city == "Sheki"
+              ? res.__("sheki")
+              : newUser.city == "Shamkir"
+              ? res.__("shamkir")
+              : newUser.city == "Sharur"
+              ? res.__("sharur")
+              : newUser.city == "Shusha"
+              ? res.__("shusha")
+              : newUser.city == "Siyazan"
+              ? res.__("siyazan")
+              : newUser.city == "Sumgait"
+              ? res.__("sumgait")
+              : newUser.city == "Terter"
+              ? res.__("terter")
+              : newUser.city == "Tovuz"
+              ? res.__("tovuz")
+              : newUser.city == "Ujar"
+              ? res.__("ujar")
+              : newUser.city == "Yardymly"
+              ? res.__("yardymly")
+              : newUser.city == "Yevlakh"
+              ? res.__("yevlakh")
+              : newUser.city == "Zaqatala"
+              ? res.__("zaqatala")
+              : newUser.city == "Zangilan"
+              ? res.__("zangilan")
+              : newUser.city == "Zardab"
+              ? res.__("zardab")
+              : newUser.city == "Samukh"
+              ? res.__("samukh")
+              : newUser.city == "Shahbuz"
+              ? res.__("shahbuz")
+              : newUser.city == "Shirvan"
+              ? res.__("shirvan")
+              : newUser.city == "Khankendi"
+              ? res.__("khankendi")
+              : null,
           blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
           blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
           applies: newUser.appliedJobs.length,

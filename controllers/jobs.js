@@ -193,11 +193,137 @@ const getAllJobs = async (req, res) => {
               savedJob: myUser.savedJobs.includes(oneJob._id),
               likedJob: myUser.likedJobs.includes(oneJob._id),
               trCity:
-                lang == "az"
-                  ? oneJob.city.split(",")[0]
-                  : lang == "ru"
-                  ? oneJob.city.split(",")[1]
-                  : oneJob.city.split(",")[2],
+                oneJob.city == "Absheron"
+                  ? res.__("absheron")
+                  : oneJob.city == "Aghjabadi"
+                  ? res.__("aghjabadi")
+                  : oneJob.city == "Aghdam"
+                  ? res.__("aghdam")
+                  : oneJob.city == "Aghdash"
+                  ? res.__("aghdash")
+                  : oneJob.city == "Aghstafa"
+                  ? res.__("aghstafa")
+                  : oneJob.city == "Aghsu"
+                  ? res.__("aghsu")
+                  : oneJob.city == "Astara"
+                  ? res.__("astara")
+                  : oneJob.city == "Babek"
+                  ? res.__("babek")
+                  : oneJob.city == "Baku"
+                  ? res.__("baku")
+                  : oneJob.city == "Balakan"
+                  ? res.__("balakan")
+                  : oneJob.city == "Barda"
+                  ? res.__("barda")
+                  : oneJob.city == "Beylagan"
+                  ? res.__("beylagan")
+                  : oneJob.city == "Bilasuvar"
+                  ? res.__("bilasuvar")
+                  : oneJob.city == "Jabrayil"
+                  ? res.__("jabrayil")
+                  : oneJob.city == "Jalilabad"
+                  ? res.__("jalilabad")
+                  : oneJob.city == "Julfar"
+                  ? res.__("julfar")
+                  : oneJob.city == "Dashkesan"
+                  ? res.__("dashkesan")
+                  : oneJob.city == "Gedabek"
+                  ? res.__("gedabek")
+                  : oneJob.city == "Ganja"
+                  ? res.__("ganja")
+                  : oneJob.city == "Goranboy"
+                  ? res.__("goranboy")
+                  : oneJob.city == "Goychay"
+                  ? res.__("goychay")
+                  : oneJob.city == "Goygol"
+                  ? res.__("goygol")
+                  : oneJob.city == "Khachmaz"
+                  ? res.__("khachmaz")
+                  : oneJob.city == "Imishli"
+                  ? res.__("imishli")
+                  : oneJob.city == "Ismayilli"
+                  ? res.__("ismayilli")
+                  : oneJob.city == "Kelbajar"
+                  ? res.__("kelbajar")
+                  : oneJob.city == "Lachin"
+                  ? res.__("lachin")
+                  : oneJob.city == "Lankaran"
+                  ? res.__("lankaran")
+                  : oneJob.city == "Lerik"
+                  ? res.__("lerik")
+                  : oneJob.city == "Masalli"
+                  ? res.__("masalli")
+                  : oneJob.city == "Mingachevir"
+                  ? res.__("mingachevir")
+                  : oneJob.city == "Naftalan"
+                  ? res.__("naftalan")
+                  : oneJob.city == "Nakhchivan"
+                  ? res.__("nakhchivan")
+                  : oneJob.city == "Neftchala"
+                  ? res.__("neftchala")
+                  : oneJob.city == "Oguz"
+                  ? res.__("oguz")
+                  : oneJob.city == "Ordubad"
+                  ? res.__("ordubad")
+                  : oneJob.city == "Kabala"
+                  ? res.__("kabala")
+                  : oneJob.city == "Kakh"
+                  ? res.__("kakh")
+                  : oneJob.city == "Gazakh"
+                  ? res.__("gazakh")
+                  : oneJob.city == "Gobustan"
+                  ? res.__("gobustan")
+                  : oneJob.city == "Kuba"
+                  ? res.__("kuba")
+                  : oneJob.city == "Kubadly"
+                  ? res.__("kubadly")
+                  : oneJob.city == "Qusar"
+                  ? res.__("qusar")
+                  : oneJob.city == "Saatly"
+                  ? res.__("saatly")
+                  : oneJob.city == "Sabirabad"
+                  ? res.__("sabirabad")
+                  : oneJob.city == "Salyan"
+                  ? res.__("salyan")
+                  : oneJob.city == "Shamakhi"
+                  ? res.__("shamakhi")
+                  : oneJob.city == "Sheki"
+                  ? res.__("sheki")
+                  : oneJob.city == "Shamkir"
+                  ? res.__("shamkir")
+                  : oneJob.city == "Sharur"
+                  ? res.__("sharur")
+                  : oneJob.city == "Shusha"
+                  ? res.__("shusha")
+                  : oneJob.city == "Siyazan"
+                  ? res.__("siyazan")
+                  : oneJob.city == "Sumgait"
+                  ? res.__("sumgait")
+                  : oneJob.city == "Terter"
+                  ? res.__("terter")
+                  : oneJob.city == "Tovuz"
+                  ? res.__("tovuz")
+                  : oneJob.city == "Ujar"
+                  ? res.__("ujar")
+                  : oneJob.city == "Yardymly"
+                  ? res.__("yardymly")
+                  : oneJob.city == "Yevlakh"
+                  ? res.__("yevlakh")
+                  : oneJob.city == "Zaqatala"
+                  ? res.__("zaqatala")
+                  : oneJob.city == "Zangilan"
+                  ? res.__("zangilan")
+                  : oneJob.city == "Zardab"
+                  ? res.__("zardab")
+                  : oneJob.city == "Samukh"
+                  ? res.__("samukh")
+                  : oneJob.city == "Shahbuz"
+                  ? res.__("shahbuz")
+                  : oneJob.city == "Shirvan"
+                  ? res.__("shirvan")
+                  : oneJob.city == "Khankendi"
+                  ? res.__("khankendi")
+                  : null,
               trCategory:
                 oneJob.category == "Information Technology (IT)"
                   ? res.__("information_technology")
@@ -261,11 +387,137 @@ const getAllJobs = async (req, res) => {
               myJob: false,
               appliedJobs: false,
               trCity:
-                lang == "az"
-                  ? oneJob.city.split(",")[0]
-                  : lang == "ru"
-                  ? oneJob.city.split(",")[1]
-                  : oneJob.city.split(",")[2],
+                oneJob.city == "Absheron"
+                  ? res.__("absheron")
+                  : oneJob.city == "Aghjabadi"
+                  ? res.__("aghjabadi")
+                  : oneJob.city == "Aghdam"
+                  ? res.__("aghdam")
+                  : oneJob.city == "Aghdash"
+                  ? res.__("aghdash")
+                  : oneJob.city == "Aghstafa"
+                  ? res.__("aghstafa")
+                  : oneJob.city == "Aghsu"
+                  ? res.__("aghsu")
+                  : oneJob.city == "Astara"
+                  ? res.__("astara")
+                  : oneJob.city == "Babek"
+                  ? res.__("babek")
+                  : oneJob.city == "Baku"
+                  ? res.__("baku")
+                  : oneJob.city == "Balakan"
+                  ? res.__("balakan")
+                  : oneJob.city == "Barda"
+                  ? res.__("barda")
+                  : oneJob.city == "Beylagan"
+                  ? res.__("beylagan")
+                  : oneJob.city == "Bilasuvar"
+                  ? res.__("bilasuvar")
+                  : oneJob.city == "Jabrayil"
+                  ? res.__("jabrayil")
+                  : oneJob.city == "Jalilabad"
+                  ? res.__("jalilabad")
+                  : oneJob.city == "Julfar"
+                  ? res.__("julfar")
+                  : oneJob.city == "Dashkesan"
+                  ? res.__("dashkesan")
+                  : oneJob.city == "Gedabek"
+                  ? res.__("gedabek")
+                  : oneJob.city == "Ganja"
+                  ? res.__("ganja")
+                  : oneJob.city == "Goranboy"
+                  ? res.__("goranboy")
+                  : oneJob.city == "Goychay"
+                  ? res.__("goychay")
+                  : oneJob.city == "Goygol"
+                  ? res.__("goygol")
+                  : oneJob.city == "Khachmaz"
+                  ? res.__("khachmaz")
+                  : oneJob.city == "Imishli"
+                  ? res.__("imishli")
+                  : oneJob.city == "Ismayilli"
+                  ? res.__("ismayilli")
+                  : oneJob.city == "Kelbajar"
+                  ? res.__("kelbajar")
+                  : oneJob.city == "Lachin"
+                  ? res.__("lachin")
+                  : oneJob.city == "Lankaran"
+                  ? res.__("lankaran")
+                  : oneJob.city == "Lerik"
+                  ? res.__("lerik")
+                  : oneJob.city == "Masalli"
+                  ? res.__("masalli")
+                  : oneJob.city == "Mingachevir"
+                  ? res.__("mingachevir")
+                  : oneJob.city == "Naftalan"
+                  ? res.__("naftalan")
+                  : oneJob.city == "Nakhchivan"
+                  ? res.__("nakhchivan")
+                  : oneJob.city == "Neftchala"
+                  ? res.__("neftchala")
+                  : oneJob.city == "Oguz"
+                  ? res.__("oguz")
+                  : oneJob.city == "Ordubad"
+                  ? res.__("ordubad")
+                  : oneJob.city == "Kabala"
+                  ? res.__("kabala")
+                  : oneJob.city == "Kakh"
+                  ? res.__("kakh")
+                  : oneJob.city == "Gazakh"
+                  ? res.__("gazakh")
+                  : oneJob.city == "Gobustan"
+                  ? res.__("gobustan")
+                  : oneJob.city == "Kuba"
+                  ? res.__("kuba")
+                  : oneJob.city == "Kubadly"
+                  ? res.__("kubadly")
+                  : oneJob.city == "Qusar"
+                  ? res.__("qusar")
+                  : oneJob.city == "Saatly"
+                  ? res.__("saatly")
+                  : oneJob.city == "Sabirabad"
+                  ? res.__("sabirabad")
+                  : oneJob.city == "Salyan"
+                  ? res.__("salyan")
+                  : oneJob.city == "Shamakhi"
+                  ? res.__("shamakhi")
+                  : oneJob.city == "Sheki"
+                  ? res.__("sheki")
+                  : oneJob.city == "Shamkir"
+                  ? res.__("shamkir")
+                  : oneJob.city == "Sharur"
+                  ? res.__("sharur")
+                  : oneJob.city == "Shusha"
+                  ? res.__("shusha")
+                  : oneJob.city == "Siyazan"
+                  ? res.__("siyazan")
+                  : oneJob.city == "Sumgait"
+                  ? res.__("sumgait")
+                  : oneJob.city == "Terter"
+                  ? res.__("terter")
+                  : oneJob.city == "Tovuz"
+                  ? res.__("tovuz")
+                  : oneJob.city == "Ujar"
+                  ? res.__("ujar")
+                  : oneJob.city == "Yardymly"
+                  ? res.__("yardymly")
+                  : oneJob.city == "Yevlakh"
+                  ? res.__("yevlakh")
+                  : oneJob.city == "Zaqatala"
+                  ? res.__("zaqatala")
+                  : oneJob.city == "Zangilan"
+                  ? res.__("zangilan")
+                  : oneJob.city == "Zardab"
+                  ? res.__("zardab")
+                  : oneJob.city == "Samukh"
+                  ? res.__("samukh")
+                  : oneJob.city == "Shahbuz"
+                  ? res.__("shahbuz")
+                  : oneJob.city == "Shirvan"
+                  ? res.__("shirvan")
+                  : oneJob.city == "Khankendi"
+                  ? res.__("khankendi")
+                  : null,
               trCategory:
                 oneJob.category == "Information Technology (IT)"
                   ? res.__("information_technology")
@@ -943,11 +1195,137 @@ const getOneJob = async (req, res) => {
                 ? res.__("non_profit_organizations")
                 : res.__("other"),
             trCity:
-              lang == "az"
-                ? newJob.city.split(",")[0]
-                : lang == "ru"
-                ? newJob.city.split(",")[1]
-                : newJob.city.split(",")[2],
+              newJob.city == "Absheron"
+                ? res.__("absheron")
+                : newJob.city == "Aghjabadi"
+                ? res.__("aghjabadi")
+                : newJob.city == "Aghdam"
+                ? res.__("aghdam")
+                : newJob.city == "Aghdash"
+                ? res.__("aghdash")
+                : newJob.city == "Aghstafa"
+                ? res.__("aghstafa")
+                : newJob.city == "Aghsu"
+                ? res.__("aghsu")
+                : newJob.city == "Astara"
+                ? res.__("astara")
+                : newJob.city == "Babek"
+                ? res.__("babek")
+                : newJob.city == "Baku"
+                ? res.__("baku")
+                : newJob.city == "Balakan"
+                ? res.__("balakan")
+                : newJob.city == "Barda"
+                ? res.__("barda")
+                : newJob.city == "Beylagan"
+                ? res.__("beylagan")
+                : newJob.city == "Bilasuvar"
+                ? res.__("bilasuvar")
+                : newJob.city == "Jabrayil"
+                ? res.__("jabrayil")
+                : newJob.city == "Jalilabad"
+                ? res.__("jalilabad")
+                : newJob.city == "Julfar"
+                ? res.__("julfar")
+                : newJob.city == "Dashkesan"
+                ? res.__("dashkesan")
+                : newJob.city == "Gedabek"
+                ? res.__("gedabek")
+                : newJob.city == "Ganja"
+                ? res.__("ganja")
+                : newJob.city == "Goranboy"
+                ? res.__("goranboy")
+                : newJob.city == "Goychay"
+                ? res.__("goychay")
+                : newJob.city == "Goygol"
+                ? res.__("goygol")
+                : newJob.city == "Khachmaz"
+                ? res.__("khachmaz")
+                : newJob.city == "Imishli"
+                ? res.__("imishli")
+                : newJob.city == "Ismayilli"
+                ? res.__("ismayilli")
+                : newJob.city == "Kelbajar"
+                ? res.__("kelbajar")
+                : newJob.city == "Lachin"
+                ? res.__("lachin")
+                : newJob.city == "Lankaran"
+                ? res.__("lankaran")
+                : newJob.city == "Lerik"
+                ? res.__("lerik")
+                : newJob.city == "Masalli"
+                ? res.__("masalli")
+                : newJob.city == "Mingachevir"
+                ? res.__("mingachevir")
+                : newJob.city == "Naftalan"
+                ? res.__("naftalan")
+                : newJob.city == "Nakhchivan"
+                ? res.__("nakhchivan")
+                : newJob.city == "Neftchala"
+                ? res.__("neftchala")
+                : newJob.city == "Oguz"
+                ? res.__("oguz")
+                : newJob.city == "Ordubad"
+                ? res.__("ordubad")
+                : newJob.city == "Kabala"
+                ? res.__("kabala")
+                : newJob.city == "Kakh"
+                ? res.__("kakh")
+                : newJob.city == "Gazakh"
+                ? res.__("gazakh")
+                : newJob.city == "Gobustan"
+                ? res.__("gobustan")
+                : newJob.city == "Kuba"
+                ? res.__("kuba")
+                : newJob.city == "Kubadly"
+                ? res.__("kubadly")
+                : newJob.city == "Qusar"
+                ? res.__("qusar")
+                : newJob.city == "Saatly"
+                ? res.__("saatly")
+                : newJob.city == "Sabirabad"
+                ? res.__("sabirabad")
+                : newJob.city == "Salyan"
+                ? res.__("salyan")
+                : newJob.city == "Shamakhi"
+                ? res.__("shamakhi")
+                : newJob.city == "Sheki"
+                ? res.__("sheki")
+                : newJob.city == "Shamkir"
+                ? res.__("shamkir")
+                : newJob.city == "Sharur"
+                ? res.__("sharur")
+                : newJob.city == "Shusha"
+                ? res.__("shusha")
+                : newJob.city == "Siyazan"
+                ? res.__("siyazan")
+                : newJob.city == "Sumgait"
+                ? res.__("sumgait")
+                : newJob.city == "Terter"
+                ? res.__("terter")
+                : newJob.city == "Tovuz"
+                ? res.__("tovuz")
+                : newJob.city == "Ujar"
+                ? res.__("ujar")
+                : newJob.city == "Yardymly"
+                ? res.__("yardymly")
+                : newJob.city == "Yevlakh"
+                ? res.__("yevlakh")
+                : newJob.city == "Zaqatala"
+                ? res.__("zaqatala")
+                : newJob.city == "Zangilan"
+                ? res.__("zangilan")
+                : newJob.city == "Zardab"
+                ? res.__("zardab")
+                : newJob.city == "Samukh"
+                ? res.__("samukh")
+                : newJob.city == "Shahbuz"
+                ? res.__("shahbuz")
+                : newJob.city == "Shirvan"
+                ? res.__("shirvan")
+                : newJob.city == "Khankendi"
+                ? res.__("khankendi")
+                : null,
             trDate: changeDate(newJob.createdAt, res.__("today")),
           };
           newJob.see = newJob.see + 1;
