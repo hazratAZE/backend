@@ -42,6 +42,11 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
+    currency: {
+      type: String,
+      required: true,
+      default: "AZN",
+    },
     status: {
       type: Object,
       default: "pending",

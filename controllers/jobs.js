@@ -600,6 +600,7 @@ const createJob = async (req, res) => {
       agreement,
       category,
       criterion,
+      currency,
       longitude,
       latitude,
     } = req.body;
@@ -676,6 +677,13 @@ const createJob = async (req, res) => {
         error: {
           type: "criterion",
           message: res.__("criterion_field_is_required"),
+        },
+      });
+    } else if (!currency) {
+      return res.status(419).json({
+        error: {
+          type: "currency",
+          message: res.__("currency_section_is_required"),
         },
       });
     } else if (!lauch) {

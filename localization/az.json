@@ -124,6 +124,7 @@
   "user_removed_successfully": "İstifadəçi uğurla müsahibədən çıxarıldı",
   "card_id_length": "KART ID 8 simvoldan ibarət olmalıdır",
   "card_not_found": "Kart tapılmadı",
+  "currency_section_is_required": "Valyuta bölməsi tələb olunur",
   "can_add_interviewlist_on_after_close": "Namizədləri müsahibəyə yalnız elan müddəti bitdikdən və ya elan bağlandıqdan sonra əlavə edə bilərsiniz",
   "information_technology": "İnformasiya texnologiyaları (İT)",
   "finance": "Maliyyə",
