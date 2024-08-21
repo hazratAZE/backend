@@ -232,6 +232,7 @@ const User = new mongoose.Schema(
     },
     country: {
       type: String,
+      default: "AZE",
     },
     fullName: {
       type: String,

@@ -63,6 +63,11 @@ const Job = new mongoose.Schema(
       type: String,
       required: true,
     },
+    country: {
+      type: String,
+      required: true,
+      default: "AZE",
+    },
     city: {
       type: String,
       required: true,
