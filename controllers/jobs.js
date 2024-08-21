@@ -323,6 +323,66 @@ const getAllJobs = async (req, res) => {
                   ? res.__("shirvan")
                   : oneJob.city == "Khankendi"
                   ? res.__("khankendi")
+                  : oneJob.city == "Istanbul"
+                  ? res.__("istanbul")
+                  : oneJob.city == "Ankara"
+                  ? res.__("ankara")
+                  : oneJob.city == "Izmir"
+                  ? res.__("izmir")
+                  : oneJob.city == "Bursa"
+                  ? res.__("bursa")
+                  : oneJob.city == "Adana"
+                  ? res.__("adana")
+                  : oneJob.city == "Gaziantep"
+                  ? res.__("gaziantep")
+                  : oneJob.city == "Konya"
+                  ? res.__("konya")
+                  : oneJob.city == "Antalya"
+                  ? res.__("antalya")
+                  : oneJob.city == "Kayseri"
+                  ? res.__("kayseri")
+                  : oneJob.city == "Mersin"
+                  ? res.__("mersin")
+                  : oneJob.city == "Moscow"
+                  ? res.__("moscow")
+                  : oneJob.city == "Saint Petersburg"
+                  ? res.__("st_petersburg")
+                  : oneJob.city == "Novosibirsk"
+                  ? res.__("novosibirsk")
+                  : oneJob.city == "Yekaterinburg"
+                  ? res.__("yekaterinburg")
+                  : oneJob.city == "Nizhny Novgorod"
+                  ? res.__("nizhny_novgorod")
+                  : oneJob.city == "Kazan"
+                  ? res.__("kazan")
+                  : oneJob.city == "Chelyabinsk"
+                  ? res.__("chelyabinsk")
+                  : oneJob.city == "Samara"
+                  ? res.__("samara")
+                  : oneJob.city == "Omsk"
+                  ? res.__("omsk")
+                  : oneJob.city == "Rostov-on-Don"
+                  ? res.__("rostov_on_don")
+                  : oneJob.city == "Almaty"
+                  ? res.__("almaty")
+                  : oneJob.city == "Astana"
+                  ? res.__("astana")
+                  : oneJob.city == "Shymkent"
+                  ? res.__("shymkent")
+                  : oneJob.city == "Karaganda"
+                  ? res.__("karaganda")
+                  : oneJob.city == "Aktobe"
+                  ? res.__("aktobe")
+                  : oneJob.city == "Taldykorgan"
+                  ? res.__("taldykorgan")
+                  : oneJob.city == "Uralsk"
+                  ? res.__("uralsk")
+                  : oneJob.city == "Pavlodar"
+                  ? res.__("pavlodar")
+                  : oneJob.city == "Taraz"
+                  ? res.__("taraz")
+                  : oneJob.city == "Aktau"
+                  ? res.__("aktau")
                   : null,
               trCategory:
                 oneJob.category == "Information Technology (IT)"
@@ -517,6 +577,66 @@ const getAllJobs = async (req, res) => {
                   ? res.__("shirvan")
                   : oneJob.city == "Khankendi"
                   ? res.__("khankendi")
+                  : oneJob.city == "Istanbul"
+                  ? res.__("istanbul")
+                  : oneJob.city == "Ankara"
+                  ? res.__("ankara")
+                  : oneJob.city == "Izmir"
+                  ? res.__("izmir")
+                  : oneJob.city == "Bursa"
+                  ? res.__("bursa")
+                  : oneJob.city == "Adana"
+                  ? res.__("adana")
+                  : oneJob.city == "Gaziantep"
+                  ? res.__("gaziantep")
+                  : oneJob.city == "Konya"
+                  ? res.__("konya")
+                  : oneJob.city == "Antalya"
+                  ? res.__("antalya")
+                  : oneJob.city == "Kayseri"
+                  ? res.__("kayseri")
+                  : oneJob.city == "Mersin"
+                  ? res.__("mersin")
+                  : oneJob.city == "Moscow"
+                  ? res.__("moscow")
+                  : oneJob.city == "Saint Petersburg"
+                  ? res.__("st_petersburg")
+                  : oneJob.city == "Novosibirsk"
+                  ? res.__("novosibirsk")
+                  : oneJob.city == "Yekaterinburg"
+                  ? res.__("yekaterinburg")
+                  : oneJob.city == "Nizhny Novgorod"
+                  ? res.__("nizhny_novgorod")
+                  : oneJob.city == "Kazan"
+                  ? res.__("kazan")
+                  : oneJob.city == "Chelyabinsk"
+                  ? res.__("chelyabinsk")
+                  : oneJob.city == "Samara"
+                  ? res.__("samara")
+                  : oneJob.city == "Omsk"
+                  ? res.__("omsk")
+                  : oneJob.city == "Rostov-on-Don"
+                  ? res.__("rostov_on_don")
+                  : oneJob.city == "Almaty"
+                  ? res.__("almaty")
+                  : oneJob.city == "Astana"
+                  ? res.__("astana")
+                  : oneJob.city == "Shymkent"
+                  ? res.__("shymkent")
+                  : oneJob.city == "Karaganda"
+                  ? res.__("karaganda")
+                  : oneJob.city == "Aktobe"
+                  ? res.__("aktobe")
+                  : oneJob.city == "Taldykorgan"
+                  ? res.__("taldykorgan")
+                  : oneJob.city == "Uralsk"
+                  ? res.__("uralsk")
+                  : oneJob.city == "Pavlodar"
+                  ? res.__("pavlodar")
+                  : oneJob.city == "Taraz"
+                  ? res.__("taraz")
+                  : oneJob.city == "Aktau"
+                  ? res.__("aktau")
                   : null,
               trCategory:
                 oneJob.category == "Information Technology (IT)"
@@ -599,6 +719,7 @@ const createJob = async (req, res) => {
       createdBy,
       agreement,
       category,
+      country,
       criterion,
       currency,
       longitude,
@@ -730,6 +851,8 @@ const createJob = async (req, res) => {
       agreement,
       category,
       criterion,
+      currency,
+      country,
       companyEmail: companyEmail,
       companyName: companyName,
       createdBy: existingUser._id,
@@ -1333,6 +1456,66 @@ const getOneJob = async (req, res) => {
                 ? res.__("shirvan")
                 : newJob.city == "Khankendi"
                 ? res.__("khankendi")
+                : newJob.city == "Istanbul"
+                ? res.__("istanbul")
+                : newJob.city == "Ankara"
+                ? res.__("ankara")
+                : newJob.city == "Izmir"
+                ? res.__("izmir")
+                : newJob.city == "Bursa"
+                ? res.__("bursa")
+                : newJob.city == "Adana"
+                ? res.__("adana")
+                : newJob.city == "Gaziantep"
+                ? res.__("gaziantep")
+                : newJob.city == "Konya"
+                ? res.__("konya")
+                : newJob.city == "Antalya"
+                ? res.__("antalya")
+                : newJob.city == "Kayseri"
+                ? res.__("kayseri")
+                : newJob.city == "Mersin"
+                ? res.__("mersin")
+                : newJob.city == "Moscow"
+                ? res.__("moscow")
+                : newJob.city == "Saint Petersburg"
+                ? res.__("st_petersburg")
+                : newJob.city == "Novosibirsk"
+                ? res.__("novosibirsk")
+                : newJob.city == "Yekaterinburg"
+                ? res.__("yekaterinburg")
+                : newJob.city == "Nizhny Novgorod"
+                ? res.__("nizhny_novgorod")
+                : newJob.city == "Kazan"
+                ? res.__("kazan")
+                : newJob.city == "Chelyabinsk"
+                ? res.__("chelyabinsk")
+                : newJob.city == "Samara"
+                ? res.__("samara")
+                : newJob.city == "Omsk"
+                ? res.__("omsk")
+                : newJob.city == "Rostov-on-Don"
+                ? res.__("rostov_on_don")
+                : newJob.city == "Almaty"
+                ? res.__("almaty")
+                : newJob.city == "Astana"
+                ? res.__("astana")
+                : newJob.city == "Shymkent"
+                ? res.__("shymkent")
+                : newJob.city == "Karaganda"
+                ? res.__("karaganda")
+                : newJob.city == "Aktobe"
+                ? res.__("aktobe")
+                : newJob.city == "Taldykorgan"
+                ? res.__("taldykorgan")
+                : newJob.city == "Uralsk"
+                ? res.__("uralsk")
+                : newJob.city == "Pavlodar"
+                ? res.__("pavlodar")
+                : newJob.city == "Taraz"
+                ? res.__("taraz")
+                : newJob.city == "Aktau"
+                ? res.__("aktau")
                 : null,
             trDate: changeDate(newJob.createdAt, res.__("today")),
           };
