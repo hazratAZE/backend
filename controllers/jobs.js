@@ -1745,6 +1745,7 @@ const editJob = async (req, res) => {
       category,
       title,
       type,
+      currency,
       companyName,
       companyEmail,
       city,
@@ -1809,7 +1810,7 @@ const editJob = async (req, res) => {
             message: res.__("city_field_is_required"),
           },
         });
-      } else if (!city) {
+      } else if (!address) {
         return res.status(419).json({
           error: {
             type: "address",
@@ -1828,6 +1829,13 @@ const editJob = async (req, res) => {
           error: {
             type: "salary",
             message: res.__("cost_field_is_required"),
+          },
+        });
+      } else if (!currency) {
+        return res.status(419).json({
+          error: {
+            type: "currency",
+            message: res.__("currency_section_is_required"),
           },
         });
       } else if (!criterion) {
@@ -1879,6 +1887,7 @@ const editJob = async (req, res) => {
             longitude: longitude,
             latitude: latitude,
             salary: salary,
+            currency: currency,
             criterion: criterion,
             lauch: lauch,
             images: images,
