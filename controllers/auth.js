@@ -1263,6 +1263,66 @@ const getUserInfo = async (req, res) => {
               ? res.__("shirvan")
               : newUser.city == "Khankendi"
               ? res.__("khankendi")
+              : newUser.city == "Istanbul"
+              ? res.__("istanbul")
+              : newUser.city == "Ankara"
+              ? res.__("ankara")
+              : newUser.city == "Izmir"
+              ? res.__("izmir")
+              : newUser.city == "Bursa"
+              ? res.__("bursa")
+              : newUser.city == "Adana"
+              ? res.__("adana")
+              : newUser.city == "Gaziantep"
+              ? res.__("gaziantep")
+              : newUser.city == "Konya"
+              ? res.__("konya")
+              : newUser.city == "Antalya"
+              ? res.__("antalya")
+              : newUser.city == "Kayseri"
+              ? res.__("kayseri")
+              : newUser.city == "Mersin"
+              ? res.__("mersin")
+              : newUser.city == "Moscow"
+              ? res.__("moscow")
+              : newUser.city == "Saint Petersburg"
+              ? res.__("st_petersburg")
+              : newUser.city == "Novosibirsk"
+              ? res.__("novosibirsk")
+              : newUser.city == "Yekaterinburg"
+              ? res.__("yekaterinburg")
+              : newUser.city == "Nizhny Novgorod"
+              ? res.__("nizhny_novgorod")
+              : newUser.city == "Kazan"
+              ? res.__("kazan")
+              : newUser.city == "Chelyabinsk"
+              ? res.__("chelyabinsk")
+              : newUser.city == "Samara"
+              ? res.__("samara")
+              : newUser.city == "Omsk"
+              ? res.__("omsk")
+              : newUser.city == "Rostov-on-Don"
+              ? res.__("rostov_on_don")
+              : newUser.city == "Almaty"
+              ? res.__("almaty")
+              : newUser.city == "Astana"
+              ? res.__("astana")
+              : newUser.city == "Shymkent"
+              ? res.__("shymkent")
+              : newUser.city == "Karaganda"
+              ? res.__("karaganda")
+              : newUser.city == "Aktobe"
+              ? res.__("aktobe")
+              : newUser.city == "Taldykorgan"
+              ? res.__("taldykorgan")
+              : newUser.city == "Uralsk"
+              ? res.__("uralsk")
+              : newUser.city == "Pavlodar"
+              ? res.__("pavlodar")
+              : newUser.city == "Taraz"
+              ? res.__("taraz")
+              : newUser.city == "Aktau"
+              ? res.__("aktau")
               : null,
           blockMe: false,
           blockI: false,
@@ -1448,6 +1508,66 @@ const getUserInfo = async (req, res) => {
               ? res.__("shirvan")
               : newUser.city == "Khankendi"
               ? res.__("khankendi")
+              : newUser.city == "Istanbul"
+              ? res.__("istanbul")
+              : newUser.city == "Ankara"
+              ? res.__("ankara")
+              : newUser.city == "Izmir"
+              ? res.__("izmir")
+              : newUser.city == "Bursa"
+              ? res.__("bursa")
+              : newUser.city == "Adana"
+              ? res.__("adana")
+              : newUser.city == "Gaziantep"
+              ? res.__("gaziantep")
+              : newUser.city == "Konya"
+              ? res.__("konya")
+              : newUser.city == "Antalya"
+              ? res.__("antalya")
+              : newUser.city == "Kayseri"
+              ? res.__("kayseri")
+              : newUser.city == "Mersin"
+              ? res.__("mersin")
+              : newUser.city == "Moscow"
+              ? res.__("moscow")
+              : newUser.city == "Saint Petersburg"
+              ? res.__("st_petersburg")
+              : newUser.city == "Novosibirsk"
+              ? res.__("novosibirsk")
+              : newUser.city == "Yekaterinburg"
+              ? res.__("yekaterinburg")
+              : newUser.city == "Nizhny Novgorod"
+              ? res.__("nizhny_novgorod")
+              : newUser.city == "Kazan"
+              ? res.__("kazan")
+              : newUser.city == "Chelyabinsk"
+              ? res.__("chelyabinsk")
+              : newUser.city == "Samara"
+              ? res.__("samara")
+              : newUser.city == "Omsk"
+              ? res.__("omsk")
+              : newUser.city == "Rostov-on-Don"
+              ? res.__("rostov_on_don")
+              : newUser.city == "Almaty"
+              ? res.__("almaty")
+              : newUser.city == "Astana"
+              ? res.__("astana")
+              : newUser.city == "Shymkent"
+              ? res.__("shymkent")
+              : newUser.city == "Karaganda"
+              ? res.__("karaganda")
+              : newUser.city == "Aktobe"
+              ? res.__("aktobe")
+              : newUser.city == "Taldykorgan"
+              ? res.__("taldykorgan")
+              : newUser.city == "Uralsk"
+              ? res.__("uralsk")
+              : newUser.city == "Pavlodar"
+              ? res.__("pavlodar")
+              : newUser.city == "Taraz"
+              ? res.__("taraz")
+              : newUser.city == "Aktau"
+              ? res.__("aktau")
               : null,
           blockMe: newUser.blockUsers.includes(myUser._id) ? true : false,
           blockI: myUser.blockUsers.includes(newUser._id) ? true : false,
