@@ -165,6 +165,7 @@ const getAllJobs = async (req, res) => {
     if (req.query.city) filter.city = req.query.city;
     if (req.query.salary) filter.salary = req.query.salary;
     if (req.query.category) filter.category = req.query.category;
+    if (req.query.country) filter.country = req.query.country;
 
     let allJobsQuery = rating
       ? job.find(filter).sort({ rating: -1 })
