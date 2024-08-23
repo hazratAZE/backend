@@ -78,6 +78,9 @@ const getAllUsersMap = async (req, res) => {
     if (req.query.city) {
       filter.city = req.query.city;
     }
+    if (req.query.country) {
+      filter.country = req.query.country;
+    }
     if (email) {
       users = await user
         .find({
