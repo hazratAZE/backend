@@ -26,7 +26,7 @@ const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
 const i18n = new I18n({
-  locales: ["en", "az", "ru"],
+  locales: ["en", "az", "ru", "tr"],
   directory: path.join(__dirname, "localization"),
   defaultLocale: "en",
 });

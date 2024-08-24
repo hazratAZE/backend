@@ -2,62 +2,62 @@ const getTerms = (req, res) => {
   try {
     const { lang } = req.query;
     var data;
-    if (lang == "en") {
-      data = `Terms and Conditions of Yolu App
+    if (lang == "az") {
+      data = `Yolu Tətbiqinin Qaydaları və Şərtləri
 
-      Welcome to Yolu, a job-searching application designed to connect job seekers with employment opportunities. By using the Yolu app, you agree to the following terms and conditions:
+      İş axtaranları məşğulluq imkanları ilə əlaqələndirmək üçün nəzərdə tutulmuş iş axtarış proqramı olan Yolu-ya xoş gəlmisiniz. Yolu tətbiqindən istifadə etməklə siz aşağıdakı şərtlərlə razılaşırsınız:
       
-      1. User Responsibilities
+      1. İstifadəçinin Məsuliyyətləri
       
-      a. You must provide accurate and updated information when creating your profile or applying for jobs on Yolu.
+      a. Profilinizi yaratarkən və ya Yolu-da iş üçün müraciət edərkən dəqiq və yenilənmiş məlumatları təqdim etməlisiniz.
       
-      b. You are responsible for maintaining the confidentiality of your account login credentials.
+      b. Siz hesabınıza giriş məlumatlarınızın məxfiliyinin qorunmasına cavabdehsiniz.
       
-      c. Users must comply with all applicable laws and regulations while using the app.
+      c. İstifadəçilər tətbiqdən istifadə edərkən bütün qüvvədə olan qanun və qaydalara əməl etməlidirlər.
       
-      2. Job Listings and Applications
+      2. İş siyahıları və ərizələr
       
-      a. Yolu provides job listings as a service but does not guarantee the accuracy or availability of listed positions.
+      a. Yolu bir xidmət kimi iş siyahıları təqdim edir, lakin sadalanan vəzifələrin düzgünlüyünə və ya mövcudluğuna zəmanət vermir.
       
-      b. Applying for jobs through Yolu does not guarantee employment, and Yolu is not liable for the hiring decisions made by employers.
+      b. Yolu vasitəsilə iş üçün müraciət etmək işə zəmanət vermir və Yolu işəgötürənlər tərəfindən verilən işə qəbul qərarlarına görə məsuliyyət daşımır.
       
-      3. Content Guidelines
+      3. Məzmun Təlimatları
       
-      a. Users are responsible for the content they post, ensuring it complies with community guidelines and does not contain offensive, misleading, or unlawful material.
+      a. İstifadəçilər dərc etdikləri məzmuna görə məsuliyyət daşıyırlar, onun icma qaydalarına uyğun olmasını və təhqiredici, aldadıcı və ya qeyri-qanuni materialları ehtiva etməməsini təmin edirlər.
       
-      b. Yolu reserves the right to remove or modify content that violates these guidelines without notice.
+      b. Yolu xəbərdarlıq etmədən bu qaydaları pozan məzmunu silmək və ya dəyişdirmək hüququnu özündə saxlayır.
       
-      4. Data Privacy and Security
+      4. Məlumat Məxfiliyi və Təhlükəsizliyi
       
-      a. Yolu respects user privacy and handles personal information in accordance with its Privacy Policy.
+      a. Yolu istifadəçi məxfiliyinə hörmət edir və şəxsi məlumatı Məxfilik Siyasətinə uyğun olaraq idarə edir.
       
-      b. Users are responsible for safeguarding their personal data and should report any security concerns or unauthorized access.
+      b. İstifadəçilər şəxsi məlumatlarının qorunmasına cavabdehdirlər və hər hansı təhlükəsizlik narahatlığı və ya icazəsiz giriş barədə məlumat verməlidirlər.
       
-      5. Intellectual Property
+      5. Əqli Mülkiyyət
       
-      a. Yolu retains ownership of all intellectual property rights associated with the app.
+      a. Yolu proqramla əlaqəli bütün əqli mülkiyyət hüquqlarının sahibliyini özündə saxlayır.
       
-      b. Users must not reproduce, distribute, or modify Yolu's proprietary content without permission.
+      b. İstifadəçilər icazəsiz Yolu-nun mülkiyyət məzmununu çoxaltmamalı, yaymamalı və ya dəyişdirməməlidir.
       
-      6. Limitation of Liability
+      6. Məsuliyyətin məhdudlaşdırılması
       
-      a. Yolu is not liable for any direct or indirect damages, including but not limited to loss of data, profits, or business opportunities arising from app usage.
+      a. Yolu tətbiqin istifadəsi nəticəsində yaranan məlumatların, mənfəətlərin və ya biznes imkanlarının itirilməsi daxil olmaqla, lakin bununla məhdudlaşmayan hər hansı birbaşa və ya dolayı zərərə görə məsuliyyət daşımır.
       
-      b. Yolu is not responsible for the actions or conduct of users or third-party content on the app.
+      b. Yolu istifadəçilərin hərəkətlərinə və ya davranışlarına və ya tətbiqdəki üçüncü tərəf məzmununa görə məsuliyyət daşımır.
       
-      7. Modifications to Terms
+      7. Şərtlərə Dəyişikliklər
       
-      a. Yolu reserves the right to update or modify these terms and conditions at any time without prior notice.
+      a. Yolu istənilən vaxt əvvəlcədən xəbərdarlıq etmədən bu şərtləri yeniləmək və ya dəyişdirmək hüququnu özündə saxlayır.
       
-      b. Continued use of the app after modifications implies acceptance of the updated terms.
+      b. Dəyişikliklərdən sonra tətbiqdən istifadənin davam etdirilməsi yenilənmiş şərtlərin qəbul edilməsini nəzərdə tutur.
       
-      8. Termination
+      8. Xitam
       
-      a. Yolu may terminate or suspend user accounts for violations of these terms or for any other reason deemed necessary.
+      a. Yolu bu şərtlərin pozulmasına görə və ya zəruri hesab edilən hər hansı digər səbəbdən istifadəçi hesablarını dayandıra və ya dayandıra bilər.
       
-      b. Users can deactivate or delete their accounts by following the app's provided instructions.
+      b. İstifadəçilər proqramın təqdim etdiyi təlimatlara əməl etməklə hesablarını deaktiv edə və ya silə bilərlər.
       
-      By using the Yolu app, you agree to abide by these terms and conditions. If you do not agree, please refrain from using the app.`;
+      Yolu proqramından istifadə etməklə siz bu şərtlərə əməl etməyə razısınız. Razı deyilsinizsə, proqramdan istifadə etməkdən çəkinin.`;
     } else if (lang == "ru") {
       data = `Условия использования приложения Yolu
 
@@ -114,62 +114,118 @@ const getTerms = (req, res) => {
       б. Пользователи могут деактивировать или удалить свои учетные записи, следуя инструкциям приложения.
       
       Используя приложение Yolu, вы соглашаетесь соблюдать эти условия. Если вы не согласны, пожалуйста, воздержитесь от использования приложения.`;
-    } else {
-      data = `Yolu Tətbiqinin Qaydaları və Şərtləri
+    } else if (lang == "tr") {
+      data = `Yolu Uygulamasının Şartlar ve Koşulları
 
-      İş axtaranları məşğulluq imkanları ilə əlaqələndirmək üçün nəzərdə tutulmuş iş axtarış proqramı olan Yolu-ya xoş gəlmisiniz. Yolu tətbiqindən istifadə etməklə siz aşağıdakı şərtlərlə razılaşırsınız:
+Yolu'ya hoş geldiniz, iş arayanları istihdam fırsatları ile birleştirmeyi amaçlayan bir iş arama uygulamasıdır. Yolu uygulamasını kullanarak aşağıdaki şartlar ve koşulları kabul etmiş olursunuz:
+
+1. Kullanıcı Sorumlulukları
+
+a. Profilinizi oluştururken veya Yolu'da iş başvurusu yaparken doğru ve güncel bilgiler sağlamalısınız.
+
+b. Hesap giriş bilgilerinizi gizli tutmaktan sorumlusunuz.
+
+c. Uygulamayı kullanırken geçerli tüm yasa ve düzenlemelere uymalısınız.
+
+2. İş İlanları ve Başvurular
+
+a. Yolu, iş ilanları sunan bir hizmet sağlar ancak listelenen pozisyonların doğruluğunu veya mevcudiyetini garanti etmez.
+
+b. Yolu aracılığıyla iş başvurusu yapmak, işe alım garantisi sağlamaz ve Yolu, işverenlerin alım kararlarından sorumlu değildir.
+
+3. İçerik Rehberleri
+
+a. Kullanıcılar, gönderdikleri içeriğin topluluk yönergelerine uygun olduğundan ve saldırgan, yanıltıcı veya yasa dışı materyal içermediğinden emin olmalıdır.
+
+b. Yolu, bu yönergelere aykırı içerikleri bildirimde bulunmadan kaldırma veya değiştirme hakkını saklı tutar.
+
+4. Veri Gizliliği ve Güvenliği
+
+a. Yolu, kullanıcı gizliliğine saygı gösterir ve kişisel bilgileri Gizlilik Politikası'na uygun olarak işler.
+
+b. Kullanıcılar, kişisel verilerini korumaktan sorumludur ve herhangi bir güvenlik endişesi veya yetkisiz erişim durumunda bildirimde bulunmalıdır.
+
+5. Fikri Mülkiyet
+
+a. Yolu, uygulama ile ilişkili tüm fikri mülkiyet haklarını elinde bulundurur.
+
+b. Kullanıcılar, Yolu'nun mülkiyetindeki içeriği izin almadan kopyalayamaz, dağıtamaz veya değiştiremez.
+
+6. Sorumluluk Sınırlaması
+
+a. Yolu, uygulama kullanımından kaynaklanan veri kaybı, kar kaybı veya iş fırsatları gibi doğrudan veya dolaylı zararlardan sorumlu değildir.
+
+b. Yolu, kullanıcıların veya uygulamadaki üçüncü taraf içeriklerin eylem veya davranışlarından sorumlu değildir.
+
+7. Şartların Değiştirilmesi
+
+a. Yolu, bu şartları ve koşulları herhangi bir zaman önceden bildirimde bulunmaksızın güncelleme veya değiştirme hakkını saklı tutar.
+
+b. Değişikliklerden sonra uygulamanın kullanılmaya devam edilmesi, güncellenmiş şartları kabul ettiğiniz anlamına gelir.
+
+8. Fesih
+
+a. Yolu, bu şartlara aykırı davranışlar veya gerekli görülen diğer sebeplerle kullanıcı hesaplarını sonlandırabilir veya askıya alabilir.
+
+b. Kullanıcılar, hesaplarını uygulamanın sağladığı talimatları takip ederek devre dışı bırakabilir veya silebilir.
+
+Yolu uygulamasını kullanarak bu şartlar ve koşullara uymayı kabul etmiş olursunuz. Kabul etmiyorsanız, lütfen uygulamayı kullanmaktan kaçının.`;
+    } else {
+      data = `Terms and Conditions of Yolu App
+
+      Welcome to Yolu, a job-searching application designed to connect job seekers with employment opportunities. By using the Yolu app, you agree to the following terms and conditions:
       
-      1. İstifadəçinin Məsuliyyətləri
+      1. User Responsibilities
       
-      a. Profilinizi yaratarkən və ya Yolu-da iş üçün müraciət edərkən dəqiq və yenilənmiş məlumatları təqdim etməlisiniz.
+      a. You must provide accurate and updated information when creating your profile or applying for jobs on Yolu.
       
-      b. Siz hesabınıza giriş məlumatlarınızın məxfiliyinin qorunmasına cavabdehsiniz.
+      b. You are responsible for maintaining the confidentiality of your account login credentials.
       
-      c. İstifadəçilər tətbiqdən istifadə edərkən bütün qüvvədə olan qanun və qaydalara əməl etməlidirlər.
+      c. Users must comply with all applicable laws and regulations while using the app.
       
-      2. İş siyahıları və ərizələr
+      2. Job Listings and Applications
       
-      a. Yolu bir xidmət kimi iş siyahıları təqdim edir, lakin sadalanan vəzifələrin düzgünlüyünə və ya mövcudluğuna zəmanət vermir.
+      a. Yolu provides job listings as a service but does not guarantee the accuracy or availability of listed positions.
       
-      b. Yolu vasitəsilə iş üçün müraciət etmək işə zəmanət vermir və Yolu işəgötürənlər tərəfindən verilən işə qəbul qərarlarına görə məsuliyyət daşımır.
+      b. Applying for jobs through Yolu does not guarantee employment, and Yolu is not liable for the hiring decisions made by employers.
       
-      3. Məzmun Təlimatları
+      3. Content Guidelines
       
-      a. İstifadəçilər dərc etdikləri məzmuna görə məsuliyyət daşıyırlar, onun icma qaydalarına uyğun olmasını və təhqiredici, aldadıcı və ya qeyri-qanuni materialları ehtiva etməməsini təmin edirlər.
+      a. Users are responsible for the content they post, ensuring it complies with community guidelines and does not contain offensive, misleading, or unlawful material.
       
-      b. Yolu xəbərdarlıq etmədən bu qaydaları pozan məzmunu silmək və ya dəyişdirmək hüququnu özündə saxlayır.
+      b. Yolu reserves the right to remove or modify content that violates these guidelines without notice.
       
-      4. Məlumat Məxfiliyi və Təhlükəsizliyi
+      4. Data Privacy and Security
       
-      a. Yolu istifadəçi məxfiliyinə hörmət edir və şəxsi məlumatı Məxfilik Siyasətinə uyğun olaraq idarə edir.
+      a. Yolu respects user privacy and handles personal information in accordance with its Privacy Policy.
       
-      b. İstifadəçilər şəxsi məlumatlarının qorunmasına cavabdehdirlər və hər hansı təhlükəsizlik narahatlığı və ya icazəsiz giriş barədə məlumat verməlidirlər.
+      b. Users are responsible for safeguarding their personal data and should report any security concerns or unauthorized access.
       
-      5. Əqli Mülkiyyət
+      5. Intellectual Property
       
-      a. Yolu proqramla əlaqəli bütün əqli mülkiyyət hüquqlarının sahibliyini özündə saxlayır.
+      a. Yolu retains ownership of all intellectual property rights associated with the app.
       
-      b. İstifadəçilər icazəsiz Yolu-nun mülkiyyət məzmununu çoxaltmamalı, yaymamalı və ya dəyişdirməməlidir.
+      b. Users must not reproduce, distribute, or modify Yolu's proprietary content without permission.
       
-      6. Məsuliyyətin məhdudlaşdırılması
+      6. Limitation of Liability
       
-      a. Yolu tətbiqin istifadəsi nəticəsində yaranan məlumatların, mənfəətlərin və ya biznes imkanlarının itirilməsi daxil olmaqla, lakin bununla məhdudlaşmayan hər hansı birbaşa və ya dolayı zərərə görə məsuliyyət daşımır.
+      a. Yolu is not liable for any direct or indirect damages, including but not limited to loss of data, profits, or business opportunities arising from app usage.
       
-      b. Yolu istifadəçilərin hərəkətlərinə və ya davranışlarına və ya tətbiqdəki üçüncü tərəf məzmununa görə məsuliyyət daşımır.
+      b. Yolu is not responsible for the actions or conduct of users or third-party content on the app.
       
-      7. Şərtlərə Dəyişikliklər
+      7. Modifications to Terms
       
-      a. Yolu istənilən vaxt əvvəlcədən xəbərdarlıq etmədən bu şərtləri yeniləmək və ya dəyişdirmək hüququnu özündə saxlayır.
+      a. Yolu reserves the right to update or modify these terms and conditions at any time without prior notice.
       
-      b. Dəyişikliklərdən sonra tətbiqdən istifadənin davam etdirilməsi yenilənmiş şərtlərin qəbul edilməsini nəzərdə tutur.
+      b. Continued use of the app after modifications implies acceptance of the updated terms.
       
-      8. Xitam
+      8. Termination
       
-      a. Yolu bu şərtlərin pozulmasına görə və ya zəruri hesab edilən hər hansı digər səbəbdən istifadəçi hesablarını dayandıra və ya dayandıra bilər.
+      a. Yolu may terminate or suspend user accounts for violations of these terms or for any other reason deemed necessary.
       
-      b. İstifadəçilər proqramın təqdim etdiyi təlimatlara əməl etməklə hesablarını deaktiv edə və ya silə bilərlər.
+      b. Users can deactivate or delete their accounts by following the app's provided instructions.
       
-      Yolu proqramından istifadə etməklə siz bu şərtlərə əməl etməyə razısınız. Razı deyilsinizsə, proqramdan istifadə etməkdən çəkinin.`;
+      By using the Yolu app, you agree to abide by these terms and conditions. If you do not agree, please refrain from using the app.`;
     }
 
     res.status(200).json({

@@ -2,61 +2,61 @@ const faqPage = (req, res) => {
   try {
     const { lang } = req.query;
     var data;
-    if (lang == "en") {
+    if (lang == "az") {
       data = [
         {
           id: 1,
-          question: "Are there any fees for posting an announcement?",
+          question: "Elan yerləşdirmək üçün hər hansı ödəniş varmı?",
           answer:
-            "You can use the tokens on the platform to place an announcement on the Yolu platform.",
+            "Yolu platformasında elan yerləşdirmək üçün platformada istifadə olunan tokenlərdən istifadə edə bilərsiniz.",
         },
         {
           id: 2,
-          question: "What types of jobs are available on Yolu?",
+          question: "Yolu-da hansı iş növləri mövcuddur?",
           answer:
-            "Yolu has four types of job postings. Daily, Full-time, Part-Time, Remote.",
+            "Yolu-da dörd növ iş elanı var. Gündəlik, Tam iş günü, Part-Time, Uzaqdan.",
         },
         {
           id: 3,
-          question: "Is registration required to apply for announcements?",
+          question: "Elana müraciət etmək üçün qeydiyyat tələb olunurmu?",
           answer:
-            "You must register to apply for a job advertisement on the Yolu platform.",
+            "Yolu platformasında iş elanına müraciət etmək üçün qeydiyyatdan keçməlisiniz.",
         },
         {
           id: 4,
-          question: "How can I contact customer support?",
+          question: "Müştəri dəstəklə necə əlaqə saxlaya bilərəm?",
           answer:
-            "You can contact our customer support by calling +994(70)811 74 34 or sending an email to hazratqafo@gmail.com.",
+            "Müştəri dəstəyimizlə +994(70)811 74 34 zəng edərək və ya hazratqafo@gmail.com ünvanına e-poçt göndərərək əlaqə saxlaya bilərsiniz.",
         },
         {
           id: 5,
-          question: "How often are new job listings posted on the app?",
-          answer: "Job postings are updated based on user activity.",
+          question: "Yeni iş elanları tətbiqdə nə qədər tez-tez dərc olunur?",
+          answer: "İş elanları istifadəçi fəaliyyətinə əsasən yenilənir.",
         },
         {
           id: 6,
-          question: "Can I search for specific job categories?",
+          question: "Xüsusi iş kateqoriyaları üçün axtarış edə bilərəmmi?",
           answer:
-            "Yes. You can search for the job category you want. For this, visit the search page.",
+            "Bəli. İstədiyiniz iş kateqoriyasını axtara bilərsiniz. Bunun üçün axtarış səhifəsinə daxil olun.",
         },
         {
           id: 7,
-          question: "Can I save jobs to apply to later?",
+          question: "Daha sonra müraciət etmək üçün işləri saxlaya bilərəmmi?",
           answer:
-            "Yes. You can save announcements  that you want to apply to later.",
+            "Bəli. Daha sonra müraciət etmək istədiyiniz elanları saxlaya bilərsiniz.",
         },
         {
           id: 8,
           question:
-            "Can I receive notifications for new job postings that match my preferences?",
+            "Tercihlərimə uyğun gələn yeni iş elanları üçün bildirişlər ala bilərəmmi?",
           answer:
-            "You will be able to receive notifications about vacancies added according to your section.",
+            "Bölmənizə uyğun olaraq əlavə edilmiş vakansiyalar haqqında bildirişlər ala biləcəksiniz.",
         },
         {
           id: 9,
-          question: "Is Yolu available in multiple languages?",
+          question: "Yolu bir neçə dildə mövcuddur?",
           answer:
-            "Three languages are available in the Yolu program: Azerbaijani, Russian, English.",
+            "Yolu proqramında üç dil mövcuddur: Azərbaycan, Rus, İngilis.",
         },
       ];
     } else if (lang == "ru") {
@@ -118,65 +118,122 @@ const faqPage = (req, res) => {
             "В программе Yolu доступны три языка: Азербайджанский, Русский, Английский.",
         },
       ];
-    } else {
+    } else if (lang == "tr") {
       data = [
         {
           id: 1,
-          question: "Elan yerləşdirmək üçün hər hansı ödəniş varmı?",
+          question: "İlan vermek için herhangi bir ücret var mı?",
           answer:
-            "Yolu platformasında elan yerləşdirmək üçün platformada istifadə olunan tokenlərdən istifadə edə bilərsiniz.",
+            "Yolu platformunda bir ilan vermek için platformdaki token'ları kullanabilirsiniz.",
         },
         {
           id: 2,
-          question: "Yolu-da hansı iş növləri mövcuddur?",
+          question: "Yolu'da hangi tür iş ilanları var?",
           answer:
-            "Yolu-da dörd növ iş elanı var. Gündəlik, Tam iş günü, Part-Time, Uzaqdan.",
+            "Yolu'da dört tür iş ilanı bulunmaktadır: Günlük, Tam zamanlı, Yarı zamanlı, Uzaktan.",
         },
         {
           id: 3,
-          question: "Elana müraciət etmək üçün qeydiyyat tələb olunurmu?",
+          question: "İlanlara başvurmak için kayıt olmam gerekiyor mu?",
           answer:
-            "Yolu platformasında iş elanına müraciət etmək üçün qeydiyyatdan keçməlisiniz.",
+            "Yolu platformunda bir iş ilanına başvurmak için kayıt olmanız gerekmektedir.",
         },
         {
           id: 4,
-          question: "Müştəri dəstəklə necə əlaqə saxlaya bilərəm?",
+          question: "Müşteri desteği ile nasıl iletişime geçebilirim?",
           answer:
-            "Müştəri dəstəyimizlə +994(70)811 74 34 zəng edərək və ya hazratqafo@gmail.com ünvanına e-poçt göndərərək əlaqə saxlaya bilərsiniz.",
+            "Müşteri desteğimizle +994(70)811 74 34 numaralı telefondan veya hazratqafo@gmail.com adresine e-posta göndererek iletişime geçebilirsiniz.",
         },
         {
           id: 5,
-          question: "Yeni iş elanları tətbiqdə nə qədər tez-tez dərc olunur?",
-          answer: "İş elanları istifadəçi fəaliyyətinə əsasən yenilənir.",
+          question: "Uygulamada yeni iş ilanları ne sıklıkla yayınlanıyor?",
+          answer:
+            "İş ilanları, kullanıcı etkinliğine bağlı olarak güncellenir.",
         },
         {
           id: 6,
-          question: "Xüsusi iş kateqoriyaları üçün axtarış edə bilərəmmi?",
+          question: "Belirli iş kategorilerini arayabilir miyim?",
           answer:
-            "Bəli. İstədiyiniz iş kateqoriyasını axtara bilərsiniz. Bunun üçün axtarış səhifəsinə daxil olun.",
+            "Evet. İstediğiniz iş kategorisini arayabilirsiniz. Bunun için arama sayfasını ziyaret edin.",
         },
         {
           id: 7,
-          question: "Daha sonra müraciət etmək üçün işləri saxlaya bilərəmmi?",
+          question: "İşleri daha sonra başvurmak için kaydedebilir miyim?",
           answer:
-            "Bəli. Daha sonra müraciət etmək istədiyiniz elanları saxlaya bilərsiniz.",
+            "Evet. Daha sonra başvurmak istediğiniz ilanları kaydedebilirsiniz.",
         },
         {
           id: 8,
           question:
-            "Tercihlərimə uyğun gələn yeni iş elanları üçün bildirişlər ala bilərəmmi?",
+            "Tercihlerime uyan yeni iş ilanları için bildirim alabilir miyim?",
           answer:
-            "Bölmənizə uyğun olaraq əlavə edilmiş vakansiyalar haqqında bildirişlər ala biləcəksiniz.",
+            "Tercihlerinize göre eklenen ilanlar hakkında bildirim alabileceksiniz.",
         },
         {
           id: 9,
-          question: "Yolu bir neçə dildə mövcuddur?",
+          question: "Yolu birden fazla dilde mi mevcut?",
           answer:
-            "Yolu proqramında üç dil mövcuddur: Azərbaycan, Rus, İngilis.",
+            "Yolu programında üç dil mevcuttur: Azerice, Rusça, İngilizce.",
+        },
+      ];
+    } else {
+      data = [
+        {
+          id: 1,
+          question: "Are there any fees for posting an announcement?",
+          answer:
+            "You can use the tokens on the platform to place an announcement on the Yolu platform.",
+        },
+        {
+          id: 2,
+          question: "What types of jobs are available on Yolu?",
+          answer:
+            "Yolu has four types of job postings. Daily, Full-time, Part-Time, Remote.",
+        },
+        {
+          id: 3,
+          question: "Is registration required to apply for announcements?",
+          answer:
+            "You must register to apply for a job advertisement on the Yolu platform.",
+        },
+        {
+          id: 4,
+          question: "How can I contact customer support?",
+          answer:
+            "You can contact our customer support by calling +994(70)811 74 34 or sending an email to hazratqafo@gmail.com.",
+        },
+        {
+          id: 5,
+          question: "How often are new job listings posted on the app?",
+          answer: "Job postings are updated based on user activity.",
+        },
+        {
+          id: 6,
+          question: "Can I search for specific job categories?",
+          answer:
+            "Yes. You can search for the job category you want. For this, visit the search page.",
+        },
+        {
+          id: 7,
+          question: "Can I save jobs to apply to later?",
+          answer:
+            "Yes. You can save announcements  that you want to apply to later.",
+        },
+        {
+          id: 8,
+          question:
+            "Can I receive notifications for new job postings that match my preferences?",
+          answer:
+            "You will be able to receive notifications about vacancies added according to your section.",
+        },
+        {
+          id: 9,
+          question: "Is Yolu available in multiple languages?",
+          answer:
+            "Three languages are available in the Yolu program: Azerbaijani, Russian, English.",
         },
       ];
     }
-
     res.status(200).json({
       error: false,
       data: data,
