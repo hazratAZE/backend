@@ -22,6 +22,10 @@ const User = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    company: {
+      type: String,
+      default: "",
+    },
     password: {
       type: String,
     },
