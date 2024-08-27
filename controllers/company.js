@@ -93,6 +93,17 @@ const changeRoleCompany = async (req, res) => {
             role: "bizness",
           }
         );
+        myUser.appliedJobs = [];
+        myUser.busyDays = [];
+        await myUser.save();
+        const jobsToUpdate = await job.find({ applicants: myUser._id });
+
+        for (const job of jobsToUpdate) {
+          job.applicants = job.applicants.filter(
+            (applicant) => !applicant.equals(myUser._id)
+          );
+          await job.save();
+        }
         res.status(200).json({
           error: false,
           message: "Your account has been updated to professional status",

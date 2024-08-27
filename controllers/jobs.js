@@ -1788,7 +1788,7 @@ const applyJob = async (req, res) => {
           message: "Un apply successfully",
         });
       } else {
-        if (myUser.role == "user") {
+        if (myUser.role == "user" || myUser.role == "bizness") {
           return res.status(419).json({
             error: {
               type: "your_ad",
