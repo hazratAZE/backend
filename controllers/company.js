@@ -90,6 +90,7 @@ const changeRoleCompany = async (req, res) => {
             phone: phone,
             about: about,
             country: country,
+            company: companyName,
             role: "bizness",
           }
         );
