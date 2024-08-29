@@ -1847,7 +1847,7 @@ const updateBalance = async (req, res) => {
         },
       });
     } else {
-      myUser.balance = myUser.balance + 10;
+      myUser.balance = myUser.balance + 5;
       myUser.ad_watch_time = new Date();
       await myUser.save();
       res.status(200).json({
