@@ -72,6 +72,23 @@ const User = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    total_sale: {
+      type: Number,
+      default: 0,
+    },
+    sales: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Sale",
+        },
+      ],
+      default: [],
+    },
+    total_cashback: {
+      type: Number,
+      default: 0,
+    },
     likedJobs: {
       type: [
         {
