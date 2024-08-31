@@ -11,18 +11,18 @@ const createSale = async (req, res) => {
         error: true,
         message: "User not found",
       });
+    } else if (!price || isNaN(Number(price))) {
+      return res.status(419).json({
+        error: {
+          type: "price",
+          message: res.__("add_sales_amount"),
+        },
+      });
     } else if (!note) {
       return res.status(419).json({
         error: {
           type: "note",
           message: res.__("note_section_is_required"),
-        },
-      });
-    } else if (!price) {
-      return res.status(419).json({
-        error: {
-          type: "price",
-          message: res.__("add_sales_amount"),
         },
       });
     } else {
@@ -34,10 +34,15 @@ const createSale = async (req, res) => {
       });
       await newSale.save();
       myUser.sales.push(newSale);
+      myUser.total_sale = Math.round(myUser.total_sale + Number(price));
+      myUser.total_cashback = Math.round(
+        myUser.total_cashback + Number(price) * 0.03 * 100
+      );
       await myUser.save();
       res.status(200).json({
         error: false,
         data: newSale,
+        message: res.__("sale_created"),
       });
     }
   } catch (error) {

@@ -243,5 +243,6 @@
   "taraz": "Taraz",
   "aktau": "Aktau",
   "note_section_is_required": "Not bölümü gereklidir",
-  "add_sales_amount": "Lütfen satış tutarını ekleyin"
+  "add_sales_amount": "Lütfen satış tutarını ekleyin",
+  "sale_created": "Yeni satış başarıyla eklendi. Bu satış için nakit almak üzere QR kodunu tarayın"
 }
