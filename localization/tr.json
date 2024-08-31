@@ -241,5 +241,7 @@
   "uralsk": "Uralsk",
   "pavlodar": "Pavlodar",
   "taraz": "Taraz",
-  "aktau": "Aktau"
+  "aktau": "Aktau",
+  "note_section_is_required": "Not bölümü gereklidir",
+  "add_sales_amount": "Lütfen satış tutarını ekleyin"
 }

@@ -424,7 +424,9 @@ const initUser = async (req, res) => {
           },
         });
       } else {
-        const myUser = await user.findOne({ email: userInfo.email });
+        const myUser = await user
+          .findOne({ email: userInfo.email })
+          .populate({ path: "sales", select: "price note type" });
         if (!myUser) {
           res.status(419).json({
             error: {
@@ -1081,11 +1083,14 @@ const getUserInfo = async (req, res) => {
     const { email } = req.query;
     const { lang } = req.query;
     const myUser = await user.findOne({ email: email });
-    const newUser = await user.findOne({ email: emailUser }).populate({
-      path: "feedbacks",
-      select: "user feedback createdAt",
-      options: { sort: { createdAt: -1 } }, // En yeni tarih ilk sırada olacak şekilde sıralama
-    });
+    const newUser = await user
+      .findOne({ email: emailUser })
+      .populate({
+        path: "feedbacks",
+        select: "user feedback createdAt",
+        options: { sort: { createdAt: -1 } }, // En yeni tarih ilk sırada olacak şekilde sıralama
+      })
+      .populate({ path: "sales", select: "price note" });
     const formattedFeedbacks = newUser.feedbacks.map((feedback) => ({
       ...feedback._doc,
       createdAt: changeDate(feedback.createdAt, res.__("today")), // Burada tarih formatını belirliyorsunuz

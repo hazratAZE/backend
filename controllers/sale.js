@@ -1,18 +1,12 @@
 const user = require("../schemas/user");
+const sale = require("../schemas/sale");
 
 const createSale = async (req, res) => {
   try {
     const { email } = req.user;
-    const { note, companyId, userId, price } = req.body;
-    const company = await user.findOne({ _id: companyId });
+    const { note, price } = req.body;
     const myUser = await user.findOne({ email: email });
-
-    if (!company) {
-      res.status(404).json({
-        error: true,
-        message: "User not found",
-      });
-    } else if (!myUser) {
+    if (!myUser) {
       res.status(404).json({
         error: true,
         message: "User not found",
@@ -21,16 +15,53 @@ const createSale = async (req, res) => {
       return res.status(419).json({
         error: {
           type: "note",
-          message: "Note section is required",
+          message: res.__("note_section_is_required"),
         },
       });
     } else if (!price) {
       return res.status(419).json({
         error: {
           type: "price",
-          message: "Price section is required",
+          message: res.__("add_sales_amount"),
         },
       });
+    } else {
+      const newSale = new sale({
+        note: note,
+        company: myUser._id,
+        note: note,
+        price: price,
+      });
+      await newSale.save();
+      myUser.sales.push(newSale);
+      await myUser.save();
+      res.status(200).json({
+        error: false,
+        data: newSale,
+      });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+const getAllSales = async (req, res) => {
+  try {
+    var allSales = await sale.find();
+    res.status(200).json({
+      error: false,
+      data: allSales,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+module.exports = {
+  createSale,
+  getAllSales,
 };

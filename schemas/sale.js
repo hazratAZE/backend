@@ -14,14 +14,6 @@ const Sale = new mongoose.Schema(
         },
       ],
     },
-    user: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
-    },
     price: {
       type: String,
     },

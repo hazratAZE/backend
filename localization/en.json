@@ -241,5 +241,7 @@
   "uralsk": "Uralsk",
   "pavlodar": "Pavlodar",
   "taraz": "Taraz",
-  "aktau": "Aktau"
+  "aktau": "Aktau",
+  "note_section_is_required": "Note section is required",
+  "add_sales_amount": "Please add the sales amount"
 }
