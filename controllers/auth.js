@@ -424,9 +424,11 @@ const initUser = async (req, res) => {
           },
         });
       } else {
-        const myUser = await user
-          .findOne({ email: userInfo.email })
-          .populate({ path: "sales", select: "price note type" });
+        const myUser = await user.findOne({ email: userInfo.email }).populate({
+          path: "sales",
+          select: "price note type",
+          options: { sort: { createdAt: -1 } },
+        });
         if (!myUser) {
           res.status(419).json({
             error: {
