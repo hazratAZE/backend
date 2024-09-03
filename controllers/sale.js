@@ -30,6 +30,7 @@ const createSale = async (req, res) => {
         note: note,
         company: myUser._id,
         note: note,
+        cashback: Math.round(price * 0.03 * 100),
         price: price,
       });
       await newSale.save();

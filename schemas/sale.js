@@ -7,15 +7,15 @@ const Sale = new mongoose.Schema(
       required: [true, "Titile is required"],
     },
     company: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     price: {
-      type: String,
+      type: Number,
+    },
+    cashback: {
+      type: Number,
+      default: 0,
     },
     type: {
       type: String,

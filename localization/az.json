@@ -244,5 +244,7 @@
   "aktau": "Aqtau",
   "note_section_is_required": "Qeyd bölməsi tələb olunur",
   "add_sales_amount": "Zəhmət olmasa satış məbləğini əlavə edin",
-  "sale_created": "Yeni satış uğurla əlavə edildi. Bu satış üçün nağd pul əldə etmək üçün QR kodunu skan edin"
+  "sale_created": "Yeni satış uğurla əlavə edildi. Bu satış üçün nağd pul əldə etmək üçün QR kodunu skan edin",
+  "this_cashback_already_paid": "Bu geri ödəniş artıq ödənilib",
+  "not_possible_cashback": "Öz satışlarınız üçün cashback almaq mümkün deyil"
 }

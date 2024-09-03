@@ -28,6 +28,7 @@ const {
   addFeedback,
   changeCalendar,
   sendTokenCardId,
+  getCahsback,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -61,5 +62,5 @@ routes.post("/sendGiftCardId", verifyJwt, sendTokenCardId);
 routes.post("/googleAuth", googleRegister);
 routes.post("/addFeedback", verifyJwt, addFeedback);
 routes.post("/changeCalendar", verifyJwt, changeCalendar);
-
+routes.post("/getCashback", verifyJwt, getCahsback);
 module.exports = routes;

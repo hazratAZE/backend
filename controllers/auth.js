@@ -11,6 +11,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { createNotification } = require("./notifications");
 const job = require("../schemas/job");
 const { sendPushNotification } = require("./jobs");
+const sale = require("../schemas/sale");
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -348,7 +349,11 @@ const loginUser = async (req, res) => {
         },
       });
     } else {
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({ email: email }).populate({
+        path: "sales",
+        select: "price note type",
+        options: { sort: { createdAt: -1 } },
+      });
       if (user) {
         if (user.googleAuth) {
           res.status(419).json({
@@ -2094,6 +2099,52 @@ const changeCalendar = async (req, res) => {
     });
   }
 };
+const getCahsback = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { saleId } = req.body;
+    const myUser = await user.findOne({ email: email });
+    const mySale = await sale.findOne({ _id: saleId });
+
+    if (!myUser) {
+      res.status(419).json({
+        error: true,
+        message: "Sale not fount",
+      });
+    } else {
+      if (mySale.type == "paid") {
+        res.status(419).json({
+          error: true,
+          message: res.__("this_cashback_already_paid"),
+        });
+      } else {
+        console.log(mySale.company, myUser._id);
+        if (String(mySale.company) == String(myUser._id)) {
+          res.status(419).json({
+            error: true,
+            message: res.__("not_possible_cashback"),
+          });
+        } else {
+          myUser.cashbacks_list.push(mySale);
+          myUser.balance = myUser.balance + mySale.cashback;
+          await myUser.save();
+          mySale.type = "paid";
+          await mySale.save();
+          res.status(200).json({
+            error: false,
+            message: "Sale added successfully",
+          });
+        }
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   reportUser,
   registerUser,
@@ -2123,4 +2174,5 @@ module.exports = {
   sendTokenCardId,
   addFeedback,
   changeCalendar,
+  getCahsback,
 };

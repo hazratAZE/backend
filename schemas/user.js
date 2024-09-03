@@ -76,6 +76,15 @@ const User = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    cashbacks_list: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Sale",
+        },
+      ],
+      default: [],
+    },
     sales: {
       type: [
         {
