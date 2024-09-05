@@ -75,8 +75,24 @@ const updatePercents = async (req, res) => {
 };
 const getAllPercents = async (req, res) => {
   try {
+    const result = await user.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalBalance: { $sum: "$balance" },
+        },
+      },
+    ]);
+
+    const allTokensCount = result.length > 0 ? result[0].totalBalance : 0;
     const { currency } = req.query;
     const allPercents = await tokeninfo.find();
+    const convertedLast30Percentages = (conversionRate) => {
+      const newList = allPercents[0].percentages.map((value) =>
+        (value / conversionRate).toFixed(4)
+      );
+      return newList;
+    };
     console.log(allPercents);
     if (allPercents.length > 0) {
       if (currency === "USD") {
@@ -100,6 +116,20 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            (allTokensCount *
+              allPercents[0].percentages[
+                allPercents[0].percentages.length - 1
+              ]) /
+            allPercents[0].usd
+          ).toFixed(2),
+          min_value: (
+            Math.min(...allPercents[0].percentages) / allPercents[0].usd
+          ).toFixed(4),
+          max_value: (
+            Math.max(...allPercents[0].percentages) / allPercents[0].usd
+          ).toFixed(4),
+          list: convertedLast30Percentages(allPercents[0].usd),
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].usd
@@ -126,6 +156,20 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            (allTokensCount *
+              allPercents[0].percentages[
+                allPercents[0].percentages.length - 1
+              ]) /
+            allPercents[0].kzt
+          ).toFixed(2),
+          min_value: (
+            Math.min(...allPercents[0].percentages) / allPercents[0].kzt
+          ).toFixed(4),
+          max_value: (
+            Math.max(...allPercents[0].percentages) / allPercents[0].kzt
+          ).toFixed(4),
+          list: convertedLast30Percentages(allPercents[0].kzt),
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].kzt
@@ -152,6 +196,20 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            (allTokensCount *
+              allPercents[0].percentages[
+                allPercents[0].percentages.length - 1
+              ]) /
+            allPercents[0].rub
+          ).toFixed(2),
+          min_value: (
+            Math.min(...allPercents[0].percentages) / allPercents[0].rub
+          ).toFixed(4),
+          max_value: (
+            Math.max(...allPercents[0].percentages) / allPercents[0].rub
+          ).toFixed(4),
+          list: convertedLast30Percentages(allPercents[0].rub),
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].rub
@@ -178,6 +236,20 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            (allTokensCount *
+              allPercents[0].percentages[
+                allPercents[0].percentages.length - 1
+              ]) /
+            allPercents[0].try
+          ).toFixed(2),
+          min_value: (
+            Math.min(...allPercents[0].percentages) / allPercents[0].try
+          ).toFixed(4),
+          max_value: (
+            Math.max(...allPercents[0].percentages) / allPercents[0].try
+          ).toFixed(4),
+          list: convertedLast30Percentages(allPercents[0].try),
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].try
@@ -204,6 +276,20 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            (allTokensCount *
+              allPercents[0].percentages[
+                allPercents[0].percentages.length - 1
+              ]) /
+            allPercents[0].euro
+          ).toFixed(2),
+          min_value: (
+            Math.min(...allPercents[0].percentages) / allPercents[0].euro
+          ).toFixed(4),
+          max_value: (
+            Math.max(...allPercents[0].percentages) / allPercents[0].euro
+          ).toFixed(4),
+          list: convertedLast30Percentages(allPercents[0].euro),
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].euro
@@ -230,6 +316,16 @@ const getAllPercents = async (req, res) => {
                 allPercents[0].percentages.length - 2
               ] <
             0,
+          total_amount: (
+            allTokensCount *
+            allPercents[0].percentages[allPercents[0].percentages.length - 1]
+          ).toFixed(2),
+          min_value: Math.min(...allPercents[0].percentages).toFixed(4),
+          max_value: Math.max(...allPercents[0].percentages).toFixed(4),
+          list:
+            allPercents[0].percentages.length > 30
+              ? allPercents[0].percentages.slice(-30) // Son 30 değeri getir
+              : allPercents[0].percentages,
           data: allPercents[0].percentages[
             allPercents[0].percentages.length - 1
           ], // EUR to AZN
