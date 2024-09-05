@@ -15,6 +15,7 @@ const company = require("./routes/company");
 const appinfo = require("./routes/appinfo");
 const infopush = require("./routes/infopush");
 const sale = require("./routes/sale");
+const token = require("./routes/token");
 const pdf = require("./routes/pdf");
 const comment = require("./routes/comments");
 const mongoose = require("mongoose");
@@ -61,6 +62,7 @@ app.use("/api/v1/infopush", infopush);
 app.use("/api/v1/comments", comment);
 app.use("/api/v1/pdf", pdf);
 app.use("/api/v1/sale", sale);
+app.use("/api/v1/token", token);
 
 io.on("connection", (socket) => {
   console.log("Kullanıcı bağlandı");
