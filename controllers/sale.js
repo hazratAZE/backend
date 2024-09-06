@@ -26,25 +26,35 @@ const createSale = async (req, res) => {
         },
       });
     } else {
-      const newSale = new sale({
-        note: note,
-        company: myUser._id,
-        note: note,
-        cashback: Math.round(price * 0.03 * 100),
-        price: price,
-      });
-      await newSale.save();
-      myUser.sales.push(newSale);
-      myUser.total_sale = Math.round(myUser.total_sale + Number(price));
-      myUser.total_cashback = Math.round(
-        myUser.total_cashback + Number(price) * 0.03 * 100
-      );
-      await myUser.save();
-      res.status(200).json({
-        error: false,
-        data: newSale,
-        message: res.__("sale_created"),
-      });
+      if (myUser.balance < Math.round(price * 0.03 * 100)) {
+        return res.status(419).json({
+          error: {
+            type: "balance",
+            message: res.__("balance_not_valid"),
+          },
+        });
+      } else {
+        const newSale = new sale({
+          note: note,
+          company: myUser._id,
+          note: note,
+          cashback: Math.round(price * 0.03 * 100),
+          price: price,
+        });
+        await newSale.save();
+        myUser.sales.push(newSale);
+        myUser.total_sale = Math.round(myUser.total_sale + Number(price));
+        myUser.total_cashback = Math.round(
+          myUser.total_cashback + Number(price) * 0.03 * 100
+        );
+        myUser.balance = myUser.balance - Math.round(price * 0.03 * 100);
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          data: newSale,
+          message: res.__("sale_created"),
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
