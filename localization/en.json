@@ -246,5 +246,7 @@
   "add_sales_amount": "Please add the sales amount",
   "sale_created": "New sale added successfully. Scan the QR code to get cash for this sale",
   "this_cashback_already_paid": "This cashback has already been paid",
-  "not_possible_cashback": "It is not possible to get cashback for your own sales"
+  "not_possible_cashback": "It is not possible to get cashback for your own sales",
+  "push_notifications_disabled": "Push notifications have been successfully disabled",
+  "push_notifications_activate": "Push notifications have been successfully activated"
 }

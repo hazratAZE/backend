@@ -44,7 +44,8 @@ routes.post("/create", async function (req, res) {
           one._id,
           "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
           "noemail",
-          "Yolu Mobile"
+          "Yolu Mobile",
+          one.isAvailable
         );
       });
       res.status(200).json({

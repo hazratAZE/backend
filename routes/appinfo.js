@@ -30,6 +30,52 @@ routes.get("/version", (req, res) => {
     });
   }
 });
+routes.get("/getAppInfo", async function (req, res) {
+  try {
+    const { id } = req.query;
+    if (id) {
+      const pushAvalable = await appinfo.findOne({ _id: id });
+      res.status(200).json({
+        error: false,
+        data: pushAvalable.isAvailable,
+      });
+    } else {
+      res.status(200).json({
+        error: false,
+        data: false,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
+routes.post("/updatePush", async function (req, res) {
+  try {
+    const { id } = req.query;
+    const { isActive } = req.body;
+    const pushAvalable = await appinfo.findOne({ _id: id });
+    if (isActive) {
+      pushAvalable.isAvailable = false;
+    } else {
+      pushAvalable.isAvailable = true;
+    }
+    await pushAvalable.save();
+    res.status(200).json({
+      error: false,
+      message: isActive
+        ? res.__("push_notifications_disabled")
+        : res.__("push_notifications_activate"),
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
 routes.post("/create", async function (req, res) {
   try {
     const { fcmToken } = req.body;

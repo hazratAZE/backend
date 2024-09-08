@@ -171,6 +171,10 @@ const User = new mongoose.Schema(
     fcmToken: {
       type: String,
     },
+    fcmIsAvaliable: {
+      type: Boolean,
+      default: true,
+    },
     googleId: {
       type: String,
     },

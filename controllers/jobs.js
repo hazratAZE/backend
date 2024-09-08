@@ -93,7 +93,9 @@ const checkJob = async (req, res) => {
         "info",
         myUser._id,
         "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
-        "noemail"
+        "noemail",
+        newJob.title,
+        myUser.fcmIsAvaliable
       );
       const userList = await user.find({ jobCategory: category });
       const notification = await createNotification(
@@ -116,7 +118,9 @@ const checkJob = async (req, res) => {
             "info",
             one._id,
             "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
-            "noemail"
+            "noemail",
+            newJob.title,
+            one.fcmIsAvaliable
           );
         }
       });
@@ -133,7 +137,9 @@ const checkJob = async (req, res) => {
         "info",
         myUser._id,
         "https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png",
-        "noemail"
+        "noemail",
+        newJob.title,
+        myUser.fcmIsAvaliable
       );
 
       const notification = await createNotification(
@@ -1841,7 +1847,8 @@ const applyJob = async (req, res) => {
                       myUser.email,
                       myUser.image,
                       myUser.email,
-                      myUser.name + " " + myUser.surname
+                      myUser.name + " " + myUser.surname,
+                      owner.fcmIsAvaliable
                     );
                     const notification = await createNotification(
                       "New apply",
@@ -2216,7 +2223,8 @@ const sendPushNotification = (
   id,
   image,
   email,
-  name
+  name,
+  active
 ) => {
   var message = {
     to: to,
@@ -2233,14 +2241,16 @@ const sendPushNotification = (
       name: name,
     },
   };
-  fcm.send(message, function (err, response) {
-    if (err) {
-      console.log("Something has gone wrong!");
-      console.log(err);
-    } else {
-      console.log("Successfully sent with response: ", response);
-    }
-  });
+  if (active) {
+    fcm.send(message, function (err, response) {
+      if (err) {
+        console.log("Something has gone wrong!");
+        console.log(err);
+      } else {
+        console.log("Successfully sent with response: ", response);
+      }
+    });
+  }
 };
 const uploadImages = async (req, res) => {
   const s3Client = new S3Client({

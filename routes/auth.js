@@ -29,6 +29,7 @@ const {
   changeCalendar,
   sendTokenCardId,
   getCahsback,
+  disablePushNotifications,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -63,4 +64,6 @@ routes.post("/googleAuth", googleRegister);
 routes.post("/addFeedback", verifyJwt, addFeedback);
 routes.post("/changeCalendar", verifyJwt, changeCalendar);
 routes.post("/getCashback", verifyJwt, getCahsback);
+routes.post("/disablePush", verifyJwt, disablePushNotifications);
+
 module.exports = routes;

@@ -246,5 +246,7 @@
   "add_sales_amount": "Zəhmət olmasa satış məbləğini əlavə edin",
   "sale_created": "Yeni satış uğurla əlavə edildi. Bu satış üçün nağd pul əldə etmək üçün QR kodunu skan edin",
   "this_cashback_already_paid": "Bu geri ödəniş artıq ödənilib",
-  "not_possible_cashback": "Öz satışlarınız üçün cashback almaq mümkün deyil"
+  "not_possible_cashback": "Öz satışlarınız üçün cashback almaq mümkün deyil",
+  "push_notifications_disabled": "Push bildirişləri uğurla deaktiv edildi",
+  "push_notifications_activate": "Push bildirişləri uğurla aktivləşdirildi"
 }

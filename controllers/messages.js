@@ -47,7 +47,8 @@ const createMessage = async (req, res) => {
             myUser._id,
             myUser.image,
             myUser.email,
-            myUser.name + " " + myUser.surname
+            myUser.name + " " + myUser.surname,
+            newUser.fcmIsAvaliable
           );
           res.status(200).json({
             error: false,

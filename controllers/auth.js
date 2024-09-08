@@ -1911,7 +1911,8 @@ const sendToken = async (req, res) => {
           myUser.email,
           myUser.image,
           myUser.email,
-          myUser.name + " " + myUser.surname
+          myUser.name + " " + myUser.surname,
+          otherUser.fcmIsAvaliable
         );
         const notification = await createNotification(
           "New gift",
@@ -1987,7 +1988,8 @@ const sendTokenCardId = async (req, res) => {
             myUser.email,
             myUser.image,
             myUser.email,
-            myUser.name + " " + myUser.surname
+            myUser.name + " " + myUser.surname,
+            otherUser.fcmIsAvaliable
           );
           const notification = await createNotification(
             "New gift",
@@ -2049,7 +2051,8 @@ const addFeedback = async (req, res) => {
         myUser.email,
         myUser.image,
         myUser.email,
-        myUser.name + " " + myUser.surname
+        myUser.name + " " + myUser.surname,
+        otherUser.fcmIsAvaliable
       );
       const notification = await createNotification(
         "New feedback",
@@ -2144,7 +2147,30 @@ const getCahsback = async (req, res) => {
     });
   }
 };
-
+const disablePushNotifications = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const { isActive } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (isActive) {
+      myUser.fcmIsAvaliable = false;
+    } else {
+      myUser.fcmIsAvaliable = true;
+    }
+    myUser.save();
+    res.status(200).json({
+      error: false,
+      message: isActive
+        ? res.__("push_notifications_disabled")
+        : res.__("push_notifications_activate"),
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -2175,4 +2201,5 @@ module.exports = {
   addFeedback,
   changeCalendar,
   getCahsback,
+  disablePushNotifications,
 };

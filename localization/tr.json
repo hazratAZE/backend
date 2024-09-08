@@ -246,5 +246,7 @@
   "add_sales_amount": "Lütfen satış tutarını ekleyin",
   "sale_created": "Yeni satış başarıyla eklendi. Bu satış için nakit almak üzere QR kodunu tarayın",
   "this_cashback_already_paid": "Bu para iadesi zaten ödendi",
-  "not_possible_cashback": "Kendi satışlarınız için para iadesi almanız mümkün değildir"
+  "not_possible_cashback": "Kendi satışlarınız için para iadesi almanız mümkün değildir",
+  "push_notifications_disabled": "Anlık bildirimler başarıyla devre dışı bırakıldı",
+  "push_notifications_activate": "Anlık bildirimler başarıyla etkinleştirildi"
 }
