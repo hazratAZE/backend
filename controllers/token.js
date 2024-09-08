@@ -1,4 +1,5 @@
 const tokeninfo = require("../schemas/tokeninfo");
+const tokensells = require("../schemas/tokensells");
 const user = require("../schemas/user");
 
 const allTokens = async (req, res) => {
@@ -344,9 +345,108 @@ const getAllPercents = async (req, res) => {
     });
   }
 };
+const sellTokens = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const {
+      country,
+      bank,
+      card_number,
+      card_type,
+      tokens_count,
+      currency,
+      total_value,
+    } = req.body;
+    const myUser = await user.findOne({ email: email });
+    if (myUser.balance < Number(tokens_count)) {
+      return res.status(419).json({
+        error: {
+          type: "Balance",
+          message: "Your balance not specified",
+        },
+      });
+    } else {
+      if (!country) {
+        return res.status(419).json({
+          error: {
+            type: "country",
+            message: "Country not specified",
+          },
+        });
+      } else if (!bank) {
+        return res.status(419).json({
+          error: {
+            type: "bank",
+            message: "Bank not specified",
+          },
+        });
+      } else if (card_number < 12) {
+        return res.status(419).json({
+          error: {
+            type: "card_number",
+            message: "Card number not specified",
+          },
+        });
+      } else if (!card_type) {
+        return res.status(419).json({
+          error: {
+            type: "Card type",
+            message: "Card type not specified",
+          },
+        });
+      } else if (Number(tokens_count) <= 0) {
+        return res.status(419).json({
+          error: {
+            type: "Tokens count",
+            message: "Tokens count not specified",
+          },
+        });
+      } else if (!currency) {
+        return res.status(419).json({
+          error: {
+            type: "Currency",
+            message: "Currency not specified",
+          },
+        });
+      } else if (!total_value) {
+        return res.status(419).json({
+          error: {
+            type: "Total",
+            message: "Total value not specified",
+          },
+        });
+      } else {
+        const newSell = new tokensells({
+          country: country,
+          bank: bank,
+          card_number: card_number,
+          card_type: card_type,
+          tokens_count: tokens_count,
+          currency: currency,
+          total_value: total_value,
+          user: myUser._id,
+        });
+        myUser.balance - Number(tokens_count);
+        myUser.sellTokens.push(newSell);
+        await myUser.save();
+        await newSell.save();
+        res.status(200).json({
+          error: false,
+          data: newSell,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   allTokens,
   getAllPercents,
   createPercents,
   updatePercents,
+  sellTokens,
 };

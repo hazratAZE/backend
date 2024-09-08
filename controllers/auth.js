@@ -349,11 +349,17 @@ const loginUser = async (req, res) => {
         },
       });
     } else {
-      const user = await User.findOne({ email: email }).populate({
-        path: "sales",
-        select: "price note type",
-        options: { sort: { createdAt: -1 } },
-      });
+      const user = await User.findOne({ email: email })
+        .populate({
+          path: "sales",
+          select: "price note type",
+          options: { sort: { createdAt: -1 } },
+        })
+        .populate({
+          path: "sellTokens",
+          select: "country bank tokens_count total_value currency",
+          options: { sort: { createdAt: -1 } },
+        });
       if (user) {
         if (user.googleAuth) {
           res.status(419).json({
@@ -429,11 +435,18 @@ const initUser = async (req, res) => {
           },
         });
       } else {
-        const myUser = await user.findOne({ email: userInfo.email }).populate({
-          path: "sales",
-          select: "price note type",
-          options: { sort: { createdAt: -1 } },
-        });
+        const myUser = await user
+          .findOne({ email: userInfo.email })
+          .populate({
+            path: "sales",
+            select: "price note type",
+            options: { sort: { createdAt: -1 } },
+          })
+          .populate({
+            path: "sellTokens",
+            select: "country bank tokens_count total_value currency",
+            options: { sort: { createdAt: -1 } },
+          });
         if (!myUser) {
           res.status(419).json({
             error: {

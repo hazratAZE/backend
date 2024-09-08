@@ -134,6 +134,15 @@ const User = new mongoose.Schema(
       ],
       default: [],
     },
+    sellTokens: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Tokensell",
+        },
+      ],
+      default: [],
+    },
     reportedUsers: {
       type: [
         {
