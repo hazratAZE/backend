@@ -248,5 +248,9 @@
   "this_cashback_already_paid": "Bu para iadesi zaten ödendi",
   "not_possible_cashback": "Kendi satışlarınız için para iadesi almanız mümkün değildir",
   "push_notifications_disabled": "Anlık bildirimler başarıyla devre dışı bırakıldı",
-  "push_notifications_activate": "Anlık bildirimler başarıyla etkinleştirildi"
+  "push_notifications_activate": "Anlık bildirimler başarıyla etkinleştirildi",
+  "bank_section_is_required": "Lütfen bir banka seçin",
+  "card_number_is_required": "Kart numarası 16 karakterden oluşmalıdır",
+  "select_card_type": "Lütfen kart türünü seçin",
+  "sale_amount_at_least_100": "Satış tutarı en az 100 coin olmalıdır"
 }

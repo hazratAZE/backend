@@ -248,5 +248,9 @@
   "this_cashback_already_paid": "Bu geri ödəniş artıq ödənilib",
   "not_possible_cashback": "Öz satışlarınız üçün cashback almaq mümkün deyil",
   "push_notifications_disabled": "Push bildirişləri uğurla deaktiv edildi",
-  "push_notifications_activate": "Push bildirişləri uğurla aktivləşdirildi"
+  "push_notifications_activate": "Push bildirişləri uğurla aktivləşdirildi",
+  "bank_section_is_required": "Bank bölməsi tələb olunur",
+  "card_number_is_required": "Kartın nömrəsi 16 simvoldan ibarət olmalıdır",
+  "select_card_type": "Lütfən, kart növünü seçin",
+  "sale_amount_at_least_100": "Satış məbləği ən azı 100 coin olmalıdır"
 }

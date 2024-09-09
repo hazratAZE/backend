@@ -248,5 +248,9 @@
   "this_cashback_already_paid": "This cashback has already been paid",
   "not_possible_cashback": "It is not possible to get cashback for your own sales",
   "push_notifications_disabled": "Push notifications have been successfully disabled",
-  "push_notifications_activate": "Push notifications have been successfully activated"
+  "push_notifications_activate": "Push notifications have been successfully activated",
+  "bank_section_is_required": "Bank section is required",
+  "card_number_is_required": "Card number must be 16 characters",
+  "select_card_type": "Please select a card type",
+  "sale_amount_at_least_100": "The sale amount must be at least 100 coins"
 }

@@ -248,5 +248,9 @@
   "this_cashback_already_paid": "Этот кэшбэк уже был выплачен",
   "not_possible_cashback": "Невозможно получить кэшбэк за собственные продажи",
   "push_notifications_disabled": "Push-уведомления были успешно отключены",
-  "push_notifications_activate": "Push-уведомления были успешно активированы"
+  "push_notifications_activate": "Push-уведомления были успешно активированы",
+  "bank_section_is_required": "Требуется отделение банка",
+  "card_number_is_required": "Номер карты должен содержать 16 символов.",
+  "select_card_type": "Пожалуйста, выберите тип карты",
+  "sale_amount_at_least_100": "Сумма продажи должна быть не менее 100 монет."
 }

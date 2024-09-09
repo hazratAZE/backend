@@ -12,9 +12,7 @@ const allTokens = async (req, res) => {
         },
       },
     ]);
-
     const allTokensCount = result.length > 0 ? result[0].totalBalance : 0;
-
     res.status(200).json({
       error: false,
       data: allTokensCount,
@@ -361,8 +359,8 @@ const sellTokens = async (req, res) => {
     if (myUser.balance < Number(tokens_count)) {
       return res.status(419).json({
         error: {
-          type: "Balance",
-          message: "Your balance not specified",
+          type: "balance",
+          message: res.__("balance_not_valid"),
         },
       });
     } else {
@@ -370,49 +368,49 @@ const sellTokens = async (req, res) => {
         return res.status(419).json({
           error: {
             type: "country",
-            message: "Country not specified",
+            message: res.__("country_field_is_required"),
           },
         });
       } else if (!bank) {
         return res.status(419).json({
           error: {
             type: "bank",
-            message: "Bank not specified",
+            message: res.__("bank_section_is_required"),
           },
         });
-      } else if (card_number < 12) {
+      } else if (card_number.length < 16) {
         return res.status(419).json({
           error: {
             type: "card_number",
-            message: "Card number not specified",
+            message: res.__("card_number_is_required"),
           },
         });
       } else if (!card_type) {
         return res.status(419).json({
           error: {
-            type: "Card type",
-            message: "Card type not specified",
+            type: "card_type",
+            message: res.__("select_card_type"),
           },
         });
-      } else if (Number(tokens_count) <= 0) {
+      } else if (Number(tokens_count) < 100) {
         return res.status(419).json({
           error: {
-            type: "Tokens count",
-            message: "Tokens count not specified",
+            type: "tokens_count",
+            message: res.__("sale_amount_at_least_100"),
           },
         });
       } else if (!currency) {
         return res.status(419).json({
           error: {
-            type: "Currency",
-            message: "Currency not specified",
+            type: "currency",
+            message: res.__("currency_section_is_required"),
           },
         });
       } else if (!total_value) {
         return res.status(419).json({
           error: {
-            type: "Total",
-            message: "Total value not specified",
+            type: "total",
+            message: "Total value error",
           },
         });
       } else {
@@ -426,7 +424,7 @@ const sellTokens = async (req, res) => {
           total_value: total_value,
           user: myUser._id,
         });
-        myUser.balance - Number(tokens_count);
+        myUser.balance = myUser.balance - Number(tokens_count);
         myUser.sellTokens.push(newSell);
         await myUser.save();
         await newSell.save();
