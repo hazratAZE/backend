@@ -357,7 +357,8 @@ const loginUser = async (req, res) => {
         })
         .populate({
           path: "sellTokens",
-          select: "country bank tokens_count total_value currency",
+          select:
+            "country bank tokens_count total_value currency card_number card_type type createdAt",
           options: { sort: { createdAt: -1 } },
         });
       if (user) {
@@ -444,7 +445,8 @@ const initUser = async (req, res) => {
           })
           .populate({
             path: "sellTokens",
-            select: "country bank tokens_count total_value currency",
+            select:
+              "country bank tokens_count total_value currency card_number card_type type createdAt",
             options: { sort: { createdAt: -1 } },
           });
         if (!myUser) {
