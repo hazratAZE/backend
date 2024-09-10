@@ -1,11 +1,28 @@
 const user = require("../schemas/user");
 const sale = require("../schemas/sale");
+const tokeninfo = require("../schemas/tokeninfo");
 
 const createSale = async (req, res) => {
   try {
     const { email } = req.user;
-    const { note, price } = req.body;
+    const { note, price, currency } = req.body;
     const myUser = await user.findOne({ email: email });
+    const allPercents = await tokeninfo.find();
+    var localCurrency = 1;
+    if (currency == "AZN") {
+      localCurrency = 1;
+    } else if (currency == "USD") {
+      localCurrency = allPercents[0].usd;
+    } else if (currency == "RUB") {
+      localCurrency = allPercents[0].rub;
+    } else if (currency == "KZT") {
+      localCurrency = allPercents[0].kzt;
+    } else if (currency == "EUR") {
+      localCurrency = allPercents[0].euro;
+    } else if (currency == "TRY") {
+      localCurrency = allPercents[0].try;
+    }
+
     if (!myUser) {
       res.status(404).json({
         error: true,
@@ -26,7 +43,7 @@ const createSale = async (req, res) => {
         },
       });
     } else {
-      if (myUser.balance < Math.round(price * 0.03 * 100)) {
+      if (myUser.balance < Math.round(price * localCurrency * 0.03 * 100)) {
         return res.status(419).json({
           error: {
             type: "balance",
@@ -38,16 +55,19 @@ const createSale = async (req, res) => {
           note: note,
           company: myUser._id,
           note: note,
-          cashback: Math.round(price * 0.03 * 100),
+          cashback: Math.round(price * localCurrency * 0.03 * 100),
           price: price,
         });
         await newSale.save();
         myUser.sales.push(newSale);
-        myUser.total_sale = Math.round(myUser.total_sale + Number(price));
-        myUser.total_cashback = Math.round(
-          myUser.total_cashback + Number(price) * 0.03 * 100
+        myUser.total_sale = Math.round(
+          myUser.total_sale + Number(price * localCurrency)
         );
-        myUser.balance = myUser.balance - Math.round(price * 0.03 * 100);
+        myUser.total_cashback = Math.round(
+          myUser.total_cashback + Number(price * localCurrency) * 0.03 * 100
+        );
+        myUser.balance =
+          myUser.balance - Math.round(price * localCurrency * 0.03 * 100);
         await myUser.save();
         res.status(200).json({
           error: false,
