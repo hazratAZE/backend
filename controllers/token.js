@@ -129,6 +129,7 @@ const getAllPercents = async (req, res) => {
             Math.max(...allPercents[0].percentages) / allPercents[0].usd
           ).toFixed(4),
           list: convertedLast30Percentages(allPercents[0].usd),
+          value: allPercents[0].usd,
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].usd
@@ -169,6 +170,7 @@ const getAllPercents = async (req, res) => {
             Math.max(...allPercents[0].percentages) / allPercents[0].kzt
           ).toFixed(4),
           list: convertedLast30Percentages(allPercents[0].kzt),
+          value: allPercents[0].kzt,
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].kzt
@@ -209,6 +211,7 @@ const getAllPercents = async (req, res) => {
             Math.max(...allPercents[0].percentages) / allPercents[0].rub
           ).toFixed(4),
           list: convertedLast30Percentages(allPercents[0].rub),
+          value: allPercents[0].rub,
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].rub
@@ -249,6 +252,7 @@ const getAllPercents = async (req, res) => {
             Math.max(...allPercents[0].percentages) / allPercents[0].try
           ).toFixed(4),
           list: convertedLast30Percentages(allPercents[0].try),
+          value: allPercents[0].try,
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].try
@@ -289,6 +293,7 @@ const getAllPercents = async (req, res) => {
             Math.max(...allPercents[0].percentages) / allPercents[0].euro
           ).toFixed(4),
           list: convertedLast30Percentages(allPercents[0].euro),
+          value: allPercents[0].euro,
           data: (
             allPercents[0].percentages[allPercents[0].percentages.length - 1] /
             allPercents[0].euro
@@ -325,6 +330,7 @@ const getAllPercents = async (req, res) => {
             allPercents[0].percentages.length > 30
               ? allPercents[0].percentages.slice(-30) // Son 30 değeri getir
               : allPercents[0].percentages,
+          value: 1,
           data: allPercents[0].percentages[
             allPercents[0].percentages.length - 1
           ], // EUR to AZN
