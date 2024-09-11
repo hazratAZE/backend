@@ -352,7 +352,7 @@ const loginUser = async (req, res) => {
       const user = await User.findOne({ email: email })
         .populate({
           path: "sales",
-          select: "price note type",
+          select: "price note type currency",
           options: { sort: { createdAt: -1 } },
         })
         .populate({
@@ -440,7 +440,7 @@ const initUser = async (req, res) => {
           .findOne({ email: userInfo.email })
           .populate({
             path: "sales",
-            select: "price note type",
+            select: "price note type currency",
             options: { sort: { createdAt: -1 } },
           })
           .populate({
@@ -1112,7 +1112,7 @@ const getUserInfo = async (req, res) => {
         select: "user feedback createdAt",
         options: { sort: { createdAt: -1 } }, // En yeni tarih ilk sırada olacak şekilde sıralama
       })
-      .populate({ path: "sales", select: "price note" });
+      .populate({ path: "sales", select: "price note currency type" });
     const formattedFeedbacks = newUser.feedbacks.map((feedback) => ({
       ...feedback._doc,
       createdAt: changeDate(feedback.createdAt, res.__("today")), // Burada tarih formatını belirliyorsunuz

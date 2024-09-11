@@ -13,6 +13,10 @@ const Sale = new mongoose.Schema(
     price: {
       type: Number,
     },
+    currency: {
+      type: String,
+      default: "AZN",
+    },
     cashback: {
       type: Number,
       default: 0,

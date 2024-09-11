@@ -57,6 +57,7 @@ const createSale = async (req, res) => {
           note: note,
           cashback: Math.round(price * localCurrency * 0.03 * 100),
           price: price,
+          currency: currency,
         });
         await newSale.save();
         myUser.sales.push(newSale);
