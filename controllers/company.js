@@ -85,8 +85,8 @@ const changeRoleCompany = async (req, res) => {
           {
             address: address,
             city: city,
-            longitude: longitude,
-            latitude: latitude,
+            companyLongitude: longitude,
+            companyLatitude: latitude,
             phone: phone,
             about: about,
             country: country,
@@ -178,8 +178,8 @@ const updateUserLocation = async (req, res) => {
         await user.updateOne(
           { email: email },
           {
-            longitude: longitude,
-            latitude: latitude,
+            companyLongitude: longitude,
+            companyLatitude: latitude,
           }
         );
         res.status(200).json({

@@ -268,6 +268,7 @@ const updateUserLocation = async (req, res) => {
   try {
     const { email } = req.user;
     const { longitude, latitude } = req.body;
+    const myUser = await user.findOne({ email: email });
     if (!email) {
       res.status(419).json({
         error: true,
@@ -280,13 +281,15 @@ const updateUserLocation = async (req, res) => {
           message: "Invalid latitude or longitude",
         });
       } else {
-        await user.updateOne(
-          { email: email },
-          {
-            longitude: longitude,
-            latitude: latitude,
-          }
-        );
+        if (myUser.role == "master" || myUser.role == "user") {
+          await user.updateOne(
+            { email: email },
+            {
+              longitude: longitude,
+              latitude: latitude,
+            }
+          );
+        }
         res.status(200).json({
           error: false,
           message: "User updated successfully",

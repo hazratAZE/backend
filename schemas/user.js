@@ -208,6 +208,12 @@ const User = new mongoose.Schema(
     experience: {
       type: String,
     },
+    companyLatitude: {
+      type: String,
+    },
+    companyLongitude: {
+      type: String,
+    },
     latitude: {
       type: String,
     },
