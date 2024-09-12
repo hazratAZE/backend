@@ -111,6 +111,25 @@ const getAllUsersMap = async (req, res) => {
     });
   }
 };
+const getAllPartners = async (req, res) => {
+  try {
+    const users = await user
+      .find({
+        role: "bizness", // Exclude the user with the specified email
+      })
+      .sort({ rating: -1 });
+
+    res.status(200).json({
+      error: false,
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const registerUser = async (request, response) => {
   const { name, surname, email, password, confirmPassword, agreement } =
     request.body;
@@ -2217,4 +2236,5 @@ module.exports = {
   changeCalendar,
   getCahsback,
   disablePushNotifications,
+  getAllPartners,
 };
