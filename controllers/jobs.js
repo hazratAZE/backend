@@ -1,14 +1,17 @@
 const job = require("../schemas/job");
 const user = require("../schemas/user");
 const schedule = require("node-schedule");
-var FCM = require("fcm-node");
+var admin = require("firebase-admin");
+var serviceAccount = require("../config/firebase-admin.json");
 const { createNotification } = require("./notifications");
 var validator = require("email-validator");
 const nodemailer = require("nodemailer");
-var serverKey = process.env.MY_SERVER_KEY; //put your server key here
-var fcm = new FCM(serverKey);
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -2214,7 +2217,7 @@ const changeDate = (backendTime, newDate) => {
     return userFriendlyDate;
   }
 };
-const sendPushNotification = (
+const sendPushNotification = async (
   to,
   title,
   body,
@@ -2225,30 +2228,31 @@ const sendPushNotification = (
   name,
   active
 ) => {
+  // Mesaj yapısı
   var message = {
-    to: to,
-
+    token: to,
     notification: {
       title: title,
       body: body,
     },
     data: {
-      type: type,
-      id: id,
-      image: image,
-      email: email,
-      name: name,
+      type: String(type),
+      id: String(id),
+      image: String(image),
+      email: String(email),
+      name: String(name),
     },
   };
+
+  // Eğer aktifse bildirimi gönder
   if (active) {
-    fcm.send(message, function (err, response) {
-      if (err) {
-        console.log("Something has gone wrong!");
-        console.log(err);
-      } else {
-        console.log("Successfully sent with response: ", response);
-      }
-    });
+    try {
+      let response = await admin.messaging().send(message);
+      console.log("Successfully sent with response: ", response);
+    } catch (error) {
+      console.log("Something has gone wrong!");
+      console.log(error);
+    }
   }
 };
 const uploadImages = async (req, res) => {
