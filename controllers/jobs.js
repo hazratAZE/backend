@@ -723,7 +723,6 @@ const createJob = async (req, res) => {
       city,
       companyEmail,
       companyName,
-      createdBy,
       agreement,
       category,
       country,
