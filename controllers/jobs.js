@@ -2243,7 +2243,6 @@ const sendPushNotification = async (
       name: String(name),
     },
   };
-
   // Eğer aktifse bildirimi gönder
   if (active) {
     try {
