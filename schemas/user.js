@@ -41,6 +41,11 @@ const User = new mongoose.Schema(
       type: String,
       default: "https://worklytest.s3.eu-north-1.amazonaws.com/image21.png",
     },
+    companyImage: {
+      type: String,
+      default:
+        "https://worklytest.s3.eu-north-1.amazonaws.com/company_icon.png",
+    },
     addedJobs: {
       type: [
         {

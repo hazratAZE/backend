@@ -1718,6 +1718,7 @@ const uploadImage = async (req, res) => {
   try {
     const { email } = req.user;
     const myUser = await user.findOne({ email: email });
+    const { type } = req.query;
     if (!myUser) {
       res.status(404).json({
         error: true,
@@ -1743,12 +1744,22 @@ const uploadImage = async (req, res) => {
             message: err.message,
           });
         } else {
-          await user.updateOne(
-            { email: email },
-            {
-              image: `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`,
-            }
-          );
+          if (type) {
+            await user.updateOne(
+              { email: email },
+              {
+                companyImage: `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`,
+              }
+            );
+          } else {
+            await user.updateOne(
+              { email: email },
+              {
+                image: `https://worklytest.s3.eu-north-1.amazonaws.com/${req.files.data.name}`,
+              }
+            );
+          }
+
           res.status(201).json({
             error: false,
             message: "Your image added successfully",
