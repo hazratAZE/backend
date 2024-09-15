@@ -207,6 +207,30 @@ const User = new mongoose.Schema(
     phone: {
       type: String,
     },
+    companyPhone: {
+      type: String,
+      default: "",
+    },
+    companyCountry: {
+      type: String,
+      default: "AZE",
+    },
+    companyCity: {
+      type: String,
+      default: "",
+    },
+    companyPhone: {
+      type: String,
+      default: "",
+    },
+    companyAddress: {
+      type: String,
+      default: "",
+    },
+    companyAbout: {
+      type: String,
+      default: "",
+    },
     age: {
       type: String,
     },

@@ -83,13 +83,13 @@ const changeRoleCompany = async (req, res) => {
         await user.updateOne(
           { email: email },
           {
-            address: address,
-            city: city,
+            companyAddress: address,
+            companyCity: city,
             companyLongitude: longitude,
             companyLatitude: latitude,
-            phone: phone,
-            about: about,
-            country: country,
+            companyPhone: phone,
+            companyAbout: about,
+            companyCountry: country,
             company: companyName,
             role: "bizness",
           }

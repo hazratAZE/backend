@@ -677,13 +677,18 @@ const updateUser = async (req, res) => {
     const {
       name,
       surname,
+      companyName,
       jobCategory,
       subCategory,
       city,
+      companyCity,
       address,
+      companyAddress,
       gender,
       country,
+      companyCountry,
       phone,
+      companyPhone,
       age,
       military,
       github,
@@ -699,6 +704,9 @@ const updateUser = async (req, res) => {
       driveLicense,
       awards_certificate,
       about,
+      companyLatitude,
+      companyLongitude,
+      companyAbout,
     } = req.body;
     const { email } = req.user;
     const myUser = await User.findOne({ email: email });
@@ -710,6 +718,13 @@ const updateUser = async (req, res) => {
     } else if (!name) {
       res.status(419).json({
         error: { type: "name", message: res.__("name_section_is_required") },
+      });
+    } else if (!companyName && myUser.role == "bizness") {
+      res.status(419).json({
+        error: {
+          type: "companyName",
+          message: res.__("name_section_is_required"),
+        },
       });
     } else if (!surname) {
       res.status(419).json({
@@ -850,6 +865,7 @@ const updateUser = async (req, res) => {
         {
           name: name,
           surname: surname,
+          company: companyName,
           jobCategory: jobCategory,
           categorySpecific: subCategory,
           city: city,
