@@ -754,10 +754,24 @@ const updateUser = async (req, res) => {
           message: res.__("city_field_is_required"),
         },
       });
+    } else if (!companyCity && myUser.role === "bizness") {
+      res.status(419).json({
+        error: {
+          type: "companyCity",
+          message: res.__("city_field_is_required"),
+        },
+      });
     } else if (!address && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "address",
+          message: res.__("address_field_is_required"),
+        },
+      });
+    } else if (!companyAddress && myUser.role === "bizness") {
+      res.status(419).json({
+        error: {
+          type: "companyAddress",
           message: res.__("address_field_is_required"),
         },
       });
@@ -775,10 +789,27 @@ const updateUser = async (req, res) => {
           message: res.__("country_field_is_required"),
         },
       });
+    } else if (!companyCountry && myUser.role === "bizness") {
+      res.status(419).json({
+        error: {
+          type: "companyCountry",
+          message: res.__("country_field_is_required"),
+        },
+      });
     } else if (!phoneNumberPattern.test(phone) && myUser.role === "master") {
       res.status(419).json({
         error: {
           type: "phone",
+          message: res.__("phone_field_is_required"),
+        },
+      });
+    } else if (
+      !phoneNumberPattern.test(companyPhone) &&
+      myUser.role === "bizness"
+    ) {
+      res.status(419).json({
+        error: {
+          type: "companyPhone",
           message: res.__("phone_field_is_required"),
         },
       });
@@ -859,6 +890,17 @@ const updateUser = async (req, res) => {
           message: res.__("description_field_is_required"),
         },
       });
+    } else if (
+      companyAbout &&
+      companyAbout.length < 60 &&
+      myUser.role === "bizness"
+    ) {
+      res.status(419).json({
+        error: {
+          type: "companyAbout",
+          message: res.__("description_field_is_required"),
+        },
+      });
     } else {
       await User.updateOne(
         { email: email },
@@ -869,10 +911,14 @@ const updateUser = async (req, res) => {
           jobCategory: jobCategory,
           categorySpecific: subCategory,
           city: city,
+          companyCity: companyCity,
           address: address,
+          companyAddress: companyAddress,
           gender: gender,
           country: country,
+          companyCountry: companyCountry,
           phone: phone,
+          companyPhone: companyPhone,
           age: age,
           experience: experience,
           driveLicense: driveLicense,
@@ -888,7 +934,10 @@ const updateUser = async (req, res) => {
           language_info: language_info,
           awards_certificate: awards_certificate,
           about: about,
+          companyAbout: companyAbout,
           fullName: `${name} ${surname}`,
+          companyLongitude: companyLongitude,
+          companyLatitude: companyLatitude,
         }
       );
       const myUser = await User.findOne({ email: email });
