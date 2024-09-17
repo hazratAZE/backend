@@ -96,6 +96,8 @@ const changeRoleCompany = async (req, res) => {
         );
         myUser.appliedJobs = [];
         myUser.busyDays = [];
+        myUser.map = false;
+        myUser.call = false;
         await myUser.save();
         const jobsToUpdate = await job.find({ applicants: myUser._id });
 
