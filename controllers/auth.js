@@ -940,7 +940,18 @@ const updateUser = async (req, res) => {
           companyLatitude: companyLatitude,
         }
       );
-      const myUser = await User.findOne({ email: email });
+      const myUser = await User.findOne({ email: email })
+        .populate({
+          path: "sales",
+          select: "price note type currency",
+          options: { sort: { createdAt: -1 } },
+        })
+        .populate({
+          path: "sellTokens",
+          select:
+            "country bank tokens_count total_value currency card_number card_type type createdAt",
+          options: { sort: { createdAt: -1 } },
+        });
       res.status(200).json({
         error: false,
         message: res.__("user_successfully_updated"),
