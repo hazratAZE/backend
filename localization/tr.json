@@ -252,5 +252,7 @@
   "bank_section_is_required": "Lütfen bir banka seçin",
   "card_number_is_required": "Kart numarası 16 karakterden oluşmalıdır",
   "select_card_type": "Lütfen kart türünü seçin",
-  "sale_amount_at_least_100": "Satış tutarı en az 100 coin olmalıdır"
+  "sale_amount_at_least_100": "Satış tutarı en az 100 coin olmalıdır",
+  "map_permissions_changed": "Harita izni başarıyla değiştirildi",
+  "call_permissions_changed": "Arama izni başarıyla değiştirildi"
 }

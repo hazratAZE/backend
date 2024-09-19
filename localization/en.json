@@ -252,5 +252,7 @@
   "bank_section_is_required": "Bank section is required",
   "card_number_is_required": "Card number must be 16 characters",
   "select_card_type": "Please select a card type",
-  "sale_amount_at_least_100": "The sale amount must be at least 100 coins"
+  "sale_amount_at_least_100": "The sale amount must be at least 100 coins",
+  "map_permissions_changed": "Map permission changed successfully",
+  "call_permissions_changed": "Call permission changed successfully"
 }

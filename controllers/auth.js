@@ -1720,7 +1720,6 @@ const getUserInfo = async (req, res) => {
       error: true,
       data: error.message,
     });
-    console.log(error.message);
   }
 };
 const changeCallPermission = async (req, res) => {
@@ -1728,48 +1727,72 @@ const changeCallPermission = async (req, res) => {
     const { email } = req.user;
     const { mode } = req.body;
     const myUser = await user.findOne({ email: email });
-    if (!myUser) {
-      res.status(404).json({
-        error: true,
-        message: "User not found",
-      });
-    } else {
-      if (mode) {
-        myUser.call = true;
+    if (myUser.role == "master") {
+      if (!myUser) {
+        res.status(404).json({
+          error: true,
+          message: "User not found",
+        });
       } else {
-        myUser.call = false;
+        if (mode) {
+          myUser.call = true;
+        } else {
+          myUser.call = false;
+        }
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("call_permissions_changed"),
+        });
       }
-      await myUser.save();
-      res.status(200).json({
+    } else {
+      res.status(419).json({
         error: false,
-        message: "Call has been changed",
+        message: "Your role is not allowed",
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      data: error.message,
+    });
+  }
 };
 const changeMapPermission = async (req, res) => {
   try {
     const { email } = req.user;
     const { mode } = req.body;
     const myUser = await user.findOne({ email: email });
-    if (!myUser) {
-      res.status(404).json({
-        error: true,
-        message: "User not found",
-      });
-    } else {
-      if (mode) {
-        myUser.map = true;
+    if (myUser.role == "master") {
+      if (!myUser) {
+        res.status(404).json({
+          error: true,
+          message: "User not found",
+        });
       } else {
-        myUser.map = false;
+        if (mode) {
+          myUser.map = true;
+        } else {
+          myUser.map = false;
+        }
+        await myUser.save();
+        res.status(200).json({
+          error: false,
+          message: res.__("map_permissions_changed"),
+        });
       }
-      await myUser.save();
-      res.status(200).json({
+    } else {
+      res.status(419).json({
         error: false,
-        message: "Map permission has been changed",
+        message: "Your role is not allowed",
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      data: error.message,
+    });
+  }
 };
 const uploadImage = async (req, res) => {
   const s3Client = new S3Client({
