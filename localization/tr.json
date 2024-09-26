@@ -62,7 +62,7 @@
   "reject_announce_des": "Sevgili kullanıcı, ilan formatı yanlış. Talimatları okuyun ve tekrar deneyin",
   "balance_update_success": "Bakiye başarıyla artırıldı!",
   "balance_not_valid": "Bu işlem için bakiyeniz yetersiz",
-  "comment_added_successfully": "Yorumunuz başarıyla gönderildi",
+  "comment_added_successfully": "Yorumunuz başarıyla gönderildi. Desteğiniz için teşekkürler",
   "comment_must_be_at_least": "Yorum en az 60 karakter uzunluğunda olmalıdır",
   "personal_information": "Kişisel Bilgiler",
   "date_of_birth": "Doğum Tarihi",

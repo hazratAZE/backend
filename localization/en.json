@@ -62,7 +62,7 @@
   "reject_announce_des": "Dear user, the format of the announce is incorrect. Read the instructions and try again",
   "balance_update_success": "The balance has been successfully increased!",
   "balance_not_valid": "Your balance is insufficient for this transaction",
-  "comment_added_successfully": "Your comment has been sent successfully",
+  "comment_added_successfully": "Your comment has been sent successfully.Thank you for your support",
   "comment_must_be_at_least": "Comment must be at least 60 characters long",
   "personal_information": "Personal Information",
   "date_of_birth": "Date of Birth",
