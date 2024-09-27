@@ -2315,6 +2315,29 @@ const disablePushNotifications = async (req, res) => {
     });
   }
 };
+const getSalesList = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const myUser = await user.findOne({ email: email }).populate("sellTokens");
+
+    if (!myUser) {
+      res.status(419).json({
+        error: true,
+        message: "Sale not fount",
+      });
+    } else {
+      res.status(200).json({
+        error: false,
+        data: myUser.sellTokens,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   reportUser,
   registerUser,
@@ -2347,4 +2370,5 @@ module.exports = {
   getCahsback,
   disablePushNotifications,
   getAllPartners,
+  getSalesList,
 };
