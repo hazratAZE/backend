@@ -32,6 +32,7 @@ const {
   disablePushNotifications,
   getAllPartners,
   getSalesList,
+  getListSales,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -68,6 +69,7 @@ routes.post("/changeCalendar", verifyJwt, changeCalendar);
 routes.post("/getCashback", verifyJwt, getCahsback);
 routes.post("/disablePush", verifyJwt, disablePushNotifications);
 routes.get("/salesList", verifyJwt, getSalesList);
+routes.get("/listSales", verifyJwt, getListSales);
 routes.get("/getAllPartners", getAllPartners);
 
 module.exports = routes;
