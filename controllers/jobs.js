@@ -1619,82 +1619,125 @@ const updateJobStatus = async (req, res) => {
 const saveJob = async (req, res) => {
   try {
     const { email } = req.user;
-    const { id } = req.body;
-    const { dislike } = req.body;
+    const { id, dislike } = req.body; // id ve dislike tek satırda alındı
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
+
     if (myUser && myJob) {
+      const isAlreadySaved = myUser.savedJobs.some(
+        (savedJob) => savedJob._id.toString() === myJob._id.toString()
+      );
+
       if (dislike) {
+        // Job zaten kaydedilmediyse, unsave yapmaya çalışmamak
+        if (!isAlreadySaved) {
+          return res.status(400).json({
+            error: true,
+            message: "Job not found in saved jobs",
+          });
+        }
         myUser.savedJobs = myUser.savedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
-        myJob.rating = myJob.rating - 1;
+        myJob.rating = Math.max(0, myJob.rating - 1); // Rating negatif olamaz
         await myJob.save();
         await myUser.save();
-        res.status(200).json({
+        return res.status(200).json({
           error: false,
           message: "Job unsaved successfully",
         });
       } else {
+        // Job zaten kaydedilmişse, tekrar kaydetmemek
+        if (isAlreadySaved) {
+          return res.status(400).json({
+            error: true,
+            message: "Job already saved",
+          });
+        }
+
         myJob.rating = myJob.rating + 1;
         myUser.savedJobs.push(myJob);
         await myJob.save();
         await myUser.save();
-        res.status(200).json({
+        return res.status(200).json({
           error: false,
           message: "Job saved successfully",
         });
       }
     } else {
-      res.status(404).json({
+      return res.status(404).json({
         error: true,
-        message: "User not found",
+        message: "User or job not found",
       });
     }
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
       message: error.message,
     });
   }
 };
+
 const likeJob = async (req, res) => {
   try {
     const { email } = req.user;
-    const { id } = req.body;
-    const { dislike } = req.body;
+    const { id, dislike } = req.body; // id ve dislike tek satırda alındı
     const myUser = await user.findOne({ email: email });
     const myJob = await job.findOne({ _id: id });
+
     if (myUser && myJob) {
+      // İş zaten beğenilmiş mi kontrol ediliyor
+      const isAlreadyLiked = myUser.likedJobs.some(
+        (likedJob) => likedJob._id.toString() === myJob._id.toString()
+      );
+
       if (dislike) {
+        // İş zaten beğenilmemişse dislike işlemine izin vermemek
+        if (!isAlreadyLiked) {
+          return res.status(400).json({
+            error: true,
+            message: "Job not found in liked jobs",
+          });
+        }
+
+        // Beğeniyi kaldırma ve rating'i azaltma
         myUser.likedJobs = myUser.likedJobs.filter(
           (likedJob) => likedJob._id.toString() !== myJob._id.toString()
         );
-        myJob.rating = myJob.rating - 1;
+        myJob.rating = Math.max(0, myJob.rating - 1); // Rating negatif olamaz
         await myJob.save();
         await myUser.save();
-        res.status(200).json({
+        return res.status(200).json({
           error: false,
-          message: "Job dislaked successfully",
+          message: "Job disliked successfully",
         });
       } else {
-        myUser.likedJobs.push(myJob);
+        // İş zaten beğenilmişse tekrar beğenmeye izin vermemek
+        if (isAlreadyLiked) {
+          return res.status(400).json({
+            error: true,
+            message: "Job already liked",
+          });
+        }
+
+        // Beğenme ve rating'i arttırma
         myJob.rating = myJob.rating + 1;
+        myUser.likedJobs.push(myJob._id); // İşin tamamını değil, sadece id'sini kaydediyoruz
         await myJob.save();
         await myUser.save();
-        res.status(200).json({
+        return res.status(200).json({
           error: false,
           message: "Job liked successfully",
         });
       }
     } else {
-      res.status(404).json({
+      return res.status(404).json({
         error: true,
-        message: "User not found",
+        message: "User or job not found",
       });
     }
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
       message: error.message,
     });
