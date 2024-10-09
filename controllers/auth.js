@@ -1821,8 +1821,8 @@ const uploadImage = async (req, res) => {
 
   try {
     const { email } = req.user;
-    const myUser = await user.findOne({ email: email });
     const { type } = req.query;
+    const myUser = await user.findOne({ email: email });
     if (!myUser) {
       res.status(404).json({
         error: true,
@@ -1848,7 +1848,7 @@ const uploadImage = async (req, res) => {
             message: err.message,
           });
         } else {
-          if (type) {
+          if (type == "bizness") {
             await user.updateOne(
               { email: email },
               {
