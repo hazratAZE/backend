@@ -254,5 +254,6 @@
   "select_card_type": "Lütfen kart türünü seçin",
   "sale_amount_at_least_100": "Satış tutarı en az 100 coin olmalıdır",
   "map_permissions_changed": "Harita izni başarıyla değiştirildi",
-  "call_permissions_changed": "Arama izni başarıyla değiştirildi"
+  "call_permissions_changed": "Arama izni başarıyla değiştirildi",
+  "cashback_must_be_at_least_one": "Nakit para iadesi en az bir jeton olmalıdır"
 }

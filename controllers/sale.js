@@ -42,6 +42,13 @@ const createSale = async (req, res) => {
           message: res.__("note_section_is_required"),
         },
       });
+    } else if (price * localCurrency * 0.03 * 100 < 1) {
+      return res.status(419).json({
+        error: {
+          type: "balance",
+          message: res.__("cashback_must_be_at_least_one"),
+        },
+      });
     } else {
       if (myUser.balance < Math.round(price * localCurrency * 0.03 * 100)) {
         return res.status(419).json({
