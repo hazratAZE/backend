@@ -255,5 +255,9 @@
   "sale_amount_at_least_100": "The sale amount must be at least 100 coins",
   "map_permissions_changed": "Map permission changed successfully",
   "call_permissions_changed": "Call permission changed successfully",
-  "cashback_must_be_at_least_one": "Cashback must be at least one token"
+  "cashback_must_be_at_least_one": "Cashback must be at least one token",
+  "secondary_education": "Secondary education",
+  "bachelors": "Bachelor's degree",
+  "masters_degree": "Master's degree",
+  "doctorate": "Doctoral studies"
 }

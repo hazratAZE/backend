@@ -255,5 +255,9 @@
   "sale_amount_at_least_100": "Сумма продажи должна быть не менее 100 монет",
   "map_permissions_changed": "Разрешение карты успешно изменено",
   "call_permissions_changed": "Разрешение на вызов успешно изменено",
-  "cashback_must_be_at_least_one": "Кэшбэк должен быть не менее одного токена"
+  "cashback_must_be_at_least_one": "Кэшбэк должен быть не менее одного токена",
+  "secondary_education": "Среднее образование",
+  "bachelors": "Бакалавр",
+  "masters_degree": "Магистратура",
+  "doctorate": "Докторантура"
 }

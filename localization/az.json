@@ -255,5 +255,9 @@
   "sale_amount_at_least_100": "Satış məbləği ən azı 100 coin olmalıdır",
   "map_permissions_changed": "Xəritə icazəsi uğurla dəyişdirildi",
   "call_permissions_changed": "Zəng icazəsi uğurla dəyişdirildi",
-  "cashback_must_be_at_least_one": "Cashback ən azı bir token olmalıdır"
+  "cashback_must_be_at_least_one": "Cashback ən azı bir token olmalıdır",
+  "secondary_education": "Orta təhsil",
+  "bachelors": "Bakalavr dərəcəsi",
+  "masters_degree": "Magistr dərəcəsi",
+  "doctorate": "Doktorantura təhsili"
 }

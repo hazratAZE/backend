@@ -161,7 +161,18 @@ routes.post("/generate-pdf", verifyJwt, async (req, res) => {
           doc.fontSize(16).fillColor(color).text(res.__("education"));
           doc.moveDown(0.2);
           doc.fontSize(8).fillColor("gray").text(res.__("education_level"));
-          doc.fontSize(10).fillColor("#000").text(eduLevel);
+          doc
+            .fontSize(10)
+            .fillColor("#000")
+            .text(
+              eduLevel == "secondary"
+                ? res.__("secondary_education")
+                : eduLevel == "bachelors"
+                ? res.__("bachelors")
+                : eduLevel == "master"
+                ? res.__("masters_degree")
+                : res.__("doctorate")
+            );
           doc.moveDown(0.1);
           doc.fontSize(8).fillColor("gray").text(res.__("education_info"));
           doc.fontSize(10).fillColor("#000").text(eduInfo);
