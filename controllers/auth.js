@@ -1739,74 +1739,68 @@ const changeCallPermission = async (req, res) => {
   try {
     const { email } = req.user;
     const { mode } = req.body;
-    const myUser = await user.findOne({ email: email });
-    if (myUser.role == "master") {
-      if (!myUser) {
-        res.status(404).json({
-          error: true,
-          message: "User not found",
-        });
-      } else {
-        if (mode) {
-          myUser.call = true;
-        } else {
-          myUser.call = false;
-        }
-        await myUser.save();
-        res.status(200).json({
-          error: false,
-          message: res.__("call_permissions_changed"),
-        });
-      }
-    } else {
-      res.status(419).json({
-        error: false,
-        message: "Your role is not allowed",
+
+    // Find user with role 'master' and the given email
+    const myUser = await User.findOne({ email: email, role: "master" });
+
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "User not found or not allowed",
       });
     }
+
+    // Update call permission only if it has changed
+    if (myUser.call !== mode) {
+      myUser.call = mode;
+      await myUser.save();
+    }
+
+    return res.status(200).json({
+      error: false,
+      message: res.__("call_permissions_changed"),
+    });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
-      data: error.message,
+      message: error.message,
     });
   }
 };
+
 const changeMapPermission = async (req, res) => {
   try {
     const { email } = req.user;
     const { mode } = req.body;
-    const myUser = await user.findOne({ email: email });
-    if (myUser.role == "master") {
-      if (!myUser) {
-        res.status(404).json({
-          error: true,
-          message: "User not found",
-        });
-      } else {
-        if (mode) {
-          myUser.map = true;
-        } else {
-          myUser.map = false;
-        }
-        await myUser.save();
-        res.status(200).json({
-          error: false,
-          message: res.__("map_permissions_changed"),
-        });
-      }
-    } else {
-      res.status(419).json({
-        error: false,
-        message: "Your role is not allowed",
+
+    // Find user with role 'master' and the given email
+    const myUser = await User.findOne({ email: email, role: "master" });
+
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "User not found or not allowed",
       });
     }
+
+    // Update map permission only if it has changed
+    if (myUser.map !== mode) {
+      myUser.map = mode;
+      await myUser.save();
+    }
+
+    return res.status(200).json({
+      error: false,
+      message: res.__("map_permissions_changed"),
+    });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: true,
-      data: error.message,
+      message: error.message,
     });
   }
 };
+
 const uploadImage = async (req, res) => {
   const s3Client = new S3Client({
     region: "eu-north-1",
