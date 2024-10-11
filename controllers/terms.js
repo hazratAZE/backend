@@ -1,9 +1,5 @@
-const getTerms = (req, res) => {
-  try {
-    const { lang } = req.query;
-    var data;
-    if (lang == "az") {
-      data = `Yolu Tətbiqinin Qaydaları və Şərtləri
+const termsData = {
+  az: `Yolu Tətbiqinin Qaydaları və Şərtləri
 
       İş axtaranları məşğulluq imkanları ilə əlaqələndirmək üçün nəzərdə tutulmuş iş axtarış proqramı olan Yolu-ya xoş gəlmisiniz. Yolu tətbiqindən istifadə etməklə siz aşağıdakı şərtlərlə razılaşırsınız:
       
@@ -57,9 +53,8 @@ const getTerms = (req, res) => {
       
       b. İstifadəçilər proqramın təqdim etdiyi təlimatlara əməl etməklə hesablarını deaktiv edə və ya silə bilərlər.
       
-      Yolu proqramından istifadə etməklə siz bu şərtlərə əməl etməyə razısınız. Razı deyilsinizsə, proqramdan istifadə etməkdən çəkinin.`;
-    } else if (lang == "ru") {
-      data = `Условия использования приложения Yolu
+      Yolu proqramından istifadə etməklə siz bu şərtlərə əməl etməyə razısınız. Razı deyilsinizsə, proqramdan istifadə etməkdən çəkinin.`,
+  ru: `Условия использования приложения Yolu
 
       Добро пожаловать в Yolu, приложение для поиска работы, предназначенное для того, чтобы связать соискателей с возможностями трудоустройства. Используя приложение Yolu, вы соглашаетесь со следующими условиями:
       
@@ -113,9 +108,8 @@ const getTerms = (req, res) => {
       
       б. Пользователи могут деактивировать или удалить свои учетные записи, следуя инструкциям приложения.
       
-      Используя приложение Yolu, вы соглашаетесь соблюдать эти условия. Если вы не согласны, пожалуйста, воздержитесь от использования приложения.`;
-    } else if (lang == "tr") {
-      data = `Yolu Uygulamasının Şartlar ve Koşulları
+      Используя приложение Yolu, вы соглашаетесь соблюдать эти условия. Если вы не согласны, пожалуйста, воздержитесь от использования приложения.`,
+  tr: `Yolu Uygulamasının Şartlar ve Koşulları
 
 Yolu'ya hoş geldiniz, iş arayanları istihdam fırsatları ile birleştirmeyi amaçlayan bir iş arama uygulamasıdır. Yolu uygulamasını kullanarak aşağıdaki şartlar ve koşulları kabul etmiş olursunuz:
 
@@ -169,9 +163,8 @@ a. Yolu, bu şartlara aykırı davranışlar veya gerekli görülen diğer sebep
 
 b. Kullanıcılar, hesaplarını uygulamanın sağladığı talimatları takip ederek devre dışı bırakabilir veya silebilir.
 
-Yolu uygulamasını kullanarak bu şartlar ve koşullara uymayı kabul etmiş olursunuz. Kabul etmiyorsanız, lütfen uygulamayı kullanmaktan kaçının.`;
-    } else {
-      data = `Terms and Conditions of Yolu App
+Yolu uygulamasını kullanarak bu şartlar ve koşullara uymayı kabul etmiş olursunuz. Kabul etmiyorsanız, lütfen uygulamayı kullanmaktan kaçının.`,
+  en: `Terms and Conditions of Yolu App
 
       Welcome to Yolu, a job-searching application designed to connect job seekers with employment opportunities. By using the Yolu app, you agree to the following terms and conditions:
       
@@ -225,18 +218,29 @@ Yolu uygulamasını kullanarak bu şartlar ve koşullara uymayı kabul etmiş ol
       
       b. Users can deactivate or delete their accounts by following the app's provided instructions.
       
-      By using the Yolu app, you agree to abide by these terms and conditions. If you do not agree, please refrain from using the app.`;
-    }
+      By using the Yolu app, you agree to abide by these terms and conditions. If you do not agree, please refrain from using the app.`,
+};
 
-    res.status(200).json({
-      error: false,
-      data: data,
-    });
+const getTerms = (req, res) => {
+  try {
+    const { lang } = req.query;
+    // Geçerli dilleri tanımla
+    const supportedLangs = ["az", "ru", "tr", "en"];
+
+    // Geçersiz bir dil sorgusu yapılırsa varsayılan olarak 'en' dilini kullan
+    const selectedLang = supportedLangs.includes(lang) ? lang : "en";
+
+    // Metni getir
+    const data = termsData[selectedLang];
+    res.status(200).json({ success: true, terms: data });
   } catch (error) {
-    res.status(500).json({
-      error: true,
-      message: error.message,
-    });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "An error occurred",
+        error: error.message,
+      });
   }
 };
 module.exports = { getTerms };
