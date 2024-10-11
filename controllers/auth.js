@@ -67,30 +67,25 @@ const getAllUsers = async (req, res) => {
 };
 const getAllUsersMap = async (req, res) => {
   try {
-    const { email, typing, limit } = req.query;
+    const { email, typing, limit, category, city, country } = req.query;
     var users;
     const filter = {
       role: "master",
       map: true,
     };
-    if (req.query.category) {
-      filter.jobCategory = req.query.category;
-    }
-    if (req.query.city) {
-      filter.city = req.query.city;
-    }
-    if (req.query.country) {
-      filter.country = req.query.country;
-    }
+    if (category) filter.jobCategory = category;
+    if (city) filter.city = city;
+    if (country) filter.country = country;
     if (email) {
       users = await user
         .find({
           ...filter,
           email: { $ne: email }, // Exclude the user with the specified email
         })
-        .sort({ rating: -1 });
+        .sort({ rating: -1 })
+        .lean();
     } else {
-      users = await user.find(filter).sort({ rating: -1 });
+      users = await user.find(filter).sort({ rating: -1 }).lean();
     }
     const page = parseInt(req.query.page) || 1;
     const endIndex = page * limit;
@@ -117,7 +112,8 @@ const getAllPartners = async (req, res) => {
       .find({
         role: "bizness", // Exclude the user with the specified email
       })
-      .sort({ rating: -1 });
+      .sort({ rating: -1 })
+      .lean();
 
     res.status(200).json({
       error: false,
@@ -907,8 +903,8 @@ const updateUser = async (req, res) => {
         },
       });
     } else {
-      await User.updateOne(
-        { email: email },
+      const updatedUser = await User.findByIdAndUpdate(
+        myUser._id,
         {
           name: name,
           surname: surname,
@@ -943,9 +939,9 @@ const updateUser = async (req, res) => {
           fullName: `${name} ${surname}`,
           companyLongitude: companyLongitude,
           companyLatitude: companyLatitude,
-        }
-      );
-      const myUser = await User.findOne({ email: email })
+        },
+        { new: true }
+      )
         .populate({
           path: "sales",
           select: "price note type currency",
@@ -957,10 +953,11 @@ const updateUser = async (req, res) => {
             "country bank tokens_count total_value currency card_number card_type type createdAt",
           options: { sort: { createdAt: -1 } },
         });
+
       res.status(200).json({
         error: false,
         message: res.__("user_successfully_updated"),
-        user: myUser,
+        user: updatedUser,
       });
     }
   } catch (error) {
