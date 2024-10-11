@@ -27,7 +27,7 @@ const getAllMyNotifications = async (req, res) => {
       });
     }
 
-    const myUser = await user.findOne({ email: email });
+    const myUser = await user.findOne({ email: email }).lean();
     if (!myUser) {
       return res.status(419).json({
         error: true,
@@ -44,42 +44,39 @@ const getAllMyNotifications = async (req, res) => {
       .find({ _id: { $in: notificationsList } })
       .sort({ createdAt: -1 })
       .skip(startIndex)
-      .limit(limit);
+      .limit(limit)
+      .lean();
 
-    const notificationList = await Promise.all(
-      allNotifications.map((one) => {
-        return {
-          ...one._doc,
-          trDate: changeDate(one.createdAt, res.__("today")),
-          trTitle:
-            one.type === "apply"
-              ? res.__("you_have_new_apply")
-              : one.type === "register"
-              ? res.__("success_register")
-              : one.type === "rejectJob"
-              ? res.__("reject_announce")
-              : one.type === "gift"
-              ? res.__("you_have_new_gift")
-              : one.type == "feedback"
-              ? res.__("you_have_new_feedback")
-              : res.__("job_added_successfully"),
-          trBody:
-            one.type === "apply"
-              ? `${one.body} ${res.__("sended_request")}`
-              : one.type === "register"
-              ? `${one.body}, ${res.__("welcome_app")}`
-              : one.type === "rejectJob"
-              ? `${one.body}, ${res.__("reject_announce_des")}`
-              : one.type === "gift"
-              ? `${one.body}, ${res.__("user_sent_you_a_gift")}`
-              : one.type === "feedback"
-              ? `${one.body}, ${res.__("send_your_feedback")}. ${res.__(
-                  "feedbacks_is_important"
-                )}`
-              : `${one.body}, ${res.__("job_added_successfully_des")}`,
-        };
-      })
-    );
+    const notificationList = allNotifications.map((one) => ({
+      ...one,
+      trDate: changeDate(one.createdAt, res.__("today")),
+      trTitle:
+        one.type === "apply"
+          ? res.__("you_have_new_apply")
+          : one.type === "register"
+          ? res.__("success_register")
+          : one.type === "rejectJob"
+          ? res.__("reject_announce")
+          : one.type === "gift"
+          ? res.__("you_have_new_gift")
+          : one.type == "feedback"
+          ? res.__("you_have_new_feedback")
+          : res.__("job_added_successfully"),
+      trBody:
+        one.type === "apply"
+          ? `${one.body} ${res.__("sended_request")}`
+          : one.type === "register"
+          ? `${one.body}, ${res.__("welcome_app")}`
+          : one.type === "rejectJob"
+          ? `${one.body}, ${res.__("reject_announce_des")}`
+          : one.type === "gift"
+          ? `${one.body}, ${res.__("user_sent_you_a_gift")}`
+          : one.type === "feedback"
+          ? `${one.body}, ${res.__("send_your_feedback")}. ${res.__(
+              "feedbacks_is_important"
+            )}`
+          : `${one.body}, ${res.__("job_added_successfully_des")}`,
+    }));
 
     // Get total count of notifications to calculate total pages
     const totalNotificationsCount = notificationsList.length;
@@ -112,9 +109,11 @@ const openNotification = async (req, res) => {
       });
     }
 
+    // Find user and notifications in one query using lean() to reduce overhead
     const myUser = await user
-      .findOne({ email: email })
-      .populate("notifications"); // Assuming notifications are referenced in myUser
+      .findOne({ email })
+      .select("notifications") // Sadece notifications alanını çekiyoruz
+      .lean(); // Performans için lean kullanımı
 
     if (!myUser) {
       return res.status(404).json({
@@ -123,7 +122,8 @@ const openNotification = async (req, res) => {
       });
     }
 
-    const notification = await notifications.findOne({ _id: id });
+    // Find notification directly in one step using lean()
+    const notification = await notifications.findOne({ _id: id }).lean();
 
     if (!notification) {
       return res.status(404).json({
@@ -132,24 +132,24 @@ const openNotification = async (req, res) => {
       });
     }
 
-    // Update the status of the found notification to "open" in Notification model
-    notification.status = "open";
-    await notification.save();
-
-    // Update the status of the notification in myUser.notifications array
+    // Check if the notification exists in the user's notifications list
     const notificationIndex = myUser.notifications.findIndex(
-      (notif) => notif._id.toString() === id
+      (notif) => notif.toString() === id
     );
 
-    if (notificationIndex !== -1) {
-      myUser.notifications[notificationIndex].status = "open";
+    if (notificationIndex === -1) {
+      return res.status(404).json({
+        error: true,
+        message: "Bildirim, kullanıcıya ait değil",
+      });
     }
 
-    await myUser.save();
+    // Update the notification's status in the database directly
+    await notifications.updateOne({ _id: id }, { $set: { status: "open" } });
 
     return res.status(200).json({
       error: false,
-      message: "Notification read!",
+      message: "Bildirim okundu!",
     });
   } catch (error) {
     return res.status(500).json({
@@ -158,6 +158,7 @@ const openNotification = async (req, res) => {
     });
   }
 };
+
 const openAllMyNotifications = async (req, res) => {
   try {
     const { email } = req.user;
@@ -304,24 +305,25 @@ const getNotificationsCount = async (req, res) => {
       });
     }
 
-    const myUser = await user.findOne({ email: email });
+    // Kullanıcıyı buluyoruz
+    const myUser = await user.findOne({ email }).select("notifications").lean();
     if (!myUser) {
       return res.status(404).json({
         error: true,
         message: "Kullanıcı bulunamadı",
       });
     }
-    const notificationsList = myUser.notifications; // Sadece iş kimliklerini alıyoruz
-    // İş kimliklerini kullanarak iş nesnelerini çekiyoruz
-    const allNotifications = await notifications
-      .find({ _id: { $in: notificationsList } })
-      .sort({ createdAt: -1 });
-    const countOfNotifications = allNotifications.filter(
-      (one) => one.status === "close"
-    );
+
+    // Doğrudan veritabanında filtreleme yaparak sadece 'close' statüsünde olan bildirimlerin sayısını alıyoruz
+    const countOfNotifications = await notifications.countDocuments({
+      _id: { $in: myUser.notifications },
+      status: "close",
+    });
+
+    // Sonucu geri döndürüyoruz
     res.status(200).json({
       error: false,
-      data: countOfNotifications.length,
+      data: countOfNotifications,
     });
   } catch (error) {
     res.status(500).json({
@@ -330,6 +332,7 @@ const getNotificationsCount = async (req, res) => {
     });
   }
 };
+
 const changeDate = (backendTime, newDate) => {
   // Get today's date
   const today = new Date();

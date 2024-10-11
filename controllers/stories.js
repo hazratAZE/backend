@@ -65,7 +65,7 @@ const getOneNews = async (req, res) => {
     }
 
     // İlgili haberi 'createdBy' ile birlikte getiriyoruz
-    const myNews = await story.findOne({ _id: id });
+    const myNews = await story.findOne({ _id: id }).lean();
     if (!myNews) {
       return res.status(404).json({
         error: true,
