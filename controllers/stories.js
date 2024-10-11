@@ -30,22 +30,18 @@ const changeDate = (backendTime, newDate) => {
 const getAllNews = async (req, res) => {
   try {
     const { lang } = req.query;
+
+    // Tüm haberleri ve 'createdBy' alanını aynı sorguda getir
     var allNews = await story.find({ lang: lang }).sort({ createdAt: -1 });
-    allNews = await Promise.all(
-      allNews.map(async (oneJob) => {
-        try {
-          allNews = await story.findOne(oneJob.createdBy);
-          return {
-            ...oneJob._doc,
-            trDate: changeDate(oneJob.createdAt, res.__("today")),
-          };
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-          // Handle error if necessary, e.g., return the original job details
-          return oneJob._doc;
-        }
-      })
-    );
+    // sadece name alanını getiriyoruz
+
+    allNews = allNews.map((oneJob) => {
+      return {
+        ...oneJob._doc,
+        trDate: changeDate(oneJob.createdAt, res.__("today")),
+      };
+    });
+
     res.status(200).json({
       error: false,
       data: allNews,
@@ -57,25 +53,35 @@ const getAllNews = async (req, res) => {
     });
   }
 };
+
 const getOneNews = async (req, res) => {
   try {
     const { id } = req.body;
     if (!id) {
-      res.status(404).json({
+      return res.status(404).json({
         error: true,
         message: "News not found",
       });
-    } else {
-      const myNews = await story.findOne({ _id: id });
-      const myNewsTr = {
-        ...myNews._doc,
-        trDate: changeDate(myNews.createdAt, res.__("today")),
-      };
-      res.status(200).json({
-        error: false,
-        data: myNewsTr,
+    }
+
+    // İlgili haberi 'createdBy' ile birlikte getiriyoruz
+    const myNews = await story.findOne({ _id: id });
+    if (!myNews) {
+      return res.status(404).json({
+        error: true,
+        message: "News not found",
       });
     }
+
+    const myNewsTr = {
+      ...myNews._doc,
+      trDate: changeDate(myNews.createdAt, res.__("today")),
+    };
+
+    res.status(200).json({
+      error: false,
+      data: myNewsTr,
+    });
   } catch (error) {
     res.status(500).json({
       error: true,
@@ -83,54 +89,32 @@ const getOneNews = async (req, res) => {
     });
   }
 };
+
 const createNews = async (req, res) => {
   try {
     const { title, body, image, lang, source, small_image } = req.body;
-    if (!title) {
-      res.status(419).json({
+
+    if (!title || !body || !image || !small_image || !lang || !source) {
+      return res.status(419).json({
         error: true,
-        message: "Title is required",
-      });
-    } else if (!body) {
-      res.status(419).json({
-        error: true,
-        message: "Body is required",
-      });
-    } else if (!image) {
-      res.status(419).json({
-        error: true,
-        message: "Image is required",
-      });
-    } else if (!small_image) {
-      res.status(419).json({
-        error: true,
-        message: "Small Image is required",
-      });
-    } else if (!lang) {
-      res.status(419).json({
-        error: true,
-        message: "Lang is required",
-      });
-    } else if (!source) {
-      res.status(419).json({
-        error: true,
-        message: "Source is required",
-      });
-    } else {
-      const newNews = new story({
-        title: title,
-        body: body,
-        image: image,
-        small_image: small_image,
-        lang: lang,
-        source: source,
-      });
-      await newNews.save();
-      res.status(201).json({
-        error: false,
-        data: newNews,
+        message: "All fields are required",
       });
     }
+
+    const newNews = new story({
+      title,
+      body,
+      image,
+      small_image,
+      lang,
+      source,
+    });
+
+    await newNews.save();
+    res.status(201).json({
+      error: false,
+      data: newNews,
+    });
   } catch (error) {
     res.status(500).json({
       error: true,
@@ -138,4 +122,5 @@ const createNews = async (req, res) => {
     });
   }
 };
+
 module.exports = { getAllNews, createNews, getOneNews };
