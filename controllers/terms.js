@@ -232,15 +232,13 @@ const getTerms = (req, res) => {
 
     // Metni getir
     const data = termsData[selectedLang];
-    res.status(200).json({ success: true, terms: data });
+    res.status(200).json({ success: true, data: data });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "An error occurred",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+      error: error.message,
+    });
   }
 };
 module.exports = { getTerms };
