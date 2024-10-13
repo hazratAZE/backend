@@ -46,9 +46,12 @@ const getAllUsers = async (req, res) => {
     } else {
       users = await user.find(filter).sort({ rating: -1 });
     }
-    const page = parseInt(req.query.page) || 1;
-    const endIndex = page * limit;
-    users = users.slice(0, endIndex);
+    if (limit) {
+      const page = parseInt(req.query.page) || 1;
+      const endIndex = page * limit;
+      users = users.slice(0, endIndex);
+    }
+
     if (typing) {
       users = users.filter((oneJob) =>
         oneJob.fullName.toLocaleLowerCase().includes(typing)
@@ -87,9 +90,11 @@ const getAllUsersMap = async (req, res) => {
     } else {
       users = await user.find(filter).sort({ rating: -1 }).lean();
     }
-    const page = parseInt(req.query.page) || 1;
-    const endIndex = page * limit;
-    users = users.slice(0, endIndex);
+    if (limit) {
+      const page = parseInt(req.query.page) || 1;
+      const endIndex = page * limit;
+      users = users.slice(0, endIndex);
+    }
     if (typing) {
       users = users.filter((oneJob) =>
         oneJob.fullName.toLocaleLowerCase().includes(typing)

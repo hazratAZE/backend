@@ -187,11 +187,12 @@ const getAllJobs = async (req, res) => {
         oneJob.title.toLocaleLowerCase().includes(typing)
       );
     }
+    if (limit) {
+      const page = parseInt(req.query.page) || 1;
+      const endIndex = page * limit;
 
-    const page = parseInt(req.query.page) || 1;
-    const endIndex = page * limit;
-
-    allJobs = allJobs.slice(0, endIndex);
+      allJobs = allJobs.slice(0, endIndex);
+    }
 
     if (req.query.email) {
       const myUser = await user.findOne({ email: req.query.email });
