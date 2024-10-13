@@ -16,7 +16,43 @@ const createNotification = async (title, body, image, onPress, type) => {
     console.log(error);
   }
 };
+// Bildirim türünü çeviren yardımcı fonksiyon
+const translateNotificationType = (type, res) => {
+  switch (type) {
+    case "apply":
+      return res.__("you_have_new_apply");
+    case "register":
+      return res.__("success_register");
+    case "rejectJob":
+      return res.__("reject_announce");
+    case "gift":
+      return res.__("you_have_new_gift");
+    case "feedback":
+      return res.__("you_have_new_feedback");
+    default:
+      return res.__("job_added_successfully");
+  }
+};
 
+// Bildirim gövdesini çeviren yardımcı fonksiyon
+const translateNotificationBody = (type, body, res) => {
+  switch (type) {
+    case "apply":
+      return `${body} ${res.__("sended_request")}`;
+    case "register":
+      return `${body}, ${res.__("welcome_app")}`;
+    case "rejectJob":
+      return `${body}, ${res.__("reject_announce_des")}`;
+    case "gift":
+      return `${body}, ${res.__("user_sent_you_a_gift")}`;
+    case "feedback":
+      return `${body}, ${res.__("send_your_feedback")}. ${res.__(
+        "feedbacks_is_important"
+      )}`;
+    default:
+      return `${body}, ${res.__("job_added_successfully_des")}`;
+  }
+};
 const getAllMyNotifications = async (req, res) => {
   try {
     const { email } = req.user;
@@ -43,6 +79,7 @@ const getAllMyNotifications = async (req, res) => {
     const allNotifications = await notifications
       .find({ _id: { $in: notificationsList } })
       .sort({ createdAt: -1 })
+      .select("type body createdAt image status")
       .skip(startIndex)
       .limit(limit)
       .lean();
@@ -50,44 +87,14 @@ const getAllMyNotifications = async (req, res) => {
     const notificationList = allNotifications.map((one) => ({
       ...one,
       trDate: changeDate(one.createdAt, res.__("today")),
-      trTitle:
-        one.type === "apply"
-          ? res.__("you_have_new_apply")
-          : one.type === "register"
-          ? res.__("success_register")
-          : one.type === "rejectJob"
-          ? res.__("reject_announce")
-          : one.type === "gift"
-          ? res.__("you_have_new_gift")
-          : one.type == "feedback"
-          ? res.__("you_have_new_feedback")
-          : res.__("job_added_successfully"),
-      trBody:
-        one.type === "apply"
-          ? `${one.body} ${res.__("sended_request")}`
-          : one.type === "register"
-          ? `${one.body}, ${res.__("welcome_app")}`
-          : one.type === "rejectJob"
-          ? `${one.body}, ${res.__("reject_announce_des")}`
-          : one.type === "gift"
-          ? `${one.body}, ${res.__("user_sent_you_a_gift")}`
-          : one.type === "feedback"
-          ? `${one.body}, ${res.__("send_your_feedback")}. ${res.__(
-              "feedbacks_is_important"
-            )}`
-          : `${one.body}, ${res.__("job_added_successfully_des")}`,
+      trTitle: translateNotificationType(one.type, res),
+      trBody: translateNotificationBody(one.type, one.body, res),
     }));
-
-    // Get total count of notifications to calculate total pages
-    const totalNotificationsCount = notificationsList.length;
-    const totalPages = Math.ceil(totalNotificationsCount / limit);
 
     // Response with pagination metadata
     res.status(200).json({
       error: false,
       data: notificationList,
-      totalPages,
-      currentPage: page,
     });
   } catch (error) {
     res.status(500).json({
