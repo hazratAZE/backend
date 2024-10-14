@@ -213,11 +213,11 @@ const getMyChats = async (req, res) => {
         ...oneChat._doc,
         receiverImage: receiver
           ? receiver.image
-          : "https://api-private.atlassian.com/users/4b3537aa0667e335931a7982526af3d9/avatar",
+          : "https://worklytest.s3.eu-north-1.amazonaws.com/user_deleted.png",
         receiverEmail: receiver ? receiver.email : "",
         receiverName: receiver
           ? receiver.name + " " + receiver.surname
-          : "user",
+          : "user user",
         newMessageCount: await allMessagesCount(oneChat.receiver),
         newMessage: (await allMessagesCount(oneChat.receiver)) > 0,
         lastMessage: await getLastMessage(oneChat.sender, oneChat.receiver),
