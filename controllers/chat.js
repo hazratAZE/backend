@@ -203,6 +203,7 @@ const getMyChats = async (req, res) => {
     };
     const allChats = await chat
       .find({ _id: { $in: chatIds } })
+      .sort({ createdAt: -1 })
       .populate("receiver");
     // Populate the receiver field
     console.log(allChats);
@@ -227,6 +228,7 @@ const getMyChats = async (req, res) => {
         ),
         id: oneChat.receiver._id,
         trDate: changeDate(oneChat.createdAt, res.__("today")),
+        deleted: receiver ? false : true,
       };
     });
 
