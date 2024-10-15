@@ -690,6 +690,7 @@ const updateUser = async (req, res) => {
       companyCity,
       address,
       companyAddress,
+      companyEmail,
       gender,
       country,
       companyCountry,
@@ -779,6 +780,13 @@ const updateUser = async (req, res) => {
         error: {
           type: "companyAddress",
           message: res.__("address_field_is_required"),
+        },
+      });
+    } else if (!validator.validate(companyEmail) && myUser.role === "bizness") {
+      res.status(419).json({
+        error: {
+          type: "companyEmail",
+          message: res.__("please_enter_valid_email"),
         },
       });
     } else if (!gender && myUser.role === "master") {

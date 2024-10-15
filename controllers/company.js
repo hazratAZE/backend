@@ -1,5 +1,6 @@
 const user = require("../schemas/user");
 const job = require("../schemas/job");
+var validator = require("email-validator");
 
 const changeRoleCompany = async (req, res) => {
   try {
@@ -10,6 +11,7 @@ const changeRoleCompany = async (req, res) => {
       phone,
       city,
       address,
+      companyEmail,
       about,
       country,
       longitude,
@@ -58,6 +60,13 @@ const changeRoleCompany = async (req, res) => {
             message: res.__("address_field_is_required"),
           },
         });
+      } else if (!validator.validate(companyEmail)) {
+        res.status(419).json({
+          error: {
+            type: "email",
+            message: res.__("please_enter_valid_email"),
+          },
+        });
       } else if (!country) {
         res.status(419).json({
           error: {
@@ -88,6 +97,7 @@ const changeRoleCompany = async (req, res) => {
             companyLongitude: longitude,
             companyLatitude: latitude,
             companyPhone: phone,
+            companyEmail: companyEmail,
             companyAbout: about,
             companyCountry: country,
             company: companyName,

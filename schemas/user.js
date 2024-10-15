@@ -227,6 +227,10 @@ const User = new mongoose.Schema(
       type: String,
       default: "",
     },
+    companyEmail: {
+      type: String,
+      default: "",
+    },
     companyAbout: {
       type: String,
       default: "",
