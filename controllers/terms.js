@@ -88,7 +88,7 @@ Yolu функционирует как средство связи между с
 
 Эти условия обеспечивают полную правовую защиту пользователей приложения и охватывают все обязательства и ответственность, возникающие в процессе использования.`,
   tr: `Yolu Uygulaması Kullanım Şartları
-Son güncelleme tarihi: [Tarih ekleyin]
+Son güncelleme tarihi: [09.11.2024]
 
 1. Genel Bilgiler
 Yolu, iş arayanları iş fırsatlarıyla buluşturmak için tasarlanmış bir mobil uygulamadır. İş arama ve başvuru süreçlerini kolaylaştırır. Bu Kullanım Şartları, uygulamayı kullanırken yasal yükümlülüklerinizi ve kısıtlamalarınızı tanımlar. Lütfen uygulamayı kullanmadan önce bu belgeyi dikkatlice okuyun.
