@@ -571,6 +571,34 @@ const deleteUser = async (req, res) => {
     });
   }
 };
+const deleteUserAdmin = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    // İşin var olup olmadığını kontrol edin
+    const myUser = await user.findOne({ _id: id });
+
+    if (!myUser) {
+      return res.status(404).json({
+        error: true,
+        message: "Job not found",
+      });
+    }
+
+    // İş tamamen veritabanından siliniyor
+    await user.deleteOne({ _id: id });
+
+    res.status(200).json({
+      error: false,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -2399,6 +2427,7 @@ module.exports = {
   initUser,
   logOut,
   deleteUser,
+  deleteUserAdmin,
   forgotPassword,
   confirmForgotPasswordEmail,
   addNewPassword,

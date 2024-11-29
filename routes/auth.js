@@ -34,6 +34,7 @@ const {
   getSalesList,
   getListSales,
   getAllUsersAdmin,
+  deleteUserAdmin,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -49,6 +50,7 @@ routes.post("/resendOtp", resendOtpCode);
 routes.post("/initUser", initUser);
 routes.post("/logOut", verifyJwt, logOut);
 routes.post("/delete", verifyJwt, deleteUser);
+routes.post("/deleteAdmin", deleteUserAdmin);
 routes.post("/forgotPassword", forgotPassword);
 routes.post("/confirmForgotPasswordEmail", confirmForgotPasswordEmail);
 routes.post("/addNewPassword", addNewPassword);
