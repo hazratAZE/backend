@@ -23,12 +23,14 @@ const {
   raiseJob,
   applyFullStackJobs,
   addInterview,
+  deleteJobAdmin,
 } = require("../controllers/jobs");
 const { verifyJwt } = require("../middleware/jwt");
 const routes = express.Router();
 routes.get("/", getAllJobs);
 routes.get("/admin", getAllJobsAdmin);
 routes.post("/check", checkJob);
+routes.post("/deleteAdmin", deleteJobAdmin);
 routes.post("/createJob", verifyJwt, createJob);
 routes.get("/getAllMyJobs", verifyJwt, getAllMyJobs);
 routes.get("/getOneJob", getOneJob);

@@ -162,6 +162,35 @@ const checkJob = async (req, res) => {
     });
   }
 };
+const deleteJobAdmin = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    // İşin var olup olmadığını kontrol edin
+    const myJob = await job.findOne({ _id: id });
+
+    if (!myJob) {
+      return res.status(404).json({
+        error: true,
+        message: "Job not found",
+      });
+    }
+
+    // İş tamamen veritabanından siliniyor
+    await job.deleteOne({ _id: id });
+
+    res.status(200).json({
+      error: false,
+      message: "Job deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
 const getAllJobs = async (req, res) => {
   try {
     // Define a filter object based on query parameters
@@ -2514,4 +2543,5 @@ module.exports = {
   raiseJob,
   applyFullStackJobs,
   addInterview,
+  deleteJobAdmin,
 };
