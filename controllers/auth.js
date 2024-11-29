@@ -111,6 +111,22 @@ const getAllUsersMap = async (req, res) => {
     });
   }
 };
+const getAllUsersAdmin = async (req, res) => {
+  try {
+    let allUsersQuery = user.find().sort({ createdAt: -1 });
+    let allUsers = await allUsersQuery;
+
+    res.status(200).json({
+      error: false,
+      data: allUsers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getAllPartners = async (req, res) => {
   try {
     const users = await user
@@ -2394,6 +2410,7 @@ module.exports = {
   uploadImage,
   getAllUsers,
   getAllUsersMap,
+  getAllUsersAdmin,
   getUserInfo,
   changeCallPermission,
   changeMapPermission,

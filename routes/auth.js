@@ -33,6 +33,7 @@ const {
   getAllPartners,
   getSalesList,
   getListSales,
+  getAllUsersAdmin,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
@@ -40,6 +41,7 @@ const routes = express.Router();
 
 routes.get("/users", getAllUsers);
 routes.get("/usersMap", getAllUsersMap);
+routes.get("/usersAdmin", getAllUsersAdmin);
 routes.post("/login", loginUser);
 routes.post("/register", registerUser);
 routes.post("/verifyOtp", verifyEmail);
