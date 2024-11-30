@@ -30,11 +30,11 @@ routes.post("/create", async function (req, res) {
         message: "Body and title must be provided",
       });
     } else {
-      const newAppInfo = new appinfo({
+      const pushNotif = new infopush({
         title: title,
         body: body,
       });
-      await newAppInfo.save();
+      await pushNotif.save();
       allFcmTokens.forEach(async (one) => {
         await sendPushNotification(
           one.fcmToken,
@@ -50,7 +50,7 @@ routes.post("/create", async function (req, res) {
       });
       res.status(200).json({
         error: false,
-        data: newAppInfo,
+        data: pushNotif,
       });
     }
   } catch (error) {
