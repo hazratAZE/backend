@@ -45,26 +45,33 @@ const createPercents = async (req, res) => {
 const updatePercents = async (req, res) => {
   try {
     const { usd, azn, euro, kzt, tl, percentage } = req.body;
-    const myPercent = await tokeninfo.findOne({
-      _id: "66d99d9b75dd59e7f490b4f0",
-    });
-    myPercent.percentages.push(percentage);
-    if (usd) {
-      myPercent.usd = usd;
-    } else if (azn) {
-      myPercent.azn = azn;
-    } else if (kzt) {
-      myPercent.kzt = kzt;
-    } else if (tl) {
-      myPercent.try = tl;
-    } else if (euro) {
-      myPercent.euro = euro;
+    if (!percentage || percentage <= 0) {
+      res.status(419).json({
+        error: true,
+        message: "Percentage must be a number",
+      });
+    } else {
+      const myPercent = await tokeninfo.findOne({
+        _id: "66d99d9b75dd59e7f490b4f0",
+      });
+      myPercent.percentages.push(percentage);
+      if (usd) {
+        myPercent.usd = usd;
+      } else if (azn) {
+        myPercent.azn = azn;
+      } else if (kzt) {
+        myPercent.kzt = kzt;
+      } else if (tl) {
+        myPercent.try = tl;
+      } else if (euro) {
+        myPercent.euro = euro;
+      }
+      await myPercent.save();
+      res.status(200).json({
+        error: false,
+        data: myPercent,
+      });
     }
-    await myPercent.save();
-    res.status(200).json({
-      error: false,
-      data: myPercent,
-    });
   } catch (error) {
     res.status(500).json({
       error: true,
