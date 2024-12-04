@@ -2027,6 +2027,53 @@ const googleRegister = async (req, res) => {
         newUser._id,
         "register"
       );
+      const mailOptions = {
+        from: process.env.AUTH_EMAIL,
+        to: email,
+        subject: "Verification email",
+        html: `
+       <html>
+  <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+    <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
+      <img src="https://worklytest.s3.eu-north-1.amazonaws.com/appiconyolu.png" alt="Yolu Logo" style="width: 150px; height: auto; margin-bottom: 20px;" />
+    </div>
+    <div style="background-color: white; padding: 20px;">
+      <h1 style="color: #333; text-align: center; font-size: 28px;">Yolu Platformasına Xoş Gəlmisiniz!</h1>
+      <p style="font-size: 16px; color: #555; line-height: 1.6;">
+        Salam <strong>${newUser.name}</strong>,  
+        <br /><br />
+        Yolu platformasına qoşulduğunuz üçün çox şadıq! Burada xəyal etdiyiniz imkanları araşdırmaq, yeni karyera yolları yaratmaq və peşəkar şəbəkənizi genişləndirmək üçün unikal bir səyahətə çıxırsınız. Sizə ən yaxşı təcrübəni təqdim etmək üçün buradayıq.
+      </p>
+      <h2 style="color: #333; font-size: 22px; margin-top: 30px;">Nələr Təklif Edirik?</h2>
+      <ul style="font-size: 16px; color: #555; line-height: 1.8;">
+        <li>Maraqlarınıza uyğun iş elanları.</li>
+        <li>Peşəkar istifadəçilər üçün xüsusi üstünlüklər və alətlər.</li>
+        <li>Rəqəmsal kartınızda token qazanmaq və istifadə etmək imkanı.</li>
+      </ul>
+      <p style="font-size: 16px; color: #555;">
+        Platformamızı daha effektiv istifadə etmək üçün təkliflərimizə baxa bilərsiniz:  
+        <br />
+        👉 <a href="https://www.yolu.app" style="color: #007BFF; text-decoration: none;">Sürətli Başlanğıc Kılavuzu</a>  
+        <br /> 
+      </p>
+      <p style="font-size: 16px; color: #555; margin-top: 30px;">
+        Hər hansı bir sualınız olarsa, bizimlə əlaqə saxlamaqdan çəkinməyin. Dəstək komandamız hər zaman sizinlədir:  
+        <br />
+        <a href="mailto:deste@yolu.com" style="color: #007BFF; text-decoration: none;">info@yolu.app</a>
+      </p>
+      <p style="font-size: 16px; color: #555; text-align: center; margin-top: 40px;">
+        Yenidən xoş gəldiniz və uğurla dolu bir səyahət arzulayırıq!  
+        <br /><br />
+        Hörmətlə,  
+        <br />
+        <strong>Yolu Komandası</strong>
+      </p>
+    </div>
+  </body>
+</html>
+      `,
+      };
+      await transporter.sendMail(mailOptions);
       newUser.notifications.push(notification);
       await newUser.save();
       res.status(200).json({
