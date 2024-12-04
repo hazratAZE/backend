@@ -2073,9 +2073,9 @@ const googleRegister = async (req, res) => {
 </html>
       `,
       };
-      await transporter.sendMail(mailOptions);
       newUser.notifications.push(notification);
       await newUser.save();
+      await transporter.sendMail(mailOptions);
       res.status(200).json({
         error: false,
         message: "User found",
