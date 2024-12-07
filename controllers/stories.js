@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const story = require("../schemas/story");
 
 const changeDate = (backendTime, newDate) => {
@@ -89,7 +90,38 @@ const getOneNews = async (req, res) => {
     });
   }
 };
+const deleteNews = async (req, res) => {
+  try {
+    const { id } = req.body;
 
+    // ID formatını kontrol et
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        error: true,
+        message: "Invalid ID format",
+      });
+    }
+
+    // Haberi sil
+    const deletedNews = await story.findByIdAndDelete({ _id: id });
+    if (!deletedNews) {
+      return res.status(404).json({
+        error: true,
+        message: "News not found",
+      });
+    }
+
+    res.status(200).json({
+      error: false,
+      message: "News deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const createNews = async (req, res) => {
   try {
     const { title, body, image, lang, source, small_image } = req.body;
@@ -123,4 +155,4 @@ const createNews = async (req, res) => {
   }
 };
 
-module.exports = { getAllNews, createNews, getOneNews };
+module.exports = { getAllNews, createNews, getOneNews, deleteNews };
