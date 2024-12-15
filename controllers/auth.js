@@ -68,6 +68,20 @@ const getAllUsers = async (req, res) => {
     });
   }
 };
+const getUsersCount = async (req, res) => {
+  try {
+    const count = await user.countDocuments(); // Tüm kullanıcıları sayar
+    res.status(200).json({
+      error: false,
+      count,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
 const getAllUsersMap = async (req, res) => {
   try {
     const { email, typing, limit, category, city, country } = req.query;
@@ -2532,6 +2546,7 @@ module.exports = {
   sendAgainOtp,
   uploadImage,
   getAllUsers,
+  getUsersCount,
   getAllUsersMap,
   getAllUsersAdmin,
   getUserInfo,

@@ -19,6 +19,25 @@ routes.get("/all", async function (req, res) {
     });
   }
 });
+routes.get("/fcmcount", async function (req, res) {
+  try {
+    // FCM tokenların sayısını alın
+    const tokenCount = await appinfo.countDocuments({
+      fcmToken: { $exists: true, $ne: null },
+    });
+
+    res.status(200).json({
+      error: false,
+      count: tokenCount,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+});
+
 routes.post("/create", async function (req, res) {
   try {
     const { body, title } = req.body;

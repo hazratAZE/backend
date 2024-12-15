@@ -454,10 +454,31 @@ const sellTokens = async (req, res) => {
     });
   }
 };
+const getAllTokenSells = async (req, res) => {
+  try {
+    // Tüm tokensell dokümanlarını getir
+    const allTokenSells = await tokensells
+      .find()
+      .populate("user", "email balance");
+
+    // Yanıtı döndür
+    res.status(200).json({
+      error: false,
+      data: allTokenSells,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   allTokens,
   getAllPercents,
   createPercents,
   updatePercents,
   sellTokens,
+  getAllTokenSells,
 };

@@ -35,12 +35,14 @@ const {
   getListSales,
   getAllUsersAdmin,
   deleteUserAdmin,
+  getUsersCount,
 } = require("../controllers/auth");
 const { verifyJwt } = require("../middleware/jwt");
 
 const routes = express.Router();
 
 routes.get("/users", getAllUsers);
+routes.get("/usersCount", getUsersCount);
 routes.get("/usersMap", getAllUsersMap);
 routes.get("/usersAdmin", getAllUsersAdmin);
 routes.post("/login", loginUser);
